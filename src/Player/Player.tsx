@@ -4,7 +4,6 @@ import Plyr from 'plyr';
 import defaultProps from './defaultProps';
 import 'plyr/src/sass/plyr.scss';
 
-// Native
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function pick(object = {}, keys = []) {
   const obj = {};
@@ -17,11 +16,9 @@ function pick(object = {}, keys = []) {
   return obj;
 }
 
-// [2, 1].filter(x => ![3, 2].includes(x))
-
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function difference(arrays = []) {
- return arrays.reduce((a, b) => {
+  return arrays.reduce((a, b) => {
     return a.filter((value) => {
       return !b.includes(value);
     });
@@ -61,7 +58,8 @@ class Player extends React.Component {
     this.player = null;
   }
 
-  static getDerivedStateFromProps = nextProps => {
+  static getDerivedStateFromProps(nextProps, prevSate){
+    // compare
     return {
       muted: nextProps.muted,
     }
@@ -78,8 +76,13 @@ class Player extends React.Component {
       // @ts-ignore
       muted: this.state.muted,
     };
+    // @ts-ignore
+    const { url = '' } = options;
+
+    console.log('url', url);
 
     const node = this.elementRef.current;
+
     this.player = node ? new Plyr(node, options) : null;
 
     if (this.player) {
@@ -92,8 +95,8 @@ class Player extends React.Component {
         }
       });
 
-     this.player.on('play', () => {
-       // @ts-ignore
+      this.player.on('play', () => {
+        // @ts-ignore
         this.props.onPlay && this.props.onPlay();
       });
 
@@ -192,6 +195,7 @@ class Player extends React.Component {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   static get defaults() {
     return {
+      isHLS: false,
       url: null,
       tracks: [],
       sources: [],
@@ -224,6 +228,7 @@ class Player extends React.Component {
       /* eslint-disable */
       type: PropTypes.oneOf(['video', 'audio']),
       url: PropTypes.string,
+      isHLS: PropTypes.bool,
       onReady: PropTypes.func,
       onPlay: PropTypes.func,
       onPause: PropTypes.func,
@@ -374,16 +379,16 @@ class Player extends React.Component {
     let captionsMap = [];
 
     for (let i = 0; i < tracks.length; i += 1) {
-        const { source = {}} = tracks[i];
-        const {
-          key = i,
-          kind = 'captions',
-          label,
-          src,
-          srclang,
-          default: def,
-          ...attributes
-        } = source;
+      const { source = {}} = tracks[i];
+      const {
+        key = i,
+        kind = 'captions',
+        label,
+        src,
+        srclang,
+        default: def,
+        ...attributes
+      } = source;
 
       captionsMap.push(
         <track
@@ -400,45 +405,45 @@ class Player extends React.Component {
     }
 
 
-   /* const captionsMap = tracks.map((source, index) => {
-      const {
-        key = index,
-        kind = 'captions',
-        label,
-        src,
-        srclang,
-        default: def,
-        ...attributes
-      } = source;
+    /* const captionsMap = tracks.map((source, index) => {
+       const {
+         key = index,
+         kind = 'captions',
+         label,
+         src,
+         srclang,
+         default: def,
+         ...attributes
+       } = source;
 
-      return (
-        <track
-          key={key}
-          kind={kind}
-          label={label}
-          src={src}
-          srclang={srclang}
-          default={def}
-          {...attributes}
-          ref={this.elementRef}
-        />
-      );
-    });*/
+       return (
+         <track
+           key={key}
+           kind={kind}
+           label={label}
+           src={src}
+           srclang={srclang}
+           default={def}
+           {...attributes}
+           ref={this.elementRef}
+         />
+       );
+     });*/
 
     if (sources && sources.length) {
 
-    let sourcesVideo = [];
+      let sourcesVideo = [];
 
       for (let i = 0; i < sources.length; i += 1) {
         const { src = '', type = '', size = '' } = sources[i];
         sourcesVideo.push(
           // @ts-ignore
-            <source
-              key={i}
-              src={src}
-              type={type}
-              size={size}
-            />)
+          <source
+            key={i}
+            src={src}
+            type={type}
+            size={size}
+          />)
       }
 
 
@@ -486,10 +491,10 @@ class Player extends React.Component {
 
     let audioSource = [];
 
-       for (let i = 0; i < sources.length; i += 1) {
-       const { src = '', type = ''} = sources[i];
-        audioSource.push(<source key={i} src={src} type={type} />);
-       }
+    for (let i = 0; i < sources.length; i += 1) {
+      const { src = '', type = ''} = sources[i];
+      audioSource.push(<source key={i} src={src} type={type} />);
+    }
 
     if (sources && sources.length) {
       return (
@@ -518,7 +523,7 @@ class Player extends React.Component {
 
     const render = type === 'video' ?
       this.renderPlayerWithSRC()
-   : this.renderAudioPlayer();
+      : this.renderAudioPlayer();
 
     return (render);
   }
