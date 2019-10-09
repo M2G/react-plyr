@@ -3,13 +3,26 @@ import Player from './Player/Player';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const App = () => (
-  <div>
-    <Player
-      type="video"
-      url="https://content.jwplatform.com/manifests/vM7nH0Kl.m3u8"
-    />
-  </div>
-);
+
+function play () {
+  console.log('play')
+}
+
+function pause () {
+  console.log('pause')
+}
+
+const App = () => {
+  return (
+    <div>
+      <Player
+        onPlay={play}
+        onPause={pause}
+        type="video"
+        url="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
+      />
+    </div>
+  );
+};
 
 export default App;

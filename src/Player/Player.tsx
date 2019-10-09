@@ -18,11 +18,7 @@ function pick(object = {}, keys = []) {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function difference(arrays = []) {
-  return arrays.reduce((a, b) => {
-    return a.filter((value) => {
-      return !b.includes(value);
-    });
-  })
+  return arrays.reduce((a, b) => a.filter(value => !b.includes(value)));
 }
 
 /*
@@ -53,16 +49,20 @@ class Player extends React.Component {
     };
     // @ts-ignore
     this.restProps = difference([Object.keys(this.props), Object.keys(Player.defaults)]);
+
+    console.log('this.restProps', this.restProps);
     // @ts-ignore
     this.elementRef = new React.createRef();
     this.player = null;
   }
 
-  static getDerivedStateFromProps(nextProps, prevSate){
-    // compare
-    return {
-      muted: nextProps.muted,
+  static getDerivedStateFromProps({ muted: mutedNextProps }, { muted: mutedPrevSate }){
+    if (mutedNextProps !== mutedPrevSate) {
+      return {
+        muted: mutedNextProps,
+      }
     }
+    return null;
   };
 
   componentDidMount() {
@@ -185,17 +185,107 @@ class Player extends React.Component {
       // @ts-ignore
       this.player.muted = this.props.muted;
     }
+    // @ts-ignore
+    if (prevProps.url !== this.props.url) {
+      // @ts-ignore
+      this.props.url &&
+      this.updateSource({
+        // @ts-ignore
+        type: this.props.type,
+        // @ts-ignore
+        title: this.props.title,
+        // @ts-ignore
+        size: this.props.size,
+        // @ts-ignore
+        src: this.props.src,
+        // @ts-ignore
+        sourceType: this.props.sourceType
+      });
+    }
   }
 
   componentWillUnmount() {
     this.player && this.player.destroy();
   }
 
+  /*
+  Video example:
+
+  player.source = {
+      type: 'video',
+      title: 'Example title',
+      sources: [
+          {
+              src: '/path/to/movie.mp4',
+              type: 'video/mp4',
+              size: 720,
+          },
+          {
+              src: '/path/to/movie.webm',
+              type: 'video/webm',
+              size: 1080,
+          },
+      ],
+      poster: '/path/to/poster.jpg',
+      tracks: [
+          {
+              kind: 'captions',
+              label: 'English',
+              srclang: 'en',
+              src: '/path/to/captions.en.vtt',
+              default: true,
+          },
+          {
+              kind: 'captions',
+              label: 'French',
+              srclang: 'fr',
+              src: '/path/to/captions.fr.vtt',
+          },
+      ],
+  };
+
+Audio example:
+
+  player.source = {
+    type: 'audio',
+    title: 'Example title',
+    sources: [
+        {
+            src: '/path/to/audio.mp3',
+            type: 'audio/mp3',
+        },
+        {
+            src: '/path/to/audio.ogg',
+            type: 'audio/ogg',
+        },
+    ],
+};
+*/
+
+  updateSource = ({
+    type = '',
+    title  = '',
+    size  = '',
+    src  = '',
+    sourceType  = ''
+  }) => {
+    this.player.source = {
+      type: type,
+      title: title,
+      sources: [
+        {
+          src: src,
+          type: sourceType,
+          size: size,
+        },
+      ],
+    };
+  };
+
   // Specifies the default values for props:
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   static get defaults() {
     return {
-      isHLS: false,
       url: null,
       tracks: [],
       sources: [],
@@ -228,7 +318,6 @@ class Player extends React.Component {
       /* eslint-disable */
       type: PropTypes.oneOf(['video', 'audio']),
       url: PropTypes.string,
-      isHLS: PropTypes.bool,
       onReady: PropTypes.func,
       onPlay: PropTypes.func,
       onPause: PropTypes.func,
@@ -371,11 +460,7 @@ class Player extends React.Component {
   exitFullscreen = () => this.player && this.player.fullscreen.exit();
   toggleFullscreen = () => this.player && this.player.fullscreen.toggle();
 
-  // For video support for source defined as link to those video files.
-  renderPlayerWithSRC = () => {
-    // @ts-ignore
-    const { sources = [], url = '', preload, poster, tracks = [], ...rest } = this.props;
-
+  captionVideo(tracks){
     let captionsMap = [];
 
     for (let i = 0; i < tracks.length; i += 1) {
@@ -404,7 +489,31 @@ class Player extends React.Component {
       );
     }
 
+    return captionsMap;
+  };
 
+  static sourcesVideo(sources){
+    let sourcesVideo = [];
+
+    for (let i = 0; i < sources.length; i += 1) {
+      const { src = '', type = '', size = '' } = sources[i];
+      sourcesVideo.push(
+        // @ts-ignore
+        <source
+          key={i}
+          src={src}
+          type={type}
+          size={size}
+        />)
+    }
+
+    return sourcesVideo;
+  };
+
+  // For video support for source defined as link to those video files.
+  renderPlayerWithSRC = () => {
+    // @ts-ignore
+    const { sources = [], url = '', preload, poster, tracks = [], ...rest } = this.props;
     /* const captionsMap = tracks.map((source, index) => {
        const {
          key = index,
@@ -431,22 +540,6 @@ class Player extends React.Component {
      });*/
 
     if (sources && sources.length) {
-
-      let sourcesVideo = [];
-
-      for (let i = 0; i < sources.length; i += 1) {
-        const { src = '', type = '', size = '' } = sources[i];
-        sourcesVideo.push(
-          // @ts-ignore
-          <source
-            key={i}
-            src={src}
-            type={type}
-            size={size}
-          />)
-      }
-
-
       // @ts-ignore
       return (
         <video
@@ -465,8 +558,8 @@ class Player extends React.Component {
               size={source.size && source.size}
             />
           ))*/}
-          {sourcesVideo}
-          {captionsMap}
+          {Player.sourcesVideo(sources)}
+          {this.captionVideo(tracks)}
         </video>
       );
     }
@@ -480,15 +573,12 @@ class Player extends React.Component {
         ref={this.elementRef}
         {...pick(rest, this.restProps)}
       >
-        {captionsMap}
+        {this.captionVideo(tracks)}
       </video>
     );
   };
 
-  renderAudioPlayer = () => {
-    // @ts-ignore
-    const { sources = [], url, preload, ...rest } = this.props;
-
+  static audioSource(sources){
     let audioSource = [];
 
     for (let i = 0; i < sources.length; i += 1) {
@@ -496,13 +586,19 @@ class Player extends React.Component {
       audioSource.push(<source key={i} src={src} type={type} />);
     }
 
+    return audioSource;
+  }
+
+  renderAudioPlayer = () => {
+    // @ts-ignore
+    const { sources = [], url, preload, ...rest } = this.props;
     if (sources && sources.length) {
       return (
         <audio preload={preload} ref={this.elementRef} {...rest}>
           {/*sources.map((source, index) => (
             <source key={index} src={source.src} type={source.type} />
           ))*/}
-          {audioSource}
+          {Player.audioSource(sources)}
         </audio>
       );
     }

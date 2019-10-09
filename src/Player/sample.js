@@ -310,18 +310,6 @@ class Plyr extends Component {
     this.player && this.player.destroy();
   }
 
-  updateVideoSource = (videoId, provider) => {
-    this.player.source = {
-      type: 'video',
-      sources: [
-        {
-          src: videoId,
-          provider,
-        },
-      ],
-    };
-  };
-
   // For video support for plyr supported videos using videoId (Youtube and Vimeo for now).
   renderPlayerWithVideoId = () => {
     return (
