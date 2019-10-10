@@ -26,13 +26,42 @@ interface AppState {
   muted: boolean;
 }
 
-interface AppProps {}
 <AppProps, AppState>
 */
 
+interface AppState {
+  muted: boolean
+}
+
+interface AppProps {
+  url: string,
+  type: string,
+  title?: string,
+  size?: string,
+  src?: string,
+  sourceType?: string,
+
+  onReady?: () => void,
+  onPlay?: () => void,
+  onPause?: () => void,
+  onEnd?: () => void,
+  onLoadedData?: () => void,
+  onSeeked?: () => void,
+  onRateChange?: () => void,
+  onTimeUpdate?: () => void,
+  onEnterFullscreen?: () => void,
+  onExitFullscreen?: () => void,
+  onVolumeChange?: () => void,
+  onLanguageChange?: () => void,
+  onControlsHidden?: () => void,
+  onControlsShown?: () => void,
+  onCaptionsEnabled?: () => void,
+  onCaptionsDisabled?: () => void,
+}
+
 /* eslint-disable */
 // @ts-ignore
-class Player extends React.Component {
+class Player extends React.Component<AppProps, AppState> {
   private elementRef: React.RefObject<HTMLAudioElement>; // @ts-ignore
   private static defaultProps: object;
   private player: any;
@@ -286,6 +315,7 @@ Audio example:
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   static get defaults() {
     return {
+      type: '',
       url: null,
       tracks: [],
       sources: [],
@@ -578,7 +608,7 @@ Audio example:
     );
   };
 
-  static audioSource(sources){
+  static audioSource(sources = []){
     let audioSource = [];
 
     for (let i = 0; i < sources.length; i += 1) {
