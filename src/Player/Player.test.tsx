@@ -1,12 +1,11 @@
-import React from 'react';
+import * as React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-
-import Plyr from './index';
+import Player from './Player';
 
 it('renders a simple HTML5 Video with Captions', () => {
   const wrapper = shallow(
-    <Plyr
+    <Player
       provider="html5"
       poster="/path/to/poster.jpg"
       url="mymovie.mp4"

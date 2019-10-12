@@ -21,14 +21,6 @@ function difference(arrays = []) {
   return arrays.reduce((a, b) => a.filter(value => !b.includes(value)));
 }
 
-/*
-interface AppState {
-  muted: boolean;
-}
-
-<AppProps, AppState>
-*/
-
 interface AppState {
   muted: boolean
 }
@@ -62,7 +54,7 @@ interface AppProps {
 /* eslint-disable */
 // @ts-ignore
 class Player extends React.Component<AppProps, AppState> {
-  private elementRef: React.RefObject<HTMLAudioElement>; // @ts-ignore
+  private elementRef: React.RefObject<HTMLAudioElement> | React.RefObject<HTMLVideoElement>; // @ts-ignore
   private static defaultProps: object;
   private player: any;
   private restProps: any;
@@ -214,6 +206,9 @@ class Player extends React.Component<AppProps, AppState> {
       // @ts-ignore
       this.player.muted = this.props.muted;
     }
+
+    console.log('componentDidUpdate prevProps', prevProps)
+    console.log('componentDidUpdate prevProps', this.props)
     // @ts-ignore
     if (prevProps.url !== this.props.url) {
       // @ts-ignore

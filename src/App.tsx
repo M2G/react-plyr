@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Player from './Player/Player';
-import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 
