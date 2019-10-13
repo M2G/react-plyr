@@ -15,8 +15,9 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
+    "prettier/prettier": ["error"],
     "react/jsx-filename-extension": [1, {
       "extensions": [".jsx", ".tsx"]
     }],
