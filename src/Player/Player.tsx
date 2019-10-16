@@ -18,43 +18,47 @@ function pick(object = {}, keys = []) {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function difference(arrays = []) {
-  return arrays.reduce((a, b) => a.filter(value => !b.includes(value)));
+  return arrays.reduce((a, b) =>
+    a.filter(value => !b.includes(value)),
+  );
 }
 
 interface AppState {
-  muted: boolean
+  muted: boolean;
 }
 
 interface AppProps {
-  url: string,
-  type: string,
-  title?: string,
-  size?: string,
-  src?: string,
-  sourceType?: string,
+  url?: string;
+  type: string;
+  title?: string;
+  size?: string;
+  src?: string;
+  sourceType?: string;
 
-  onReady?: () => void,
-  onPlay?: () => void,
-  onPause?: () => void,
-  onEnd?: () => void,
-  onLoadedData?: () => void,
-  onSeeked?: () => void,
-  onRateChange?: () => void,
-  onTimeUpdate?: () => void,
-  onEnterFullscreen?: () => void,
-  onExitFullscreen?: () => void,
-  onVolumeChange?: () => void,
-  onLanguageChange?: () => void,
-  onControlsHidden?: () => void,
-  onControlsShown?: () => void,
-  onCaptionsEnabled?: () => void,
-  onCaptionsDisabled?: () => void,
+  onReady?: () => void;
+  onPlay?: () => void;
+  onPause?: () => void;
+  onEnd?: () => void;
+  onLoadedData?: () => void;
+  onSeeked?: () => void;
+  onRateChange?: () => void;
+  onTimeUpdate?: () => void;
+  onEnterFullscreen?: () => void;
+  onExitFullscreen?: () => void;
+  onVolumeChange?: () => void;
+  onLanguageChange?: () => void;
+  onControlsHidden?: () => void;
+  onControlsShown?: () => void;
+  onCaptionsEnabled?: () => void;
+  onCaptionsDisabled?: () => void;
 }
 
 /* eslint-disable */
 // @ts-ignore
 class Player extends React.Component<AppProps, AppState> {
-  private elementRef: React.RefObject<HTMLAudioElement> | React.RefObject<HTMLVideoElement>; // @ts-ignore
+  private elementRef:
+    | React.RefObject<HTMLAudioElement>
+    | React.RefObject<HTMLVideoElement>; // @ts-ignore
   private static defaultProps: object;
   private player: any;
   private restProps: any;
@@ -69,7 +73,10 @@ class Player extends React.Component<AppProps, AppState> {
       muted: false,
     };
     // @ts-ignore
-    this.restProps = difference([Object.keys(this.props), Object.keys(Player.defaults)]);
+    this.restProps = difference([
+      Object.keys(this.props),
+      Object.keys(Player.defaults),
+    ]);
 
     console.log('this.restProps', this.restProps);
     // @ts-ignore
@@ -77,20 +84,23 @@ class Player extends React.Component<AppProps, AppState> {
     this.player = null;
   }
 
-  static getDerivedStateFromProps({ muted: mutedNextProps }, { muted: mutedPrevSate }){
+  static getDerivedStateFromProps(
+    { muted: mutedNextProps },
+    { muted: mutedPrevSate },
+  ) {
     if (mutedNextProps !== mutedPrevSate) {
       return {
         muted: mutedNextProps,
-      }
+      };
     }
     return null;
-  };
+  }
 
   componentDidMount() {
     const defaultOptions = {
       ...defaultProps,
       // @ts-ignore
-      ...this.props
+      ...this.props,
     };
     const options = {
       ...defaultOptions,
@@ -158,7 +168,8 @@ class Player extends React.Component<AppProps, AppState> {
 
       this.player.on('enterfullscreen', () => {
         // @ts-ignore
-        this.props.onEnterFullscreen && this.props.onEnterFullscreen();
+        this.props.onEnterFullscreen &&
+          this.props.onEnterFullscreen();
       });
 
       this.player.on('exitfullscreen', () => {
@@ -190,12 +201,14 @@ class Player extends React.Component<AppProps, AppState> {
 
       this.player.on('captionsenabled', () => {
         // @ts-ignore
-        this.props.onCaptionsEnabled && this.props.onCaptionsEnabled();
+        this.props.onCaptionsEnabled &&
+          this.props.onCaptionsEnabled();
       });
 
       this.player.on('captionsdisabled', () => {
         // @ts-ignore
-        this.props.onCaptionsDisabled && this.props.onCaptionsDisabled();
+        this.props.onCaptionsDisabled &&
+          this.props.onCaptionsDisabled();
       });
     }
   }
@@ -207,24 +220,24 @@ class Player extends React.Component<AppProps, AppState> {
       this.player.muted = this.props.muted;
     }
 
-    console.log('componentDidUpdate prevProps', prevProps)
-    console.log('componentDidUpdate prevProps', this.props)
+    console.log('componentDidUpdate prevProps', prevProps);
+    console.log('componentDidUpdate prevProps', this.props);
     // @ts-ignore
     if (prevProps.url !== this.props.url) {
       // @ts-ignore
       this.props.url &&
-      this.updateSource({
-        // @ts-ignore
-        type: this.props.type,
-        // @ts-ignore
-        title: this.props.title,
-        // @ts-ignore
-        size: this.props.size,
-        // @ts-ignore
-        src: this.props.src,
-        // @ts-ignore
-        sourceType: this.props.sourceType
-      });
+        this.updateSource({
+          // @ts-ignore
+          type: this.props.type,
+          // @ts-ignore
+          title: this.props.title,
+          // @ts-ignore
+          size: this.props.size,
+          // @ts-ignore
+          src: this.props.src,
+          // @ts-ignore
+          sourceType: this.props.sourceType,
+        });
     }
   }
 
@@ -288,10 +301,10 @@ Audio example:
 
   updateSource = ({
     type = '',
-    title  = '',
-    size  = '',
-    src  = '',
-    sourceType  = ''
+    title = '',
+    size = '',
+    src = '',
+    sourceType = '',
   }) => {
     this.player.source = {
       type: type,
@@ -331,7 +344,7 @@ Audio example:
       onControlsShown: () => {},
       onCaptionsEnabled: () => {},
       onCaptionsDisabled: () => {},
-      ...defaultProps
+      ...defaultProps,
     };
   }
   // Specifies the default values for props:
@@ -383,9 +396,12 @@ Audio example:
       iconUrl: PropTypes.string,
       blankVideo: PropTypes.string,
       quality: PropTypes.shape({
-        default: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        default: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.number,
+        ]),
         options: PropTypes.arrayOf(
-          PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+          PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         ),
       }),
       loop: PropTypes.shape({
@@ -432,14 +448,14 @@ Audio example:
             'pip',
             'airplay',
             'fullscreen',
-          ])
+          ]),
         ),
         PropTypes.func,
         PropTypes.object,
         PropTypes.bool,
       ]),
       settings: PropTypes.arrayOf(
-        PropTypes.oneOf(['captions', 'quality', 'speed', 'loop'])
+        PropTypes.oneOf(['captions', 'quality', 'speed', 'loop']),
       ),
       poster: PropTypes.string,
       sources: PropTypes.arrayOf(
@@ -447,7 +463,7 @@ Audio example:
           src: PropTypes.string.isRequired,
           type: PropTypes.string.isRequired,
           size: PropTypes.number,
-        })
+        }),
       ),
       tracks: PropTypes.arrayOf(
         PropTypes.shape({
@@ -457,12 +473,13 @@ Audio example:
           srclang: PropTypes.string,
           default: PropTypes.bool,
           key: PropTypes.any,
-        })
+        }),
       ),
     };
   }
 
-  getType = () => this.player && this.player.source && this.player.source.type;
+  getType = () =>
+    this.player && this.player.source && this.player.source.type;
   play = () => this.player && this.player.play();
   pause = () => this.player && this.player.pause();
   togglePlay = () => this.player && this.player.togglePlay();
@@ -471,25 +488,31 @@ Audio example:
   rewind = time => this.player && this.player.rewind(time);
   forward = time => this.player && this.player.forward(time);
   getCurrentTime = () => this.player && this.player.currentTime;
-  setCurrentTime = currentTime => (this.player.currentTime = currentTime);
+  setCurrentTime = currentTime =>
+    (this.player.currentTime = currentTime);
   getDuration = () => this.player && this.player.duration;
   getVolume = () => this.player && this.player.volume;
   isMuted = () => this.player && this.player.muted;
   isPaused = () => this.player && this.player.paused;
-  toggleMute = () => this.player && this.player.toggleControls(this.player.muted);
+  toggleMute = () =>
+    this.player && this.player.toggleControls(this.player.muted);
   setMuted = (muted = true) => (this.player.muted = muted);
-  increaseVolume = step => this.player && this.player.increaseVolume(step);
-  decreaseVolume = step => this.player && this.player.decreaseVolume(step);
+  increaseVolume = step =>
+    this.player && this.player.increaseVolume(step);
+  decreaseVolume = step =>
+    this.player && this.player.decreaseVolume(step);
   setVolume = amount => (this.player.volume = amount);
-  enterFullscreen = () => this.player && this.player.fullscreen.enter();
+  enterFullscreen = () =>
+    this.player && this.player.fullscreen.enter();
   exitFullscreen = () => this.player && this.player.fullscreen.exit();
-  toggleFullscreen = () => this.player && this.player.fullscreen.toggle();
+  toggleFullscreen = () =>
+    this.player && this.player.fullscreen.toggle();
 
-  captionVideo(tracks){
+  captionVideo(tracks) {
     let captionsMap = [];
 
     for (let i = 0; i < tracks.length; i += 1) {
-      const { source = {}} = tracks[i];
+      const { source = {} } = tracks[i];
       const {
         key = i,
         kind = 'captions',
@@ -510,35 +533,41 @@ Audio example:
           default={def}
           {...attributes}
           ref={this.elementRef}
-        />
+        />,
       );
     }
 
     return captionsMap;
-  };
+  }
 
-  static sourcesVideo(sources){
+  static sourcesVideo(sources) {
     let sourcesVideo = [];
 
     for (let i = 0; i < sources.length; i += 1) {
       const { src = '', type = '', size = '' } = sources[i];
       sourcesVideo.push(
         // @ts-ignore
-        <source
-          key={i}
-          src={src}
-          type={type}
-          size={size}
-        />)
+        <source key={i} src={src} type={type} size={size} />,
+      );
     }
 
     return sourcesVideo;
-  };
+  }
 
   // For video support for source defined as link to those video files.
   renderPlayerWithSRC = () => {
-    // @ts-ignore
-    const { sources = [], url = '', preload, poster, tracks = [], ...rest } = this.props;
+    const {
+      // @ts-ignore
+      sources = [],
+      url = '',
+      // @ts-ignore
+      preload,
+      // @ts-ignore
+      poster,
+      // @ts-ignore
+      tracks = [],
+      ...rest
+    } = this.props;
     /* const captionsMap = tracks.map((source, index) => {
        const {
          key = index,
@@ -603,11 +632,11 @@ Audio example:
     );
   };
 
-  static audioSource(sources = []){
+  static audioSource(sources = []) {
     let audioSource = [];
 
     for (let i = 0; i < sources.length; i += 1) {
-      const { src = '', type = ''} = sources[i];
+      const { src = '', type = '' } = sources[i];
       audioSource.push(<source key={i} src={src} type={type} />);
     }
 
@@ -640,13 +669,14 @@ Audio example:
 
   public render(): React.ReactElement<{}> {
     // @ts-ignore
-    const { type = ''} = this.props;
+    const { type = '' } = this.props;
 
-    const render = type === 'video' ?
-      this.renderPlayerWithSRC()
-      : this.renderAudioPlayer();
+    const render =
+      type === 'video'
+        ? this.renderPlayerWithSRC()
+        : this.renderAudioPlayer();
 
-    return (render);
+    return render;
   }
 }
 
