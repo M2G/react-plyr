@@ -23,36 +23,38 @@ function difference(arrays = []) {
   );
 }
 
-interface AppState {
-  muted: boolean;
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace Player {
+  export interface AppState {
+    muted: boolean;
+  }
+
+  export interface AppProps {
+    url?: string;
+    type: string;
+    title?: string;
+    size?: string;
+    src?: string;
+    sourceType?: string;
+
+    onReady?: () => void;
+    onPlay?: () => void;
+    onPause?: () => void;
+    onEnd?: () => void;
+    onLoadedData?: () => void;
+    onSeeked?: () => void;
+    onRateChange?: () => void;
+    onTimeUpdate?: () => void;
+    onEnterFullscreen?: () => void;
+    onExitFullscreen?: () => void;
+    onVolumeChange?: () => void;
+    onLanguageChange?: () => void;
+    onControlsHidden?: () => void;
+    onControlsShown?: () => void;
+    onCaptionsEnabled?: () => void;
+    onCaptionsDisabled?: () => void;
+  }
 }
-
-interface AppProps {
-  url?: string;
-  type: string;
-  title?: string;
-  size?: string;
-  src?: string;
-  sourceType?: string;
-
-  onReady?: () => void;
-  onPlay?: () => void;
-  onPause?: () => void;
-  onEnd?: () => void;
-  onLoadedData?: () => void;
-  onSeeked?: () => void;
-  onRateChange?: () => void;
-  onTimeUpdate?: () => void;
-  onEnterFullscreen?: () => void;
-  onExitFullscreen?: () => void;
-  onVolumeChange?: () => void;
-  onLanguageChange?: () => void;
-  onControlsHidden?: () => void;
-  onControlsShown?: () => void;
-  onCaptionsEnabled?: () => void;
-  onCaptionsDisabled?: () => void;
-}
-
 /* eslint-disable */
 // @ts-ignore
 class Player extends React.Component<AppProps, AppState> {

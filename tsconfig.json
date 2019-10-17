@@ -1,17 +1,22 @@
 {
   "compilerOptions": {
-    "sourceMap": true,
     "target": "es5",
     "jsx": "react",
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
+    "sourceMap": true,
+    "allowJs": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "declaration": false,
-    "noImplicitAny": false,
     "noImplicitReturns": false,
     "removeComments": true,
-    "strictNullChecks": false,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true,
     "outDir": "build",
     "lib": [
       "es6",
@@ -22,7 +27,11 @@
   "exclude": [
     "dist",
     "build",
-    "node_modules"
+    "node_modules",
+    "config",
+    "webpack",
+    "jest",
+    "src/setupTests.ts"
   ],
   "include": [
     "./src/**/*.ts",

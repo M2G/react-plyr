@@ -4,10 +4,11 @@ import App from './App';
 import { unregister } from './serviceWorker';
 import './index.css';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const render = (Component) => {
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type,@typescript-eslint/ban-ts-ignore
+// @ts-ignore
+const render = Component => {
   const MOUNT_NODE = document.getElementById('root');
-  if (MOUNT_NODE) ReactDOM.render(<Component />, MOUNT_NODE)
+  if (MOUNT_NODE) ReactDOM.render(<Component />, MOUNT_NODE);
 };
 
 render(App);

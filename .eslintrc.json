@@ -13,6 +13,10 @@
     "prettier/@typescript-eslint"
   ],
   "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "useJSXTextNode": true,
     "project": "./tsconfig.json"
   },
   "plugins": ["@typescript-eslint", "prettier"],
