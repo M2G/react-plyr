@@ -1,5 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
 import Plyr from 'plyr';
 import defaultProps from './defaultProps';
 import 'plyr/src/sass/plyr.scss';
@@ -18,9 +20,33 @@ function pick(object = {}, keys = []) {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function difference(arrays = []) {
-  return arrays.reduce((a, b) =>
-    a.filter(value => !b.includes(value)),
-  );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const obj = {};
+  let match;
+
+  for (let i = 0; i < arrays.length; i += 1) {
+    obj[i] = arrays[i];
+  }
+
+  // eslint-disable-next-line guard-for-in,no-restricted-syntax
+  for (const key in obj[0]) {
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    match = contains(obj[0][key], obj[1]);
+  }
+
+  // eslint-disable-next-line no-shadow
+  function contains(a: { [x: string]: any; length: any; }, obj: any) {
+    let i = a.length;
+    // eslint-disable-next-line no-cond-assign
+    while (i -= 1) {
+      if (a[i] === obj) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  return !match ? [] : match;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -47,8 +73,10 @@ export namespace Player {
     onTimeUpdate?: () => void;
     onEnterFullscreen?: () => void;
     onExitFullscreen?: () => void;
-    onVolumeChange?: () => void;
-    onLanguageChange?: () => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onVolumeChange?: (p: { volume: any; muted: any }) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onLanguageChange?: (language: any) => void;
     onControlsHidden?: () => void;
     onControlsShown?: () => void;
     onCaptionsEnabled?: () => void;
@@ -57,18 +85,14 @@ export namespace Player {
 }
 /* eslint-disable */
 // @ts-ignore
-class Player extends React.Component<AppProps, AppState> {
-  private elementRef:
+class Player extends React.Component<Player.AppProps, Player.AppState> {
+  private readonly elementRef:
     | React.RefObject<HTMLAudioElement>
     | React.RefObject<HTMLVideoElement>; // @ts-ignore
-  private static defaultProps: object;
   private player: any;
-  private restProps: any;
-  /*private restProps: Readonly<P> & Readonly<{ children?: React.ReactNode }> & {
-    controls: string[]; seekTime: number; classNames: { embedContainer: string; paused: string; hidden: string; tooltip: string; isTouch: string; video: string; type: string; tabFocus: string; cues: string; captions: { active: string; enabled: string }; hover: string; uiSupported: string; provider: string; pip: { active: string; supported: string }; airplay: { active: string; supported: string }; embed: string; posterEnabled: string; hideControls: string; stopped: string; display: { time: string }; control: string; loading: string; menu: { badge: string; value: string; open: string }; previewThumbnails: { thumbContainer: string; scrubbingContainerShown: string; imageContainer: string; scrubbingContainer: string; thumbContainerShown: string; timeContainer: string }; controlPressed: string; ads: string; fullscreen: { fallback: string; enabled: string }; playing: string; poster: string; noTransition: string; isIos: string }; onLoadedData: () => void; clickToPlay: boolean; loop: { active: boolean }; iconUrl: string; events: string[]; onExitFullscreen: () => void; hideControls: boolean; onCaptionsDisabled: () => void; loadSprite: boolean; settings: string[]; toggleInvert: boolean; onTimeUpdate: () => void; onSeeked: () => void; onEnterFullscreen: () => void; onPlay: () => void; autoplay: boolean; i18n: { play: string; seekLabel: string; seek: string; captions: string; speed: string; enabled: string; duration: string; download: string; loop: string; buffered: string; advertisement: string; unmute: string; end: string; disabled: string; fastForward: string; menuBack: string; all: string; settings: string; normal: string; restart: string; start: string; mute: string; disableCaptions: string; frameTitle: string; played: string; pause: string; quality: string; currentTime: string; volume: string; enableCaptions: string; exitFullscreen: string; rewind: string; enterFullscreen: string; reset: string; qualityBadge: { "1080": string; "576": string; "720": string; "1440": string; "480": string; "2160": string } }; quality: { default: number; options: number[] }; volume: number; onEnd: () => void; fullscreen: { iosNative: boolean; fallback: boolean; enabled: boolean }; onRateChange: () => void; blankVideo: string; tooltips: { controls: boolean; seek: boolean }; onReady: () => void; resetOnEnd: boolean; sources: any[]; onControlsHidden: () => void; onPause: () => void; autopause: boolean; storage: { enabled: boolean; key: string }; title: string; selectors: { container: string; controls: { container: null; wrapper: string }; buttons: { play: string; settings: string; restart: string; mute: string; pause: string; captions: string; download: string; rewind: string; fullscreen: string; pip: string; loop: string; airplay: string; fastForward: string }; editable: string; inputs: { volume: string; language: string; seek: string; speed: string; quality: string }; display: { currentTime: string; duration: string; volume: string; loop: string; buffer: string }; progress: string; caption: string; menu: { quality: string }; captions: string; labels: string }; onCaptionsEnabled: () => void; enabled: boolean; speed: { options: number[]; selected: number }; captions: { active: boolean; update: boolean; language: string }; duration: null; urls: { download: null }; onControlsShown: () => void; playsinline: boolean; muted: boolean; onLanguageChange: () => void; keyboard: { focused: boolean; global: boolean }; debug: boolean; listeners: { play: null; restart: null; mute: null; language: null; seek: null; pause: null; captions: null; speed: null; quality: null; volume: null; download: null; rewind: null; fullscreen: null; pip: null; loop: null; airplay: null; fastForward: null }; onVolumeChange: () => void; previewThumbnails: { src: string; enabled: boolean }; url: null; tracks: any[]; displayDuration: boolean; iconPrefix: string; invertTime: boolean; attributes: { embed: { provider: string; id: string } }; disableContextMenu: boolean; ratio: string
-  };*/
+  private readonly restProps: any;
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     // @ts-ignore
     this.state = {
@@ -81,13 +105,16 @@ class Player extends React.Component<AppProps, AppState> {
     ]);
 
     console.log('this.restProps', this.restProps);
+
     // @ts-ignore
     this.elementRef = new React.createRef();
     this.player = null;
   }
 
   static getDerivedStateFromProps(
+    // @ts-ignore
     { muted: mutedNextProps },
+    // @ts-ignore
     { muted: mutedPrevSate },
   ) {
     if (mutedNextProps !== mutedPrevSate) {
@@ -182,13 +209,15 @@ class Player extends React.Component<AppProps, AppState> {
       this.player.on('volumechange', () => {
         const { muted, volume } = this.player;
         // @ts-ignore
-        this.props.onVolumeChange && this.props.onVolumeChange({ muted, volume });
+        this.props.onVolumeChange &&
+          this.props.onVolumeChange({ muted, volume });
       });
 
       this.player.on('languagechange', () => {
         const { language } = this.player;
         // @ts-ignore
-        this.props.onLanguageChange && this.props.onLanguageChange(language);
+        this.props.onLanguageChange &&
+          this.props.onLanguageChange(language);
       });
 
       this.player.on('controlshidden', () => {
@@ -215,7 +244,8 @@ class Player extends React.Component<AppProps, AppState> {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  // @ts-ignore
+  componentDidUpdate(prevProps: { muted: any; url: any; }) {
     // @ts-ignore
     if (prevProps.muted !== this.props.muted) {
       // @ts-ignore
@@ -487,10 +517,10 @@ Audio example:
   togglePlay = () => this.player && this.player.togglePlay();
   stop = () => this.player && this.player.stop();
   restart = () => this.player && this.player.restart();
-  rewind = time => this.player && this.player.rewind(time);
-  forward = time => this.player && this.player.forward(time);
+  rewind = (time: any) => this.player && this.player.rewind(time);
+  forward = (time: any) => this.player && this.player.forward(time);
   getCurrentTime = () => this.player && this.player.currentTime;
-  setCurrentTime = currentTime =>
+  setCurrentTime = (currentTime: any) =>
     (this.player.currentTime = currentTime);
   getDuration = () => this.player && this.player.duration;
   getVolume = () => this.player && this.player.volume;
@@ -499,28 +529,34 @@ Audio example:
   toggleMute = () =>
     this.player && this.player.toggleControls(this.player.muted);
   setMuted = (muted = true) => (this.player.muted = muted);
-  increaseVolume = step =>
+  increaseVolume = (step: any) =>
     this.player && this.player.increaseVolume(step);
-  decreaseVolume = step =>
+  decreaseVolume = (step: any) =>
     this.player && this.player.decreaseVolume(step);
-  setVolume = amount => (this.player.volume = amount);
+  setVolume = (amount: any) => (this.player.volume = amount);
   enterFullscreen = () =>
     this.player && this.player.fullscreen.enter();
   exitFullscreen = () => this.player && this.player.fullscreen.exit();
   toggleFullscreen = () =>
     this.player && this.player.fullscreen.toggle();
 
-  captionVideo(tracks) {
+  captionVideo(tracks: { source?: {} | undefined; }[]) {
     let captionsMap = [];
 
     for (let i = 0; i < tracks.length; i += 1) {
       const { source = {} } = tracks[i];
       const {
+        // @ts-ignore
         key = i,
+        // @ts-ignore
         kind = 'captions',
+        // @ts-ignore
         label,
+        // @ts-ignore
         src,
+        // @ts-ignore
         srclang,
+        // @ts-ignore
         default: def,
         ...attributes
       } = source;
@@ -534,6 +570,7 @@ Audio example:
           srclang={srclang}
           default={def}
           {...attributes}
+          // @ts-ignore
           ref={this.elementRef}
         />,
       );
@@ -542,7 +579,7 @@ Audio example:
     return captionsMap;
   }
 
-  static sourcesVideo(sources) {
+  static sourcesVideo(sources: { src?: "" | undefined; type?: "" | undefined; size?: "" | undefined; }[]) {
     let sourcesVideo = [];
 
     for (let i = 0; i < sources.length; i += 1) {
@@ -649,7 +686,9 @@ Audio example:
     // @ts-ignore
     const { sources = [], url, preload, ...rest } = this.props;
     if (sources && sources.length) {
+
       return (
+        // @ts-ignore
         <audio preload={preload} ref={this.elementRef} {...rest}>
           {/*sources.map((source, index) => (
             <source key={index} src={source.src} type={source.type} />

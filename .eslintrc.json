@@ -13,20 +13,21 @@
     "prettier/@typescript-eslint"
   ],
   "parserOptions": {
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "./",
     "ecmaFeatures": {
       "jsx": true
     },
-    "useJSXTextNode": true,
-    "project": "./tsconfig.json"
+    "useJSXTextNode": true
   },
-  "plugins": ["@typescript-eslint", "prettier"],
+  "plugins": ["@typescript-eslint"],
   "rules": {
-    "prettier/prettier": ["error"],
     "react/jsx-filename-extension": [1, {
       "extensions": [".jsx", ".tsx"]
     }],
     "import/no-unresolved": 0,
     "lines-between-class-members": "off",
+    "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-for-in-array": "warn",
     "@typescript-eslint/explicit-function-return-type": [
       "warn",
