@@ -28,12 +28,16 @@ function difference(arrays = []) {
     obj[i] = arrays[i];
   }
 
-  // eslint-disable-next-line guard-for-in,no-restricted-syntax
-  for (const key in obj[0]) {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    match = contains(obj[0][key], obj[1]);
+  if (obj && obj[0]) {
+    // eslint-disable-next-line guard-for-in,no-restricted-syntax
+    for (const key in obj[0]) {
+      // eslint-disable-next-line no-prototype-builtins
+      if (obj[0].hasOwnProperty(key)) {
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        match = contains(obj[0][key], obj[1]);
+      }
+    }
   }
-
   // eslint-disable-next-line no-shadow
   function contains(a: { [x: string]: any; length: any; }, obj: any) {
     let i = a.length;
@@ -59,8 +63,15 @@ export namespace Player {
     url?: string;
     type: string;
     title?: string;
-    size?: string;
+    size?: number;
     src?: string;
+
+    sources?: [{
+      src: string;
+      type: string;
+      size: number;
+    }];
+
     sourceType?: string;
 
     onReady?: () => void;
@@ -86,7 +97,7 @@ export namespace Player {
 /* eslint-disable */
 // @ts-ignore
 class Player extends React.Component<Player.AppProps, Player.AppState> {
-  private readonly elementRef:
+  private readonly elementRef :
     | React.RefObject<HTMLAudioElement>
     | React.RefObject<HTMLVideoElement>; // @ts-ignore
   private player: any;
@@ -98,13 +109,14 @@ class Player extends React.Component<Player.AppProps, Player.AppState> {
     this.state = {
       muted: false,
     };
+
     // @ts-ignore
     this.restProps = difference([
       Object.keys(this.props),
       Object.keys(Player.defaults),
     ]);
 
-    console.log('this.restProps', this.restProps);
+    console.log('this.props :::::::::: ', this.props);
 
     // @ts-ignore
     this.elementRef = new React.createRef();
@@ -338,6 +350,9 @@ Audio example:
     src = '',
     sourceType = '',
   }) => {
+
+    console.log('updateSource', { type, src })
+
     this.player.source = {
       type: type,
       title: title,
@@ -543,8 +558,9 @@ Audio example:
   captionVideo(tracks: { source?: {} | undefined; }[]) {
     let captionsMap = [];
 
+    console.log('tracks', tracks)
+
     for (let i = 0; i < tracks.length; i += 1) {
-      const { source = {} } = tracks[i];
       const {
         // @ts-ignore
         key = i,
@@ -559,7 +575,7 @@ Audio example:
         // @ts-ignore
         default: def,
         ...attributes
-      } = source;
+      } = tracks[i];
 
       captionsMap.push(
         <track
@@ -582,11 +598,13 @@ Audio example:
   static sourcesVideo(sources: { src?: "" | undefined; type?: "" | undefined; size?: "" | undefined; }[]) {
     let sourcesVideo = [];
 
+    console.log('sources', sources)
+
     for (let i = 0; i < sources.length; i += 1) {
-      const { src = '', type = '', size = '' } = sources[i];
+      const { src = '', type = '', size = 0 } = sources[i];
       sourcesVideo.push(
         // @ts-ignore
-        <source key={i} src={src} type={type} size={size} />,
+        <source key={i} src={src} type={type} size={size} />
       );
     }
 
@@ -597,16 +615,30 @@ Audio example:
   renderPlayerWithSRC = () => {
     const {
       // @ts-ignore
-      sources = [],
+      children = [],
       url = '',
       // @ts-ignore
       preload,
       // @ts-ignore
       poster,
-      // @ts-ignore
-      tracks = [],
       ...rest
     } = this.props;
+
+    const sources = [];
+    const tracks = [];
+
+    // @ts-ignore
+    for (let i = 0; i < children.length; i += 1) {
+      // @ts-ignore
+      const { props = {}, type = '' } = children[i];
+      (type === 'source') ?
+        sources.push(props) :
+        (type === 'track') ?
+          tracks.push(props) :
+          null
+    }
+
+
     /* const captionsMap = tracks.map((source, index) => {
        const {
          key = index,
@@ -687,6 +719,7 @@ Audio example:
     const { sources = [], url, preload, ...rest } = this.props;
     if (sources && sources.length) {
 
+
       return (
         // @ts-ignore
         <audio preload={preload} ref={this.elementRef} {...rest}>
@@ -711,6 +744,8 @@ Audio example:
   public render(): React.ReactElement<{}> {
     // @ts-ignore
     const { type = '' } = this.props;
+
+    console.log('render', this.props)
 
     const render =
       type === 'video'
