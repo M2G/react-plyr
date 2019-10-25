@@ -66,11 +66,18 @@ export namespace Player {
     size?: number;
     src?: string;
 
-    sources?: [{
+    sources?: {
       src: string;
       type: string;
       size: number;
-    }];
+    }[];
+
+    tracks?: {
+      kind: string;
+      label: string;
+      srcLang: string;
+      src: string;
+    }[];
 
     sourceType?: string;
 
@@ -79,7 +86,7 @@ export namespace Player {
     onPause?: () => void;
     onEnd?: () => void;
     onLoadedData?: () => void;
-    onSeeked?: () => void;
+    onSeeked?: (time: number | string | undefined | null | any) => void;
     onRateChange?: () => void;
     onTimeUpdate?: () => void;
     onEnterFullscreen?: () => void;
@@ -99,7 +106,7 @@ export namespace Player {
 class Player extends React.Component<Player.AppProps, Player.AppState> {
   private readonly elementRef :
     | React.RefObject<HTMLAudioElement>
-    | React.RefObject<HTMLVideoElement>; // @ts-ignore
+    | React.RefObject<HTMLVideoElement>;
   private player: any;
   private readonly restProps: any;
 
@@ -148,10 +155,6 @@ class Player extends React.Component<Player.AppProps, Player.AppState> {
       // @ts-ignore
       muted: this.state.muted,
     };
-    // @ts-ignore
-    const { url = '' } = options;
-
-    console.log('url', url);
 
     const node = this.elementRef.current;
 
@@ -168,30 +171,23 @@ class Player extends React.Component<Player.AppProps, Player.AppState> {
       });
 
       this.player.on('play', () => {
-        // @ts-ignore
         this.props.onPlay && this.props.onPlay();
       });
 
       this.player.on('pause', () => {
-        // @ts-ignore
         this.props.onPause && this.props.onPause();
       });
 
       this.player.on('ended', () => {
-        // @ts-ignore
         this.props.onEnd && this.props.onEnd();
       });
 
       this.player.on('loadeddata', () => {
-        // @ts-ignore
         this.props.onLoadedData && this.props.onLoadedData();
       });
 
       this.player.on('seeked', () => {
-        // @ts-ignore
-        const time = this.getCurrentTime();
-        // @ts-ignore
-        this.props.onSeeked && this.props.onSeeked(time);
+        this.props.onSeeked && this.props.onSeeked(this.getCurrentTime());
       });
 
       this.player.on('ratechange', () => {
@@ -202,9 +198,7 @@ class Player extends React.Component<Player.AppProps, Player.AppState> {
 
       this.player.on('timeupdate', () => {
         // @ts-ignore
-        const time = this.getCurrentTime();
-        // @ts-ignore
-        this.props.onTimeUpdate && this.props.onTimeUpdate(time);
+        this.props.onTimeUpdate && this.props.onTimeUpdate(this.getCurrentTime());
       });
 
       this.player.on('enterfullscreen', () => {
@@ -517,7 +511,7 @@ Audio example:
           kind: PropTypes.string,
           label: PropTypes.string,
           src: PropTypes.string.isRequired,
-          srclang: PropTypes.string,
+          srcLang: PropTypes.string,
           default: PropTypes.bool,
           key: PropTypes.any,
         }),
@@ -555,10 +549,10 @@ Audio example:
   toggleFullscreen = () =>
     this.player && this.player.fullscreen.toggle();
 
-  captionVideo(tracks: { source?: {} | undefined; }[]) {
+  captionVideo(tracks: { kind: string; label: string; srcLang: string; src: string; }[] | { [x: string]: any; key?: number | undefined; kind?: "captions" | undefined; label: any; src: any; srcLang: any; default: any; }[]) {
     let captionsMap = [];
 
-    console.log('tracks', tracks)
+    console.log('tracks', tracks);
 
     for (let i = 0; i < tracks.length; i += 1) {
       const {
@@ -571,7 +565,7 @@ Audio example:
         // @ts-ignore
         src,
         // @ts-ignore
-        srclang,
+        srcLang,
         // @ts-ignore
         default: def,
         ...attributes
@@ -583,7 +577,7 @@ Audio example:
           kind={kind}
           label={label}
           src={src}
-          srclang={srclang}
+          srcLang={srcLang}
           default={def}
           {...attributes}
           // @ts-ignore
@@ -595,10 +589,10 @@ Audio example:
     return captionsMap;
   }
 
-  static sourcesVideo(sources: { src?: "" | undefined; type?: "" | undefined; size?: "" | undefined; }[]) {
+  static sourcesVideo(sources: { src: string; type: string; size: number; }[] | { src?: "" | undefined; type?: "" | undefined; size?: 0 | undefined; }[]) {
     let sourcesVideo = [];
 
-    console.log('sources', sources)
+    console.log('sources', sources);
 
     for (let i = 0; i < sources.length; i += 1) {
       const { src = '', type = '', size = 0 } = sources[i];
@@ -615,7 +609,8 @@ Audio example:
   renderPlayerWithSRC = () => {
     const {
       // @ts-ignore
-      children = [],
+      sources = [],
+      tracks = [],
       url = '',
       // @ts-ignore
       preload,
@@ -623,20 +618,6 @@ Audio example:
       poster,
       ...rest
     } = this.props;
-
-    const sources = [];
-    const tracks = [];
-
-    // @ts-ignore
-    for (let i = 0; i < children.length; i += 1) {
-      // @ts-ignore
-      const { props = {}, type = '' } = children[i];
-      (type === 'source') ?
-        sources.push(props) :
-        (type === 'track') ?
-          tracks.push(props) :
-          null
-    }
 
 
     /* const captionsMap = tracks.map((source, index) => {
@@ -665,7 +646,7 @@ Audio example:
      });*/
 
     if (sources && sources.length) {
-      // @ts-ignore
+
       return (
         <video
           preload={preload}
@@ -683,6 +664,7 @@ Audio example:
               size={source.size && source.size}
             />
           ))*/}
+
           {Player.sourcesVideo(sources)}
           {this.captionVideo(tracks)}
         </video>
@@ -703,7 +685,7 @@ Audio example:
     );
   };
 
-  static audioSource(sources = []) {
+  static audioSource(sources: { src: string; type: string; size: number; }[] | { src?: "" | undefined; type?: "" | undefined; }[]) {
     let audioSource = [];
 
     for (let i = 0; i < sources.length; i += 1) {
@@ -718,7 +700,6 @@ Audio example:
     // @ts-ignore
     const { sources = [], url, preload, ...rest } = this.props;
     if (sources && sources.length) {
-
 
       return (
         // @ts-ignore
