@@ -63,6 +63,7 @@ const App = () => {
             },
           ]
         }
+        autoplay
       />
       {/*
         <Player

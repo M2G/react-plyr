@@ -79,16 +79,19 @@ export namespace Player {
       src: string;
     }[];
 
+    preload?: string;
+    poster?: string;
+    autoplay: boolean;
     sourceType?: string;
 
-    onReady?: () => void;
+    onReady?: (player: any) => void;
     onPlay?: () => void;
     onPause?: () => void;
     onEnd?: () => void;
     onLoadedData?: () => void;
     onSeeked?: (time: number | string | undefined | null | any) => void;
     onRateChange?: () => void;
-    onTimeUpdate?: () => void;
+    onTimeUpdate?: (currentTime: number | string | undefined | null | any) => void;
     onEnterFullscreen?: () => void;
     onExitFullscreen?: () => void;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -112,7 +115,7 @@ class Player extends React.Component<Player.AppProps, Player.AppState> {
 
   constructor(props: any) {
     super(props);
-    // @ts-ignore
+
     this.state = {
       muted: false,
     };
@@ -147,12 +150,10 @@ class Player extends React.Component<Player.AppProps, Player.AppState> {
   componentDidMount() {
     const defaultOptions = {
       ...defaultProps,
-      // @ts-ignore
       ...this.props,
     };
     const options = {
       ...defaultOptions,
-      // @ts-ignore
       muted: this.state.muted,
     };
 
@@ -162,9 +163,7 @@ class Player extends React.Component<Player.AppProps, Player.AppState> {
 
     if (this.player) {
       this.player.on('ready', () => {
-        // @ts-ignore
         this.props.onReady && this.props.onReady(this.player);
-        // @ts-ignore
         if (this.props.autoplay) {
           this.player.play();
         }
@@ -197,55 +196,41 @@ class Player extends React.Component<Player.AppProps, Player.AppState> {
       });
 
       this.player.on('timeupdate', () => {
-        // @ts-ignore
         this.props.onTimeUpdate && this.props.onTimeUpdate(this.getCurrentTime());
       });
 
       this.player.on('enterfullscreen', () => {
-        // @ts-ignore
-        this.props.onEnterFullscreen &&
-          this.props.onEnterFullscreen();
+        this.props.onEnterFullscreen && this.props.onEnterFullscreen();
       });
 
       this.player.on('exitfullscreen', () => {
-        // @ts-ignore
         this.props.onExitFullscreen && this.props.onExitFullscreen();
       });
 
       this.player.on('volumechange', () => {
         const { muted, volume } = this.player;
-        // @ts-ignore
-        this.props.onVolumeChange &&
-          this.props.onVolumeChange({ muted, volume });
+        this.props.onVolumeChange && this.props.onVolumeChange({ muted, volume });
       });
 
       this.player.on('languagechange', () => {
         const { language } = this.player;
-        // @ts-ignore
-        this.props.onLanguageChange &&
-          this.props.onLanguageChange(language);
+        this.props.onLanguageChange && this.props.onLanguageChange(language);
       });
 
       this.player.on('controlshidden', () => {
-        // @ts-ignore
         this.props.onControlsHidden && this.props.onControlsHidden();
       });
 
       this.player.on('controlsshown', () => {
-        // @ts-ignore
         this.props.onControlsShown && this.props.onControlsShown();
       });
 
       this.player.on('captionsenabled', () => {
-        // @ts-ignore
-        this.props.onCaptionsEnabled &&
-          this.props.onCaptionsEnabled();
+        this.props.onCaptionsEnabled && this.props.onCaptionsEnabled();
       });
 
       this.player.on('captionsdisabled', () => {
-        // @ts-ignore
-        this.props.onCaptionsDisabled &&
-          this.props.onCaptionsDisabled();
+        this.props.onCaptionsDisabled && this.props.onCaptionsDisabled();
       });
     }
   }
@@ -262,18 +247,12 @@ class Player extends React.Component<Player.AppProps, Player.AppState> {
     console.log('componentDidUpdate prevProps', this.props);
     // @ts-ignore
     if (prevProps.url !== this.props.url) {
-      // @ts-ignore
       this.props.url &&
         this.updateSource({
-          // @ts-ignore
           type: this.props.type,
-          // @ts-ignore
           title: this.props.title,
-          // @ts-ignore
           size: this.props.size,
-          // @ts-ignore
           src: this.props.src,
-          // @ts-ignore
           sourceType: this.props.sourceType,
         });
     }
@@ -340,7 +319,7 @@ Audio example:
   updateSource = ({
     type = '',
     title = '',
-    size = '',
+    size = 0,
     src = '',
     sourceType = '',
   }) => {
@@ -361,7 +340,6 @@ Audio example:
   };
 
   // Specifies the default values for props:
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   static get defaults() {
     return {
       type: '',
@@ -389,12 +367,8 @@ Audio example:
     };
   }
   // Specifies the default values for props:
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type,react/static-property-placement
   static get propTypes() {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
     return {
-      /* eslint-disable */
       type: PropTypes.oneOf(['video', 'audio']),
       url: PropTypes.string,
       onReady: PropTypes.func,
@@ -556,15 +530,9 @@ Audio example:
 
     for (let i = 0; i < tracks.length; i += 1) {
       const {
-        // @ts-ignore
-        key = i,
-        // @ts-ignore
         kind = 'captions',
-        // @ts-ignore
         label,
-        // @ts-ignore
         src,
-        // @ts-ignore
         srcLang,
         // @ts-ignore
         default: def,
@@ -573,7 +541,7 @@ Audio example:
 
       captionsMap.push(
         <track
-          key={key}
+          key={i}
           kind={kind}
           label={label}
           src={src}
@@ -608,13 +576,10 @@ Audio example:
   // For video support for source defined as link to those video files.
   renderPlayerWithSRC = () => {
     const {
-      // @ts-ignore
       sources = [],
       tracks = [],
       url = '',
-      // @ts-ignore
       preload,
-      // @ts-ignore
       poster,
       ...rest
     } = this.props;
@@ -700,7 +665,6 @@ Audio example:
     // @ts-ignore
     const { sources = [], url, preload, ...rest } = this.props;
     if (sources && sources.length) {
-
       return (
         // @ts-ignore
         <audio preload={preload} ref={this.elementRef} {...rest}>
@@ -723,13 +687,11 @@ Audio example:
   };
 
   public render(): React.ReactElement<{}> {
-    // @ts-ignore
     const { type = '' } = this.props;
 
-    console.log('render', this.props)
+    console.log('render', this.props);
 
-    const render =
-      type === 'video'
+    const render = type === 'video'
         ? this.renderPlayerWithSRC()
         : this.renderAudioPlayer();
 
