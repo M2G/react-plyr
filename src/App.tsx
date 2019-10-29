@@ -59,7 +59,6 @@ const App = () => {
               label: "French",
               srcLang: "fr",
               src: "/View_From_A_Blue_Moon_Trailer-HD.fr.vtt",
-
             },
           ]
         }

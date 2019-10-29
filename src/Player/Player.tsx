@@ -19,7 +19,7 @@ function pick(object = {}, keys = []) {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-function difference(arrays = []) {
+function difference(arrays: any[] | string[][]) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const obj = {};
   let match;
@@ -55,11 +55,11 @@ function difference(arrays = []) {
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Player {
-  export interface AppState {
+  export interface State {
     muted: boolean;
   }
 
-  export interface AppProps {
+  export interface Props {
     url?: string;
     type: string;
     title?: string;
@@ -90,7 +90,7 @@ export namespace Player {
     onEnd?: () => void;
     onLoadedData?: () => void;
     onSeeked?: (time: number | string | undefined | null | any) => void;
-    onRateChange?: () => void;
+    onRateChange?: (speed: any) => void;
     onTimeUpdate?: (currentTime: number | string | undefined | null | any) => void;
     onEnterFullscreen?: () => void;
     onExitFullscreen?: () => void;
@@ -104,23 +104,21 @@ export namespace Player {
     onCaptionsDisabled?: () => void;
   }
 }
-/* eslint-disable */
-// @ts-ignore
-class Player extends React.Component<Player.AppProps, Player.AppState> {
+
+class Player extends React.Component<Player.Props, Player.State> {
   private readonly elementRef :
     | React.RefObject<HTMLAudioElement>
     | React.RefObject<HTMLVideoElement>;
   private player: any;
-  private readonly restProps: any;
+  private readonly restProps: boolean | never[] | undefined;
 
-  constructor(props: any) {
+  constructor(props: Readonly<Player.Props>) {
     super(props);
 
     this.state = {
       muted: false,
     };
 
-    // @ts-ignore
     this.restProps = difference([
       Object.keys(this.props),
       Object.keys(Player.defaults),
@@ -128,15 +126,12 @@ class Player extends React.Component<Player.AppProps, Player.AppState> {
 
     console.log('this.props :::::::::: ', this.props);
 
-    // @ts-ignore
     this.elementRef = new React.createRef();
     this.player = null;
   }
 
   static getDerivedStateFromProps(
-    // @ts-ignore
     { muted: mutedNextProps },
-    // @ts-ignore
     { muted: mutedPrevSate },
   ) {
     if (mutedNextProps !== mutedPrevSate) {
@@ -191,7 +186,6 @@ class Player extends React.Component<Player.AppProps, Player.AppState> {
 
       this.player.on('ratechange', () => {
         const { speed } = this.player;
-        // @ts-ignore
         this.props.onRateChange && this.props.onRateChange(speed);
       });
 
@@ -237,15 +231,13 @@ class Player extends React.Component<Player.AppProps, Player.AppState> {
 
   // @ts-ignore
   componentDidUpdate(prevProps: { muted: any; url: any; }) {
-    // @ts-ignore
     if (prevProps.muted !== this.props.muted) {
-      // @ts-ignore
       this.player.muted = this.props.muted;
     }
 
     console.log('componentDidUpdate prevProps', prevProps);
     console.log('componentDidUpdate prevProps', this.props);
-    // @ts-ignore
+
     if (prevProps.url !== this.props.url) {
       this.props.url &&
         this.updateSource({
@@ -524,7 +516,7 @@ Audio example:
     this.player && this.player.fullscreen.toggle();
 
   captionVideo(tracks: { kind: string; label: string; srcLang: string; src: string; }[] | { [x: string]: any; key?: number | undefined; kind?: "captions" | undefined; label: any; src: any; srcLang: any; default: any; }[]) {
-    let captionsMap = [];
+    const captionsMap = [];
 
     console.log('tracks', tracks);
 
@@ -558,14 +550,13 @@ Audio example:
   }
 
   static sourcesVideo(sources: { src: string; type: string; size: number; }[] | { src?: "" | undefined; type?: "" | undefined; size?: 0 | undefined; }[]) {
-    let sourcesVideo = [];
+    const sourcesVideo = [];
 
     console.log('sources', sources);
 
     for (let i = 0; i < sources.length; i += 1) {
       const { src = '', type = '', size = 0 } = sources[i];
       sourcesVideo.push(
-        // @ts-ignore
         <source key={i} src={src} type={type} size={size} />
       );
     }
@@ -585,7 +576,8 @@ Audio example:
     } = this.props;
 
 
-    /* const captionsMap = tracks.map((source, index) => {
+    /*
+     const captionsMap = tracks.map((source, index) => {
        const {
          key = index,
          kind = 'captions',
@@ -608,7 +600,8 @@ Audio example:
            ref={this.elementRef}
          />
        );
-     });*/
+     });
+     */
 
     if (sources && sources.length) {
 
@@ -616,11 +609,11 @@ Audio example:
         <video
           preload={preload}
           poster={poster}
-          // @ts-ignore
           ref={this.elementRef}
           {...pick(rest, this.restProps)}
         >
-          {/*sources.map((source, index) => (
+          {/*
+          sources.map((source, index) => (
             // @ts-ignore
             <source
               key={index}
@@ -628,7 +621,8 @@ Audio example:
               type={source.type}
               size={source.size && source.size}
             />
-          ))*/}
+          ))
+          */}
 
           {Player.sourcesVideo(sources)}
           {this.captionVideo(tracks)}
@@ -641,7 +635,6 @@ Audio example:
         src={url}
         preload={preload}
         poster={poster}
-        // @ts-ignore
         ref={this.elementRef}
         {...pick(rest, this.restProps)}
       >
@@ -651,7 +644,7 @@ Audio example:
   };
 
   static audioSource(sources: { src: string; type: string; size: number; }[] | { src?: "" | undefined; type?: "" | undefined; }[]) {
-    let audioSource = [];
+    const audioSource = [];
 
     for (let i = 0; i < sources.length; i += 1) {
       const { src = '', type = '' } = sources[i];
@@ -662,15 +655,16 @@ Audio example:
   }
 
   renderAudioPlayer = () => {
-    // @ts-ignore
     const { sources = [], url, preload, ...rest } = this.props;
     if (sources && sources.length) {
       return (
-        // @ts-ignore
         <audio preload={preload} ref={this.elementRef} {...rest}>
-          {/*sources.map((source, index) => (
+          {
+            /*
+          sources.map((source, index) => (
             <source key={index} src={source.src} type={source.type} />
-          ))*/}
+          ))
+          */}
           {Player.audioSource(sources)}
         </audio>
       );
