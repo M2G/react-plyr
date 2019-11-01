@@ -25,6 +25,7 @@ const App = () => {
         url="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
       />
       */}
+
       <Player
         type='video'
         settings={['quality', 'captions']}
@@ -63,6 +64,7 @@ const App = () => {
           ]
         }
         autoplay
+        muted={false}
       />
       {/*
         <Player

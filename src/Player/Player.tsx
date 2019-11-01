@@ -1,17 +1,61 @@
+/* eslint-disable */
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 import Plyr from 'plyr';
 import defaultProps from './defaultProps';
+import isEmptyObject from '../Utils/utils';
+import AudioType from './types';
+import { EVENTS, CONSTROLS, SETTINGS } from './constants';
 import 'plyr/src/sass/plyr.scss';
+
+const {
+  READY,
+  PLAY: EVENTPLAY,
+  PAUSE,
+  ENDED,
+  LOADEDDATA,
+  SEEKED,
+  RATECHANGE,
+  TIMEUPDATE,
+  ENTERFULLSCREEN,
+  EXITFULLSCREEN,
+  VOLUMECHANGE,
+  LANGUAGECHANGE,
+  CONTROLSHIDDEN,
+  CONTROLSSHOWN,
+  CAPTIONSENABLED,
+  CAPTIONSDISABLED,
+} = EVENTS;
+
+const {
+  PLAY_LARGE,
+  PLAY: CONTROLSPAY,
+  PROGRESS,
+  CURRENT_TIME,
+  MUTE,
+  VOLUME,
+  CAPTION,
+  SETTINGS: CONSTROLSSETTINGS,
+  PIP,
+  AIRPLAY,
+  FULLSCREEN,
+} = CONSTROLS;
+
+const {
+  CAPTIONS,
+  QUALITY,
+  SPEED,
+  LOOP
+} = SETTINGS;
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function pick(object = {}, keys = []) {
   const obj = {};
   for (let i = 0; i < keys.length; i += 1) {
     // eslint-disable-next-line no-prototype-builtins
-    if (object && object.hasOwnProperty(keys[i])) {
+    if (!isEmptyObject(object) && object.hasOwnProperty(keys[i])) {
       obj[keys[i]] = object[keys[i]];
     }
   }
@@ -39,10 +83,10 @@ function difference(arrays: any[] | string[][]) {
     }
   }
   // eslint-disable-next-line no-shadow
-  function contains(a: { [x: string]: any; length: any; }, obj: any) {
+  function contains(a: { [x: string]: any; length: any }, obj: any) {
     let i = a.length;
     // eslint-disable-next-line no-cond-assign
-    while (i -= 1) {
+    while ((i -= 1)) {
       if (a[i] === obj) {
         return true;
       }
@@ -89,9 +133,13 @@ export namespace Player {
     onPause?: () => void;
     onEnd?: () => void;
     onLoadedData?: () => void;
-    onSeeked?: (time: number | string | undefined | null | any) => void;
+    onSeeked?: (
+      time: number | string | undefined | null | any,
+    ) => void;
     onRateChange?: (speed: any) => void;
-    onTimeUpdate?: (currentTime: number | string | undefined | null | any) => void;
+    onTimeUpdate?: (
+      currentTime: number | string | undefined | null | any,
+    ) => void;
     onEnterFullscreen?: () => void;
     onExitFullscreen?: () => void;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -102,11 +150,13 @@ export namespace Player {
     onControlsShown?: () => void;
     onCaptionsEnabled?: () => void;
     onCaptionsDisabled?: () => void;
+
+    muted: boolean;
   }
 }
 
 class Player extends React.Component<Player.Props, Player.State> {
-  private readonly elementRef :
+  private readonly elementRef:
     | React.RefObject<HTMLAudioElement>
     | React.RefObject<HTMLVideoElement>;
   private player: any;
@@ -126,13 +176,20 @@ class Player extends React.Component<Player.Props, Player.State> {
 
     console.log('this.props :::::::::: ', this.props);
 
+    // @ts-ignore
     this.elementRef = new React.createRef();
     this.player = null;
   }
 
   static getDerivedStateFromProps(
-    { muted: mutedNextProps },
-    { muted: mutedPrevSate },
+    {
+      // @ts-ignore
+      muted: mutedNextProps
+    },
+    {
+      // @ts-ignore
+      muted: mutedPrevSate
+    },
   ) {
     if (mutedNextProps !== mutedPrevSate) {
       return {
@@ -143,10 +200,12 @@ class Player extends React.Component<Player.Props, Player.State> {
   }
 
   componentDidMount() {
-    const defaultOptions = {
+
+  const defaultOptions = {
       ...defaultProps,
       ...this.props,
     };
+
     const options = {
       ...defaultOptions,
       muted: this.state.muted,
@@ -157,95 +216,141 @@ class Player extends React.Component<Player.Props, Player.State> {
     this.player = node ? new Plyr(node, options) : null;
 
     if (this.player) {
-      this.player.on('ready', () => {
-        this.props.onReady && this.props.onReady(this.player);
-        if (this.props.autoplay) {
+      const {
+        autoplay,
+
+        onReady,
+        onPlay,
+        onPause,
+        onEnd,
+        onLoadedData,
+        onSeeked,
+        onRateChange,
+        onTimeUpdate,
+        onEnterFullscreen,
+        onExitFullscreen,
+        onVolumeChange,
+        onLanguageChange,
+        onControlsHidden,
+        onControlsShown,
+        onCaptionsEnabled,
+        onCaptionsDisabled,
+      } = this.props;
+
+      this.player.on(READY, () => {
+        onReady && onReady(this.player);
+        if (autoplay) {
           this.player.play();
         }
       });
 
-      this.player.on('play', () => {
-        this.props.onPlay && this.props.onPlay();
+      this.player.on(EVENTPLAY, () => {
+        // eslint-disable-next-line no-unused-expressions
+        onPlay && onPlay();
       });
 
-      this.player.on('pause', () => {
-        this.props.onPause && this.props.onPause();
+      this.player.on(PAUSE, () => {
+        // eslint-disable-next-line no-unused-expressions
+        onPause && onPause();
       });
 
-      this.player.on('ended', () => {
-        this.props.onEnd && this.props.onEnd();
+      this.player.on(ENDED, () => {
+        // eslint-disable-next-line no-unused-expressions
+        onEnd && onEnd();
       });
 
-      this.player.on('loadeddata', () => {
-        this.props.onLoadedData && this.props.onLoadedData();
+      this.player.on(LOADEDDATA, () => {
+        // eslint-disable-next-line no-unused-expressions
+        onLoadedData && onLoadedData();
       });
 
-      this.player.on('seeked', () => {
-        this.props.onSeeked && this.props.onSeeked(this.getCurrentTime());
+      this.player.on(SEEKED, () => {
+        // eslint-disable-next-line no-unused-expressions
+        onSeeked && onSeeked(this.getCurrentTime());
       });
 
-      this.player.on('ratechange', () => {
+      this.player.on(RATECHANGE, () => {
         const { speed } = this.player;
-        this.props.onRateChange && this.props.onRateChange(speed);
+        // eslint-disable-next-line no-unused-expressions
+        onRateChange && onRateChange(speed);
       });
 
-      this.player.on('timeupdate', () => {
-        this.props.onTimeUpdate && this.props.onTimeUpdate(this.getCurrentTime());
+      this.player.on(TIMEUPDATE, () => {
+        // eslint-disable-next-line no-unused-expressions
+        onTimeUpdate && onTimeUpdate(this.getCurrentTime());
       });
 
-      this.player.on('enterfullscreen', () => {
-        this.props.onEnterFullscreen && this.props.onEnterFullscreen();
+      this.player.on(ENTERFULLSCREEN, () => {
+        // eslint-disable-next-line no-unused-expressions
+        onEnterFullscreen && onEnterFullscreen();
       });
 
-      this.player.on('exitfullscreen', () => {
-        this.props.onExitFullscreen && this.props.onExitFullscreen();
+      this.player.on(EXITFULLSCREEN, () => {
+        // eslint-disable-next-line no-unused-expressions
+        onExitFullscreen && onExitFullscreen();
       });
 
-      this.player.on('volumechange', () => {
+      this.player.on(VOLUMECHANGE, () => {
         const { muted, volume } = this.player;
-        this.props.onVolumeChange && this.props.onVolumeChange({ muted, volume });
+        onVolumeChange && onVolumeChange({ muted, volume });
       });
 
-      this.player.on('languagechange', () => {
+      this.player.on(LANGUAGECHANGE, () => {
         const { language } = this.player;
-        this.props.onLanguageChange && this.props.onLanguageChange(language);
+        // eslint-disable-next-line no-unused-expressions
+        onLanguageChange && onLanguageChange(language);
       });
 
-      this.player.on('controlshidden', () => {
-        this.props.onControlsHidden && this.props.onControlsHidden();
+      this.player.on(CONTROLSHIDDEN, () => {
+        // eslint-disable-next-line no-unused-expressions
+        onControlsHidden && onControlsHidden();
       });
 
-      this.player.on('controlsshown', () => {
-        this.props.onControlsShown && this.props.onControlsShown();
+      this.player.on(CONTROLSSHOWN, () => {
+        // eslint-disable-next-line no-unused-expressions
+        onControlsShown && onControlsShown();
       });
 
-      this.player.on('captionsenabled', () => {
-        this.props.onCaptionsEnabled && this.props.onCaptionsEnabled();
+      this.player.on(CAPTIONSENABLED, () => {
+        // eslint-disable-next-line no-unused-expressions
+        onCaptionsEnabled && onCaptionsEnabled();
       });
 
-      this.player.on('captionsdisabled', () => {
-        this.props.onCaptionsDisabled && this.props.onCaptionsDisabled();
+      this.player.on(CAPTIONSDISABLED, () => {
+        // eslint-disable-next-line no-unused-expressions
+        onCaptionsDisabled && onCaptionsDisabled();
       });
     }
   }
 
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   // @ts-ignore
-  componentDidUpdate(prevProps: { muted: any; url: any; }) {
-    if (prevProps.muted !== this.props.muted) {
-      this.player.muted = this.props.muted;
+  componentDidUpdate({ muted: prevPropsMuted, url: prevPropsUrl }) {
+    const {
+      muted,
+      url,
+      type,
+      title,
+      size,
+      src,
+      sourceType,
+    } = this.props;
+
+    if (prevPropsMuted !== muted) {
+      this.player.muted = muted;
     }
 
-    console.log('componentDidUpdate prevProps', prevProps);
+    console.log('componentDidUpdate prevProps', prevPropsMuted);
     console.log('componentDidUpdate prevProps', this.props);
 
-    if (prevProps.url !== this.props.url) {
-      this.props.url &&
-        this.updateSource({
-          type: this.props.type,
-          title: this.props.title,
-          size: this.props.size,
-          src: this.props.src,
-          sourceType: this.props.sourceType,
+    if (prevPropsUrl !== url) {
+      url && this.updateSource({
+          type,
+          title,
+          size,
+          src,
+          sourceType,
         });
     }
   }
@@ -315,17 +420,16 @@ Audio example:
     src = '',
     sourceType = '',
   }) => {
-
-    console.log('updateSource', { type, src })
+    console.log('updateSource', { type, src });
 
     this.player.source = {
-      type: type,
-      title: title,
+      type,
+      title,
       sources: [
         {
-          src: src,
+          src,
           type: sourceType,
-          size: size,
+          size,
         },
       ],
     };
@@ -359,9 +463,11 @@ Audio example:
     };
   }
   // Specifies the default values for props:
+  // eslint-disable-next-line react/static-property-placement,@typescript-eslint/explicit-function-return-type
   static get propTypes() {
+
     return {
-      type: PropTypes.oneOf(['video', 'audio']),
+      type: PropTypes.oneOf([AudioType.Video, AudioType.Audio]),
       url: PropTypes.string,
       onReady: PropTypes.func,
       onPlay: PropTypes.func,
@@ -444,17 +550,17 @@ Audio example:
         PropTypes.string,
         PropTypes.arrayOf(
           PropTypes.oneOf([
-            'play-large',
-            'play',
-            'progress',
-            'current-time',
-            'mute',
-            'volume',
-            'captions',
-            'settings',
-            'pip',
-            'airplay',
-            'fullscreen',
+            PLAY_LARGE,
+            CONTROLSPAY,
+            PROGRESS,
+            CURRENT_TIME,
+            MUTE,
+            VOLUME,
+            CAPTION,
+            CONSTROLSSETTINGS,
+            PIP,
+            AIRPLAY,
+            FULLSCREEN,
           ]),
         ),
         PropTypes.func,
@@ -462,7 +568,7 @@ Audio example:
         PropTypes.bool,
       ]),
       settings: PropTypes.arrayOf(
-        PropTypes.oneOf(['captions', 'quality', 'speed', 'loop']),
+        PropTypes.oneOf([CAPTIONS, QUALITY, SPEED, LOOP]),
       ),
       poster: PropTypes.string,
       sources: PropTypes.arrayOf(
@@ -515,7 +621,24 @@ Audio example:
   toggleFullscreen = () =>
     this.player && this.player.fullscreen.toggle();
 
-  captionVideo(tracks: { kind: string; label: string; srcLang: string; src: string; }[] | { [x: string]: any; key?: number | undefined; kind?: "captions" | undefined; label: any; src: any; srcLang: any; default: any; }[]) {
+  captionVideo(
+    tracks:
+      | {
+          kind: string;
+          label: string;
+          srcLang: string;
+          src: string;
+        }[]
+      | {
+          [x: string]: any;
+          key?: number | undefined;
+          kind?: 'captions' | undefined;
+          label: any;
+          src: any;
+          srcLang: any;
+          default: any;
+        }[],
+  ) {
     const captionsMap = [];
 
     console.log('tracks', tracks);
@@ -549,7 +672,15 @@ Audio example:
     return captionsMap;
   }
 
-  static sourcesVideo(sources: { src: string; type: string; size: number; }[] | { src?: "" | undefined; type?: "" | undefined; size?: 0 | undefined; }[]) {
+  static sourcesVideo(
+    sources:
+      | { src: string; type: string; size: number }[]
+      | {
+          src?: '' | undefined;
+          type?: '' | undefined;
+          size?: 0 | undefined;
+        }[],
+  ) {
     const sourcesVideo = [];
 
     console.log('sources', sources);
@@ -557,7 +688,8 @@ Audio example:
     for (let i = 0; i < sources.length; i += 1) {
       const { src = '', type = '', size = 0 } = sources[i];
       sourcesVideo.push(
-        <source key={i} src={src} type={type} size={size} />
+        // @ts-ignore
+        <source key={i} src={src} type={type} size={size} />,
       );
     }
 
@@ -574,7 +706,6 @@ Audio example:
       poster,
       ...rest
     } = this.props;
-
 
     /*
      const captionsMap = tracks.map((source, index) => {
@@ -604,13 +735,15 @@ Audio example:
      */
 
     if (sources && sources.length) {
-
       return (
         <video
           preload={preload}
           poster={poster}
           ref={this.elementRef}
-          {...pick(rest, this.restProps)}
+          {...pick(rest,
+            // @ts-ignore
+            this.restProps
+          )}
         >
           {/*
           sources.map((source, index) => (
@@ -636,14 +769,21 @@ Audio example:
         preload={preload}
         poster={poster}
         ref={this.elementRef}
-        {...pick(rest, this.restProps)}
+        {...pick(rest,
+          // @ts-ignore
+          this.restProps
+        )}
       >
         {this.captionVideo(tracks)}
       </video>
     );
   };
 
-  static audioSource(sources: { src: string; type: string; size: number; }[] | { src?: "" | undefined; type?: "" | undefined; }[]) {
+  static audioSource(
+    sources:
+      | { src: string; type: string; size: number }[]
+      | { src?: '' | undefined; type?: '' | undefined }[],
+  ) {
     const audioSource = [];
 
     for (let i = 0; i < sources.length; i += 1) {
@@ -658,9 +798,9 @@ Audio example:
     const { sources = [], url, preload, ...rest } = this.props;
     if (sources && sources.length) {
       return (
+        // @ts-ignore
         <audio preload={preload} ref={this.elementRef} {...rest}>
-          {
-            /*
+          {/*
           sources.map((source, index) => (
             <source key={index} src={source.src} type={source.type} />
           ))
@@ -675,7 +815,10 @@ Audio example:
         preload={preload}
         src={url}
         ref={this.elementRef}
-        {...pick(rest, this.restProps)}
+        {...pick(rest,
+          // @ts-ignore
+          this.restProps
+        )}
       />
     );
   };
@@ -685,7 +828,8 @@ Audio example:
 
     console.log('render', this.props);
 
-    const render = type === 'video'
+    const render =
+      type === AudioType.Video
         ? this.renderPlayerWithSRC()
         : this.renderAudioPlayer();
 
