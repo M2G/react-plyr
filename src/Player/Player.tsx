@@ -597,34 +597,34 @@ Audio example:
   }
 
   getType = () =>
-    this.player && this.player.source && this.player.source.type;
-  play = () => this.player && this.player.play();
-  pause = () => this.player && this.player.pause();
-  togglePlay = () => this.player && this.player.togglePlay();
-  stop = () => this.player && this.player.stop();
-  restart = () => this.player && this.player.restart();
-  rewind = (time: any) => this.player && this.player.rewind(time);
-  forward = (time: any) => this.player && this.player.forward(time);
-  getCurrentTime = () => this.player && this.player.currentTime;
+    this.player?.source?.type;
+  play = () => this.player?.play();
+  pause = () => this.player?.pause();
+  togglePlay = () => this.player?.togglePlay();
+  stop = () => this.player?.stop();
+  restart = () => this.player?.restart();
+  rewind = (time: any) => this.player?.rewind(time);
+  forward = (time: any) => this.player?.forward(time);
+  getCurrentTime = () => this.player?.currentTime;
   setCurrentTime = (currentTime: any) =>
     (this.player.currentTime = currentTime);
-  getDuration = () => this.player && this.player.duration;
-  getVolume = () => this.player && this.player.volume;
-  isMuted = () => this.player && this.player.muted;
-  isPaused = () => this.player && this.player.paused;
+  getDuration = () => this.player?.duration;
+  getVolume = () => this.player?.volume;
+  isMuted = () => this.player?.muted;
+  isPaused = () => this.player?.paused;
   toggleMute = () =>
-    this.player && this.player.toggleControls(this.player.muted);
+    this.player?.toggleControls(this.player.muted);
   setMuted = (muted = true) => (this.player.muted = muted);
   increaseVolume = (step: any) =>
-    this.player && this.player.increaseVolume(step);
+    this.player?.increaseVolume(step);
   decreaseVolume = (step: any) =>
-    this.player && this.player.decreaseVolume(step);
+    this.player?.decreaseVolume(step);
   setVolume = (amount: any) => (this.player.volume = amount);
   enterFullscreen = () =>
-    this.player && this.player.fullscreen.enter();
-  exitFullscreen = () => this.player && this.player.fullscreen.exit();
+    this.player?.fullscreen.enter();
+  exitFullscreen = () => this.player?.fullscreen.exit();
   toggleFullscreen = () =>
-    this.player && this.player.fullscreen.toggle();
+    this.player?.fullscreen.toggle();
 
   captionVideo(
     tracks:
