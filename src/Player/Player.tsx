@@ -53,12 +53,16 @@ const {
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function pick(object = {}, keys = []) {
   const obj = {};
-  for (let i = 0; i < keys.length; i += 1) {
-    // eslint-disable-next-line no-prototype-builtins
-    if (!isEmptyObject(object) && object.hasOwnProperty(keys[i])) {
-      obj[keys[i]] = object[keys[i]];
+
+  if (keys && keys.length) {
+    for (let i = 0; i < keys.length; i += 1) {
+      // eslint-disable-next-line no-prototype-builtins
+      if (!isEmptyObject(object) && object.hasOwnProperty(keys[i])) {
+        obj[keys[i]] = object[keys[i]];
+      }
     }
   }
+
   return obj;
 }
 
@@ -68,10 +72,11 @@ function difference(arrays: any[] | string[][]) {
   const obj = {};
   let match;
 
-  for (let i = 0; i < arrays.length; i += 1) {
-    obj[i] = arrays[i];
+  if (arrays && arrays.length) {
+    for (let i = 0; i < arrays.length; i += 1) {
+      obj[i] = arrays[i];
+    }
   }
-
   if (obj && obj[0]) {
     // eslint-disable-next-line guard-for-in,no-restricted-syntax
     for (const key in obj[0]) {
@@ -84,7 +89,7 @@ function difference(arrays: any[] | string[][]) {
   }
   // eslint-disable-next-line no-shadow
   function contains(a: { [x: string]: any; length: any }, obj: any) {
-    let i = a.length;
+    let i = a.length || 0;
     // eslint-disable-next-line no-cond-assign
     while ((i -= 1)) {
       if (a[i] === obj) {
@@ -215,7 +220,8 @@ class Player extends React.Component<Player.Props, Player.State> {
 
     this.player = node ? new Plyr(node, options) : null;
 
-    if (this.player) {
+    if (!this.player) return;
+
       const {
         autoplay,
 
@@ -320,7 +326,6 @@ class Player extends React.Component<Player.Props, Player.State> {
         // eslint-disable-next-line no-unused-expressions
         onCaptionsDisabled && onCaptionsDisabled();
       });
-    }
   }
 
 
@@ -643,32 +648,33 @@ Audio example:
 
     console.log('tracks', tracks);
 
-    for (let i = 0; i < tracks.length; i += 1) {
-      const {
-        kind = 'captions',
-        label,
-        src,
-        srcLang,
-        // @ts-ignore
-        default: def,
-        ...attributes
-      } = tracks[i];
-
-      captionsMap.push(
-        <track
-          key={i}
-          kind={kind}
-          label={label}
-          src={src}
-          srcLang={srcLang}
-          default={def}
-          {...attributes}
+    if (tracks && tracks.length) {
+      for (let i = 0; i < tracks.length; i += 1) {
+        const {
+          kind = 'captions',
+          label,
+          src,
+          srcLang,
           // @ts-ignore
-          ref={this.elementRef}
-        />,
-      );
-    }
+          default: def,
+          ...attributes
+        } = tracks[i];
 
+        captionsMap.push(
+          <track
+            key={i}
+            kind={kind}
+            label={label}
+            src={src}
+            srcLang={srcLang}
+            default={def}
+            {...attributes}
+            // @ts-ignore
+            ref={this.elementRef}
+          />,
+        );
+      }
+  }
     return captionsMap;
   }
 
@@ -685,12 +691,14 @@ Audio example:
 
     console.log('sources', sources);
 
-    for (let i = 0; i < sources.length; i += 1) {
-      const { src = '', type = '', size = 0 } = sources[i];
-      sourcesVideo.push(
-        // @ts-ignore
-        <source key={i} src={src} type={type} size={size} />,
-      );
+    if (sources && sources.length) {
+      for (let i = 0; i < sources.length; i += 1) {
+        const {src = '', type = '', size = 0} = sources[i];
+        sourcesVideo.push(
+          // @ts-ignore
+          <source key={i} src={src} type={type} size={size}/>,
+        );
+      }
     }
 
     return sourcesVideo;
@@ -786,9 +794,11 @@ Audio example:
   ) {
     const audioSource = [];
 
-    for (let i = 0; i < sources.length; i += 1) {
-      const { src = '', type = '' } = sources[i];
-      audioSource.push(<source key={i} src={src} type={type} />);
+    if (sources && sources.length) {
+      for (let i = 0; i < sources.length; i += 1) {
+        const {src = '', type = ''} = sources[i];
+        audioSource.push(<source key={i} src={src} type={type}/>);
+      }
     }
 
     return audioSource;
