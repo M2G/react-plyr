@@ -54,7 +54,7 @@ const {
 function pick(object = {}, keys = []) {
   const obj = {};
 
-  if (keys && keys.length) {
+  if (keys?.length) {
     for (let i = 0; i < keys.length; i += 1) {
       // eslint-disable-next-line no-prototype-builtins
       if (!isEmptyObject(object) && object.hasOwnProperty(keys[i])) {
@@ -72,7 +72,7 @@ function difference(arrays: any[] | string[][]) {
   const obj = {};
   let match;
 
-  if (arrays && arrays.length) {
+  if (arrays?.length) {
     for (let i = 0; i < arrays.length; i += 1) {
       obj[i] = arrays[i];
     }
@@ -648,7 +648,7 @@ Audio example:
 
     console.log('tracks', tracks);
 
-    if (tracks && tracks.length) {
+    if (tracks?.length) {
       for (let i = 0; i < tracks.length; i += 1) {
         const {
           kind = 'captions',
@@ -691,7 +691,7 @@ Audio example:
 
     console.log('sources', sources);
 
-    if (sources && sources.length) {
+    if (sources?.length) {
       for (let i = 0; i < sources.length; i += 1) {
         const {src = '', type = '', size = 0} = sources[i];
         sourcesVideo.push(
@@ -742,7 +742,7 @@ Audio example:
      });
      */
 
-    if (sources && sources.length) {
+    if (sources?.length) {
       return (
         <video
           preload={preload}
@@ -794,7 +794,7 @@ Audio example:
   ) {
     const audioSource = [];
 
-    if (sources && sources.length) {
+    if (sources?.length) {
       for (let i = 0; i < sources.length; i += 1) {
         const {src = '', type = ''} = sources[i];
         audioSource.push(<source key={i} src={src} type={type}/>);
@@ -806,7 +806,7 @@ Audio example:
 
   renderAudioPlayer = () => {
     const { sources = [], url, preload, ...rest } = this.props;
-    if (sources && sources.length) {
+    if (sources?.length) {
       return (
         // @ts-ignore
         <audio preload={preload} ref={this.elementRef} {...rest}>
