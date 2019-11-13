@@ -1,4 +1,3 @@
-/* eslint-disable */
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -56,10 +55,7 @@ function pick(object = {}, keys = []) {
 
   if (keys?.length) {
     for (let i = 0; i < keys.length; i += 1) {
-      // eslint-disable-next-line no-prototype-builtins
-      if (!isEmptyObject(object) && object.hasOwnProperty(keys[i])) {
         obj[keys[i]] = object[keys[i]];
-      }
     }
   }
 
@@ -188,11 +184,9 @@ class Player extends React.Component<Player.Props, Player.State> {
 
   static getDerivedStateFromProps(
     {
-      // @ts-ignore
       muted: mutedNextProps
     },
     {
-      // @ts-ignore
       muted: mutedPrevSate
     },
   ) {
@@ -204,7 +198,7 @@ class Player extends React.Component<Player.Props, Player.State> {
     return null;
   }
 
-  componentDidMount() {
+  public componentDidMount() {
 
   const defaultOptions = {
       ...defaultProps,
@@ -328,10 +322,7 @@ class Player extends React.Component<Player.Props, Player.State> {
       });
   }
 
-
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  // @ts-ignore
-  componentDidUpdate({ muted: prevPropsMuted, url: prevPropsUrl }) {
+  public componentDidUpdate({ muted: prevPropsMuted, url: prevPropsUrl }) {
     const {
       muted,
       url,
@@ -360,8 +351,8 @@ class Player extends React.Component<Player.Props, Player.State> {
     }
   }
 
-  componentWillUnmount() {
-    this.player && this.player.destroy();
+  public componentWillUnmount() {
+    this.player?.destroy();
   }
 
   /*
@@ -705,7 +696,7 @@ Audio example:
   }
 
   // For video support for source defined as link to those video files.
-  renderPlayerWithSRC = () => {
+  private renderPlayerWithSRC = () => {
     const {
       sources = [],
       tracks = [],
@@ -804,12 +795,15 @@ Audio example:
     return audioSource;
   }
 
-  renderAudioPlayer = () => {
+  private renderAudioPlayer = () => {
     const { sources = [], url, preload, ...rest } = this.props;
     if (sources?.length) {
       return (
-        // @ts-ignore
-        <audio preload={preload} ref={this.elementRef} {...rest}>
+        <audio
+          preload={preload}
+          ref={this.elementRef}
+          {...rest}
+        >
           {/*
           sources.map((source, index) => (
             <source key={index} src={source.src} type={source.type} />
