@@ -1,25 +1,25 @@
 // @see https://github.com/facebook/create-react-app/issues/5367
-/*const setupProxy = require('http-proxy-middleware');
+const setupProxy = require('http-proxy-middleware');
 
 function apiURL() {
   const baseURL = process.env.API_URL;
   if (baseURL && baseURL !== "")
-    return baseURL
+    return baseURL;
 
   switch (process.env.NODE_ENV) {
     case 'development':
-       return 'https://management-stg.api.soundcast.fm';
+       return 'https://reqres.in/api';
     case 'production':
-      return 'https://management.api.soundcast.fm';
+      return 'https://reqres.in/api';
     default:
-      return 'https://management-stg.api.soundcast.fm';
+      return 'https://reqres.in/api';
   }
 }
 
 module.exports = app => {
   app.use(
-    setupProxy("/", {
-      target: "https://cdn.plyr.io",
+    setupProxy("/rest", {
+      target: apiURL(),
       changeOrigin: true,
       onProxyReq(proxyReq) {
         if (proxyReq.getHeader("origin")) {
@@ -27,20 +27,22 @@ module.exports = app => {
         }
       },
       secure: false,
-      pathRewrite: { "^/": "" },
+      pathRewrite: { "^/rest": "" },
       logLevel: "debug",
     })
   );
-  /*process.env.NODE_ENV === 'development' ?
+  // ANOTHER SERVICE
+  /*
   app.use(
-    setupProxy("/vastCreation-staging", {
-      target: "https://europe-west1-soundcast-207722.cloudfunctions.net",
+    setupProxy("/ENDPOINT", {
+      target: "https://URL",
       changeOrigin: true,
       onProxyReq(proxyReq) {
-        proxyReq.setHeader("origin", "https://europe-west1-soundcast-207722.cloudfunctions.net")
+        proxyReq.setHeader("origin", "https://URL")
       },
       secure: false,
       logLevel: "debug",
     })
-  ) : ''
+  )
 };*/
+};

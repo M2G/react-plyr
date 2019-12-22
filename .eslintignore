@@ -1,3 +1,5 @@
-node_modules
-dist
-build
+/node_modules
+/dist
+/build
+/src/serviceWorker.ts
+/src/Player/defaultProps.ts

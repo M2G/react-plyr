@@ -14,8 +14,10 @@ const defaults = {
   // Only allow one media playing at once (vimeo only)
   autopause: true,
 
-  // Allow inline playback on iOS (this effects YouTube/Vimeo - HTML5 requires the attribute present)
-  // TODO: Remove iosNative fullscreen option in favour of this (logic needs work)
+  /*
+   * Allow inline playback on iOS (this effects YouTube/Vimeo - HTML5 requires the attribute present)
+   * TODO: Remove iosNative fullscreen option in favour of this (logic needs work)
+   */
   playsinline: true,
 
   // Default time to skip when rewind/fast forward
@@ -28,8 +30,10 @@ const defaults = {
   // Pass a custom duration
   duration: null,
 
-  // Display the media duration on load in the current time position
-  // If you have opted to display both duration and currentTime, this is ignored
+  /*
+   * Display the media duration on load in the current time position
+   * If you have opted to display both duration and currentTime, this is ignored
+   */
   displayDuration: true,
 
   // Invert the current time to be a countdown
@@ -40,7 +44,7 @@ const defaults = {
 
   // Aspect ratio (for embeds)
   ratio: '16:9',
-
+  PAUSE: 'pause',
   // Click video container to play/pause
   clickToPlay: true,
 
@@ -70,8 +74,11 @@ const defaults = {
   // Set loops
   loop: {
     active: false,
-    // start: null,
-    // end: null,
+
+    /*
+     * start: null,
+     * end: null,
+     */
   },
 
   // Speed default and options to display
@@ -96,8 +103,11 @@ const defaults = {
   captions: {
     active: false,
     language: 'auto',
-    // Listen to new tracks added after Plyr is initialized.
-    // This is needed for streaming captions, but may result in unselectable options
+
+    /*
+     * Listen to new tracks added after Plyr is initialized.
+     * This is needed for streaming captions, but may result in unselectable options
+     */
     update: false,
   },
 
@@ -117,8 +127,11 @@ const defaults = {
   // Default controls
   controls: [
     'play-large',
-    // 'restart',
-    // 'rewind',
+
+    /*
+     * 'restart',
+     * 'rewind',
+     */
     'play',
     // 'fast-forward',
     'progress',
@@ -183,6 +196,19 @@ const defaults = {
   // URLs
   urls: {
     download: null,
+    vimeo: {
+      sdk: 'https://player.vimeo.com/api/player.js',
+      iframe: 'https://player.vimeo.com/video/{0}?{1}',
+      api: 'https://vimeo.com/api/v2/video/{0}.json',
+    },
+    youtube: {
+      sdk: 'https://www.youtube.com/iframe_api',
+      api:
+        'https://www.googleapis.com/youtube/v3/videos?id={0}&key={1}&fields=items(snippet(title))&part=snippet',
+    },
+    googleIMA: {
+      sdk: 'https://imasdk.googleapis.com/js/sdkloader/ima3.js',
+    },
   },
 
   // Custom control listeners
@@ -208,8 +234,10 @@ const defaults = {
 
   // Events to watch and bubble
   events: [
-    // Events to watch on HTML5 media elements and bubble
-    // https://developer.mozilla.org/en/docs/Web/Guide/Events/Media_events
+    /*
+     * Events to watch on HTML5 media elements and bubble
+     * https://developer.mozilla.org/en/docs/Web/Guide/Events/Media_events
+     */
     'ended',
     'progress',
     'stalled',
@@ -242,12 +270,28 @@ const defaults = {
     'controlsshown',
     'ready',
 
+    // YouTube
+    'statechange',
+
     // Quality
     'qualitychange',
+
+    // Ads
+    'adsloaded',
+    'adscontentpause',
+    'adscontentresume',
+    'adstarted',
+    'adsmidpoint',
+    'adscomplete',
+    'adsallcomplete',
+    'adsimpression',
+    'adsclick',
   ],
 
-  // Selectors
-  // Change these to match your template if using custom HTML
+  /*
+   * Selectors
+   * Change these to match your template if using custom HTML
+   */
   selectors: {
     editable: 'input, textarea, select, [contenteditable]',
     container: '.plyr',
@@ -363,10 +407,43 @@ const defaults = {
     },
   },
 
+  // API keys
+  keys: {
+    google: null,
+  },
+
+  /*
+   * Advertisements plugin
+   * Register for an account here: http://vi.ai/publisher-video-monetization/?aid=plyrio
+   */
+  ads: {
+    enabled: false,
+    publisherId: '',
+    tagUrl: '',
+  },
+
   // Preview Thumbnails plugin
   previewThumbnails: {
     enabled: false,
     src: '',
+  },
+
+  // Vimeo plugin
+  vimeo: {
+    byline: false,
+    portrait: false,
+    title: false,
+    speed: true,
+    transparent: false,
+  },
+
+  // YouTube plugin
+  youtube: {
+    noCookie: false, // Whether to use an alternative version of YouTube without cookies
+    rel: 0, // No related vids
+    showinfo: 0, // Hide info
+    iv_load_policy: 3, // Hide annotations
+    modestbranding: 1, // Hide logos as much as possible (they still show one in the corner when paused)
   },
 };
 

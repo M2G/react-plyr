@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "jsx": "react",
     "module": "esnext",
     "moduleResolution": "node",
     "sourceMap": true,
@@ -12,8 +11,8 @@
     "noImplicitReturns": false,
     "removeComments": true,
     "forceConsistentCasingInFileNames": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
+    "noImplicitThis": false,
+    "noImplicitAny": false,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
@@ -22,22 +21,42 @@
       "es6",
       "es7",
       "dom"
-    ]
+    ],
+    "baseUrl": "./src",
+    "paths": {
+      "@actions*": ["actions*"],
+      "@adapters*": ["adapters*"],
+      "@components*": ["components*"],
+      "@config*": ["config*"],
+      "@constants*": ["constants*"],
+      "@helpers*": ["helpers*"],
+      "@store*": ["store*"],
+      "@stylesheets*": ["stylesheets*"],
+      "@models*": ["models*"],
+      "@actions": ["actions"],
+      "@adapters": ["adapters"],
+      "@components": ["components"],
+      "@config": ["config"],
+      "@constants": ["constants"],
+      "@helpers": ["helpers"],
+      "@store": ["store"],
+      "@stylesheets": ["stylesheets"],
+      "@models": ["models"]
+    },
+    "jsx": "react"
   },
+  "include": [
+    "./src"
+  ],
   "exclude": [
+    "node_modules",
     "dist",
     "build",
     "node_modules",
     "config",
     "webpack",
-    "jest",
-    "src/setupTests.ts"
+    "jest"
   ],
-  "include": [
-    "src",
-    "./src/**/*.ts",
-    "./test/**/*.ts",
-    "./src/**/*.tsx",
-    "./test/**/*.tsx"
-  ]
+  "compileOnSave": false,
+  "buildOnSave": false
 }

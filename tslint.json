@@ -15,12 +15,22 @@
     ]
   },
   "rules": {
-    "no-useless-constructor": "off",
     "eofline": true,
     "jsx-no-lambda": false,
-    "trailing-comma": [true, {"multiline": "never", "singleline": "never"}],
-    "semicolon": [true, "always", "ignore-interfaces"],
-    "whitespace": [true,
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "never",
+        "singleline": "never"
+      }
+    ],
+    "semicolon": [
+      true,
+      "always",
+      "ignore-interfaces"
+    ],
+    "whitespace": [
+      true,
       "check-branch",
       "check-decl",
       "check-operator",
@@ -31,6 +41,6 @@
       "check-typecast",
       "check-type-operator",
       "check-preblock"
-    ]
+    ],
   }
 }

@@ -1,0 +1,76 @@
+Video example:
+
+player.source = {
+    type: 'video',
+    title: 'Example title',
+    sources: [
+        {
+            src: '/path/to/movie.mp4',
+            type: 'video/mp4',
+            size: 720,
+        },
+        {
+            src: '/path/to/movie.webm',
+            type: 'video/webm',
+            size: 1080,
+        },
+    ],
+    poster: '/path/to/poster.jpg',
+    tracks: [
+        {
+            kind: 'captions',
+            label: 'English',
+            srclang: 'en',
+            src: '/path/to/captions.en.vtt',
+            default: true,
+        },
+        {
+            kind: 'captions',
+            label: 'French',
+            srclang: 'fr',
+            src: '/path/to/captions.fr.vtt',
+        },
+    ],
+};
+
+Audio example:
+
+player.source = {
+    type: 'audio',
+    title: 'Example title',
+    sources: [
+        {
+            src: '/path/to/audio.mp3',
+            type: 'audio/mp3',
+        },
+        {
+            src: '/path/to/audio.ogg',
+            type: 'audio/ogg',
+        },
+    ],
+};
+
+YouTube example:
+
+player.source = {
+    type: 'video',
+    sources: [
+        {
+            src: 'bTqVqk7FSmY',
+            provider: 'youtube',
+        },
+    ],
+};
+Note: src can be the video ID or URL
+
+Vimeo example
+
+player.source = {
+    type: 'video',
+    sources: [
+        {
+            src: '143418951',
+            provider: 'vimeo',
+        },
+    ],
+};

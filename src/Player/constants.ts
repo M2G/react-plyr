@@ -1,45 +1,41 @@
 const EVENTS = {
-  READY: 'ready',
-  PLAY: 'play',
-  PAUSE: 'pause',
-  ENDED: 'ended',
-  LOADEDDATA: 'loadeddata',
-  SEEKED: 'seeked',
-  RATECHANGE: 'ratechange',
-  TIMEUPDATE: 'timeupdate',
-  ENTERFULLSCREEN: 'enterfullscreen',
-  EXITFULLSCREEN: 'exitfullscreen',
-  VOLUMECHANGE: 'volumechange',
-  LANGUAGECHANGE: 'languagechange',
+  CAPTIONSDISABLED: 'captionsdisabled',
+  CAPTIONSENABLED: 'captionsenabled',
   CONTROLSHIDDEN: 'controlshidden',
   CONTROLSSHOWN: 'controlsshown',
-  CAPTIONSENABLED: 'captionsenabled',
-  CAPTIONSDISABLED: 'captionsdisabled',
+  ENDED: 'ended',
+  ENTERFULLSCREEN: 'enterfullscreen',
+  EXITFULLSCREEN: 'exitfullscreen',
+  LANGUAGECHANGE: 'languagechange',
+  LOADEDDATA: 'loadeddata',
+  PAUSE: 'pause',
+  PLAY: 'play',
+  RATECHANGE: 'ratechange',
+  READY: 'ready',
+  SEEKED: 'seeked',
+  TIMEUPDATE: 'timeupdate',
+  VOLUMECHANGE: 'volumechange',
 };
 
 const CONSTROLS = {
-  PLAY_LARGE: 'play-large',
-  PLAY: 'play',
-  PROGRESS: 'progress',
-  CURRENT_TIME: 'current-time',
-  MUTE: 'mute',
-  VOLUME: 'volume',
-  CAPTION: 'captions',
-  SETTINGS: 'settings',
-  PIP: 'pip',
   AIRPLAY: 'airplay',
+  CAPTION: 'captions',
+  CURRENT_TIME: 'current-time',
   FULLSCREEN: 'fullscreen',
+  MUTE: 'mute',
+  PIP: 'pip',
+  PLAY: 'play',
+  PLAY_LARGE: 'play-large',
+  PROGRESS: 'progress',
+  SETTINGS: 'settings',
+  VOLUME: 'volume',
 };
 
 const SETTINGS = {
   CAPTIONS: 'captions',
+  LOOP: 'loop',
   QUALITY: 'quality',
   SPEED: 'speed',
-  LOOP:'loop'
 };
 
-export {
-  EVENTS,
-  CONSTROLS,
-  SETTINGS
-};
+export { EVENTS, CONSTROLS, SETTINGS };
