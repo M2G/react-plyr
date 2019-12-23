@@ -92,11 +92,8 @@ const difference = (arrays?: [string[], string[]]) => {
   if (obj?.[0] && obj?.[1]) {
     // eslint-disable-next-line guard-for-in
     for (const key in obj[0]) {
-      console.log(
-        'obj[0].hasOwnProperty(key)',
-        // eslint-disable-next-line no-prototype-builtins
-        obj[0].hasOwnProperty(key),
-      );
+      // eslint-disable-next-line no-prototype-builtins
+      console.log('obj[0].hasOwnProperty(key)', obj[0].hasOwnProperty(key));
       // eslint-disable-next-line no-prototype-builtins
       if (obj[0].hasOwnProperty(key)) {
         matched = contains(obj[0][key], obj[1]);
@@ -118,18 +115,20 @@ export namespace PlayerNameSpace {
     src?: string;
     muted?: boolean;
 
-    source?: {
+    sources?: {
       src: string;
       type: string;
-      sizes: string;
+      size: number;
     }[];
 
-    track?: {
+    tracks?: {
       kind: string;
       label: string;
       srcLang: string;
       src: string;
     }[];
+
+    settings?: string[];
 
     preload?: string;
     poster?: string;
