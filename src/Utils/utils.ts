@@ -1,11 +1,8 @@
-function isEmptyObject(obj: { hasOwnProperty?: any; }) {
-  // eslint-disable-next-line no-restricted-syntax
-  for(const key in obj) {
-    // eslint-disable-next-line no-prototype-builtins
-    if(obj.hasOwnProperty(key))
-      return false;
+const isEmptyObject = (obj: { hasOwnProperty?: any; }) => {
+  for (const key in obj) {
+    if (obj.hasOwnProperty.call(key)) return false;
   }
   return true;
-}
+};
 
 export default isEmptyObject;

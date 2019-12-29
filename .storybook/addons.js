@@ -1,2 +1,3 @@
-//  To add the knobs addon
 import '@storybook/addon-actions/register';
+import '@storybook/addon-links/register';
+import '@storybook/addon-knobs/register';

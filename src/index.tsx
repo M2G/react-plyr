@@ -14,6 +14,3 @@ const render = (Component) => {
 render(App);
 
 unregister();
-
-
-console.log('binks');

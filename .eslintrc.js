@@ -36,28 +36,41 @@ module.exports = {
   },
   plugins: ["react", "@typescript-eslint", "jest", "prettier", "jsx-a11y"],
   rules: {
+    "no-return-assign": 0,
     "no-restricted-syntax": 0,
     "no-cond-assign": 0,
     "no-unused-expressions": 0,
-    "max-statements": 0,
-    "max-lines-per-function": 0,
-    "function-call-argument-newline": 0,
     "no-magic-numbers": 0,
     "no-invalid-this": 0,
     "no-ternary": 0,
     "no-console": 1,
+
+    "max-statements": 0,
+    "max-lines": 0,
+    "max-lines-per-function": 0,
+    "function-call-argument-newline": 0,
+
     "sort-imports": 0,
+
+    "jsx-a11y/media-has-caption": 0,
     "jsx-a11y/rule-name": "off",
-    "react/jsx-filename-extension": [0],
+
     "import/extensions": "off",
-    "react/prop-types": "off",
     "import/no-unresolved": 0,
+
     "lines-between-class-members": "off",
+
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-for-in-array": "warn",
+    "@typescript-eslint/no-empty-function": 0,
+
+    "react/jsx-props-no-spreading": 0,
+    "react/prop-types": "off",
+    "react/boolean-prop-naming": 0, // only for Plyr
     "react/static-property-placement": 0,
+    "react/jsx-filename-extension": [0],
   },
   settings: {
     react:  {

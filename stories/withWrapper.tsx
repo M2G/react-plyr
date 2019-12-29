@@ -1,20 +1,26 @@
-import React, { Component, Fragment } from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 // import { withKnobs, text, number, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
-
-import Plyr from '../../src';
+import ReactPlyr from '../src/ReactPlyr/ReactPlyr';
 
 const stories = storiesOf('React Plyr', module);
 
-class Wrapper extends Component {
+export namespace WrapperNameSpace {
+  export interface State {
+    muted: boolean;
+  }
+}
+
+class Wrapper extends React.Component<WrapperNameSpace.State> {
+  private plyr: any;
   constructor(props) {
     super(props);
 
     this.state = {
       muted: false,
-      playerState: 'isStopped'
+      playerState: 'isStopped',
     };
   }
 
@@ -23,70 +29,75 @@ class Wrapper extends Component {
       case 'isPlaying':
         return '▶️';
       case 'isPaused':
-        return '⏸'
+        return '⏸';
       case 'isStopped':
-        return '⏹'
+        return '⏹';
       default:
         return '⏺';
     }
-  }
+  };
 
   handlePlay = () => {
     this.plyr.play();
     this.setState({ playerState: 'isPlaying' });
-  }
+  };
 
   handleToogle = () => {
     this.plyr.togglePlay();
     this.setState(state => ({
-      playerState: state === 'isPlaying' ? 'isPaused' : 'isPlaying'
+      playerState: state === 'isPlaying' ? 'isPaused' : 'isPlaying',
     }));
-  }
+  };
 
   handlePause = () => {
     this.plyr.pause();
     this.setState({ playerState: 'isPaused' });
-  }
+  };
 
   handleStop = () => {
     this.plyr.stop();
     this.setState({ playerState: 'isStopped' });
-  }
+  };
 
   handleRestart = () => {
     this.plyr.restart();
-  }
+  };
 
   handleRewind = () => {
     this.plyr.rewind();
-  }
+  };
 
   handleForward = () => {
     this.plyr.forward();
-  }
+  };
 
   handleMute = () => {
-    this.setState({ muted: true })
-  }
+    this.setState({ muted: true });
+  };
 
   handleDecreaseVolume = step => {
     this.plyr.decreaseVolume(step);
-  }
+  };
 
   handleIncreaseVolume = step => {
     this.plyr.increaseVolume(step);
-  }
+  };
 
   handleSetFullVolume = amount => {
     this.plyr.setVolume(amount);
-  }
+  };
 
   render() {
+
+    // @ts-ignore
+    const { muted, playerState } = this.state;
+
     return (
-      <Fragment>
-        <Plyr
-          videoId="yGh0bjzj4IQ"
-          muted={this.state.muted}
+      <>
+        <ReactPlyr
+          type="video"
+          url="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
+          muted={muted}
           volume={0.5}
           hideControls={false}
           onReady={action('Is Ready!')}
@@ -98,10 +109,10 @@ class Wrapper extends Component {
           onExitFullscreen={action('Fullscreen is disabled')}
           onVolumeChange={action('Volume changed')}
           onSeeked={action('Seeked!')}
-          ref={plyr => this.plyr = plyr}
+          ref={plyr => (this.plyr = plyr)}
         />
 
-        <hr/>
+        <hr />
 
         <button onClick={this.handleRewind}>️⏪ Rewind</button>
         <button onClick={this.handlePlay}>️▶️ Play</button>
@@ -111,21 +122,29 @@ class Wrapper extends Component {
         <button onClick={this.handleStop}>️⏹ Stop</button>
         <button onClick={this.handleRestart}>️🔄 Restart</button>
 
-        <hr/>
+        <hr />
 
         <button onClick={this.handleMute}>️🔇 Mute</button>
-        <button onClick={() => this.handleDecreaseVolume(0.2)}>️🔉 Decrease volume</button>
-        <button onClick={() => this.handleIncreaseVolume(0.2)}>️🔊 Increase volume</button>
-        <button onClick={() => this.handleSetFullVolume(1)}>️🔊 Set volume to full</button>
+        <button onClick={() => this.handleDecreaseVolume(0.2)}>
+          ️🔉 Decrease volume
+        </button>
+        <button onClick={() => this.handleIncreaseVolume(0.2)}>
+          ️🔊 Increase volume
+        </button>
+        <button onClick={() => this.handleSetFullVolume(1)}>
+          ️🔊 Set volume to full
+        </button>
 
-        <hr/>
+        <hr />
 
-        <h4>State: {this.getState(this.state.playerState)}</h4>
-      </Fragment>
+        <h4>State: {this.getState(playerState)}</h4>
+      </>
     );
   }
 }
 
-export default stories.add('External Controls & State', withInfo()(() =>
-  <Wrapper />
-));
+export default stories.add(
+  'External Controls & State',
+  // @ts-ignore
+  withInfo()(() => <Wrapper />),
+);

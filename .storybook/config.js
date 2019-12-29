@@ -1,4 +1,6 @@
-import { addParameters, configure } from '@storybook/react';
+import { addDecorator, addParameters, configure } from '@storybook/react';
+import { withInfo } from '@storybook/addon-info';
+import { withKnobs } from '@storybook/addon-knobs';
 
 // Option defaults:
 addParameters({
@@ -16,8 +18,14 @@ addParameters({
   },
 });
 
+addDecorator(withInfo({ inline: true, source: false }));
+addDecorator(withKnobs);
+
+const req = require.context('../stories', true, /.stories.tsx$/);
+
 function loadStories() {
-  require('./stories/index.js');
+  req.keys().forEach(req);
 }
 
 configure(loadStories, module);
+

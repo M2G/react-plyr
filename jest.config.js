@@ -29,6 +29,9 @@ module.exports = {
     "json",
     "node"
   ],
+  "testPathIgnorePatterns": [
+    "<rootDir>/(build|node_modules)/"
+  ],
   "testEnvironment": "jest-environment-jsdom-fourteen",
 
   // Setup Enzyme

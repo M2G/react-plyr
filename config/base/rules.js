@@ -42,7 +42,7 @@ const jsLoaderRule = {
 };
 
 const filesLoaderRule = {
-  test: /.(ttf|otf|eot|woff(2)?)(\?[a-z0-9]+)?$/,
+  test: /.(png|jpe?g|gif|ttf|otf|eot|woff(2)?)(\?[a-z0-9]+)?$/,
   use: [{
     loader: 'file-loader',
     options: {

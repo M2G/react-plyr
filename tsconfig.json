@@ -5,6 +5,7 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "allowJs": true,
+    "jsx": "react",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "declaration": false,
@@ -17,11 +18,8 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "outDir": "build",
-    "lib": [
-      "es6",
-      "es7",
-      "dom"
-    ],
+    "lib": ["es5", "es6", "es7", "es2017", "dom"],
+    "rootDirs": ["src", "stories"],
     "baseUrl": "./src",
     "paths": {
       "@actions*": ["actions*"],
@@ -43,10 +41,10 @@
       "@stylesheets": ["stylesheets"],
       "@models": ["models"]
     },
-    "jsx": "react"
   },
   "include": [
-    "./src"
+    "./src",
+    "src/**/*"
   ],
   "exclude": [
     "node_modules",

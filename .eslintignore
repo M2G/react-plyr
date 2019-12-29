@@ -2,4 +2,5 @@
 /dist
 /build
 /src/serviceWorker.ts
-/src/Player/defaultProps.ts
+/src/ReactPlyr/defaultProps.ts
+/src/ReactPlyr/types.ts
