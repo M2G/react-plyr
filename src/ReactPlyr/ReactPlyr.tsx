@@ -53,14 +53,6 @@ const {
 } = SETTINGS;
 
 export namespace PlayerNameSpace {
-  export interface State {
-    muted?: boolean;
-    url?: string;
-    sources: [],
-    tracks: []
-    type: string,
-  }
-
   export interface Props {
     url?: string;
     type: string;
@@ -129,7 +121,7 @@ const difference = (arrays: any[] = []) => arrays
     .filter((value) => !currentValue.includes(value)));
 
 class ReactPlyr extends React.Component
-  <PlayerNameSpace.Props, PlayerNameSpace.State, any> {
+  <PlayerNameSpace.Props> {
   private readonly elementRef;
   private player: any;
   private readonly restProps: any[];
@@ -288,44 +280,12 @@ class ReactPlyr extends React.Component
   constructor(props: Readonly<PlayerNameSpace.Props>) {
     super(props);
 
-    this.state = {
-      muted: false,
-      sources: [],
-      tracks: [],
-      type: '',
-    };
-
     this.restProps = difference([Object.keys(this.props), Object.keys(ReactPlyr.defaultProps)]);
     this.elementRef = React.createRef();
     this.player = null;
   }
 
-  /*
-   *static getDerivedStateFromProps(
-   *{ muted: mutedNextProps }: { muted: boolean },
-   *{ muted: mutedPrevSate }: { muted: boolean },
-   *) {
-   */
-
-
-  static getDerivedStateFromProps(mutedNextProps, mutedPrevSate) {
-    console.log('getDerivedStateFromProps mutedNextProps', mutedNextProps);
-    console.log('getDerivedStateFromProps mutedPrevSate', mutedPrevSate);
-
-    /*
-     *if (mutedNextProps !== mutedPrevSate) {
-     *return {
-     *  muted: mutedNextProps,
-     *};
-     *}
-     */
-
-    // No state update necessary
-    return null;
-  }
-
   public componentDidMount() {
-    const { muted: mutedDState = false } = this.state;
     const defaultOptions = Object.keys(defaultProps).reduce(
       (acc, current) => ({
         ...acc,
@@ -337,14 +297,9 @@ class ReactPlyr extends React.Component
 
     console.log('defaultOptions', defaultOptions);
 
-    const options = {
-      ...defaultOptions,
-      muted: mutedDState,
-    };
-
     const node = this.elementRef.current;
 
-    this.player = node ? new Plyr(node, options) : null;
+    this.player = node ? new Plyr(node, defaultOptions) : null;
 
     if (!this.player) return;
 
@@ -438,70 +393,67 @@ class ReactPlyr extends React.Component
     );
   }
 
-  /*
-   *
-   *public shouldComponentUpdate(
-   *  { url: nextPropsUrl }: Readonly<PlayerNameSpace.Props>,
-   *  { muted: nextStateMuted }: Readonly<PlayerNameSpace.State>,
-   *): any {
-   */
-
-
-  // eslint-disable-next-line class-methods-use-this
-  public shouldComponentUpdate(nextProps: Readonly<PlayerNameSpace.Props>,
-    nextState: Readonly<PlayerNameSpace.State>): any {
-    console.log('shouldComponentUpdate nextStateMuted', nextState);
-    console.log('shouldComponentUpdate nextStateUrl', nextProps);
+  public shouldComponentUpdate(
+    {
+      poster: posterPrevProps, sources: sourcesPrevProps,
+      title: titlePrevProps, tracks: tracksPrevProps, type: typePrevProps,
+      url: urlPrevProps,
+    }: Readonly<PlayerNameSpace.Props>,
+  ): any {
+    console.log('shouldComponentUpdate PrevProps', {
+      posterPrevProps,
+      sourcesPrevProps,
+      titlePrevProps,
+      tracksPrevProps,
+      typePrevProps,
+      urlPrevProps,
+    });
     console.log('shouldComponentUpdate this.props', this.props);
-    console.log('shouldComponentUpdate this.state', this.state);
 
-    // const { muted = false, url = '' } = this.state;
+    const {
+      poster, sources, title, tracks, type, url,
+    } = this.props;
 
-    // return muted !== nextStateMuted || url !== nextPropsUrl;
-
-    return false;
+    return posterPrevProps !== poster
+    || sourcesPrevProps !== sources
+    || titlePrevProps !== title
+    || tracksPrevProps !== tracks
+    || typePrevProps !== type
+    || urlPrevProps !== url;
   }
 
-  /*
-   *
-   *
-   *{
-   *  muted: prevPropsMuted,
-   *  url: prevPropsUrl,
-   *}: Readonly<PlayerNameSpace.Props>) {
-   *
-   */
+  public componentDidUpdate(
+    {
+      poster: posterPrevProps, sources: sourcesPrevProps,
+      title: titlePrevProps, tracks: tracksPrevProps, type: typePrevProps,
+      url: urlPrevProps,
+    }: Readonly<PlayerNameSpace.Props>,
+  ): any {
+    const {
+      poster, sources, title, tracks, type, url,
+    } = this.props;
 
-
-  public componentDidUpdate(prevPropsMuted, prevPropsUrl) {
-
-    /*
-     *  const {
-     *  muted, poster, url, type, title, size, sourceType,
-     *  } = this.props;
-     *
-     *  if (prevPropsMuted !== muted) {
-     *  this.player.muted = muted;
-     *  }
-     */
-
-    console.log('componentDidUpdate prevPropsUrl', prevPropsUrl);
-    console.log('componentDidUpdate prevPropsMuted', prevPropsMuted);
+    console.log('componentDidUpdate PrevProps', {
+      posterPrevProps,
+      sourcesPrevProps,
+      titlePrevProps,
+      tracksPrevProps,
+      typePrevProps,
+      urlPrevProps,
+    });
     console.log('componentDidUpdate this.props', this.props);
-    console.log('componentDidUpdate this.state', this.state);
 
-    /*
-     * if (prevPropsUrl !== url) {
-     * url && this.updateSource({
-     *   poster,
-     *   size,
-     *   sourceType,
-     *   title,
-     *   type,
-     *   url,
-     * });
-     * }
-     */
+
+    if (posterPrevProps !== poster
+      || sourcesPrevProps !== sources
+      || titlePrevProps !== title
+      || tracksPrevProps !== tracks
+      || typePrevProps !== type
+      || urlPrevProps !== url) {
+      this.updateSource({
+        poster, sources, title, tracks, type, url,
+      });
+    }
 
     return null;
   }
@@ -512,17 +464,17 @@ class ReactPlyr extends React.Component
 
   updateSource = ({
     poster = '',
-    size = 0,
     sources = [],
     title = '',
+    tracks = [],
     type = '',
     url = '',
   }) => {
     console.log('updateSource ::::::::::::::::::: ', {
       poster,
-      size,
       sources,
       title,
+      tracks,
       type,
       url,
     });
@@ -531,8 +483,6 @@ class ReactPlyr extends React.Component
       ? {
         sources,
         title,
-        // eslint-disable-next-line max-len
-        // tracks: [{ default: true, kind: 'captions', label: 'English', src: '/path/to/captions.en.vtt', srclang: 'en' }],
         type,
       } : {
         poster,
@@ -611,6 +561,8 @@ class ReactPlyr extends React.Component
     size?: number
   }[] = []) {
     const sourcesVideo: any[] = [];
+
+    console.log('sources', sources);
 
     if (sources?.length) {
       for (let index = 0; index < sources.length; index += 1) {

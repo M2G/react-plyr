@@ -49,28 +49,3 @@ player.source = {
         },
     ],
 };
-
-YouTube example:
-
-player.source = {
-    type: 'video',
-    sources: [
-        {
-            src: 'bTqVqk7FSmY',
-            provider: 'youtube',
-        },
-    ],
-};
-Note: src can be the video ID or URL
-
-Vimeo example
-
-player.source = {
-    type: 'video',
-    sources: [
-        {
-            src: '143418951',
-            provider: 'vimeo',
-        },
-    ],
-};

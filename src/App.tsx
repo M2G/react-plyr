@@ -49,6 +49,7 @@ const App = () => (
             type: 'video/mp4',
           }]
         }
+      title="Kishi Bashi &ndash; &ldquo;It All Began With A Burst&rdquo;"
       // eslint-disable-next-line
       // @ts-ignore
       tracks={

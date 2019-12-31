@@ -8,6 +8,8 @@ const stories = storiesOf('React Plyr', module);
 
 const videos = {
   video1: {
+    muted: true,
+    poster: "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg",
     sources: [{
       size: 576,
       src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4',
@@ -28,6 +30,7 @@ const videos = {
         src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1440p.mp4',
         type: 'video/mp4',
       }],
+    title: "Kishi Bashi &ndash; &ldquo;It All Began With A Burst&rdquo;",
     tracks: [{
       kind: 'captions',
       label: 'English',
@@ -43,6 +46,8 @@ const videos = {
       }],
     type: 'video' },
   video2: {
+    muted: false,
+    poster: "https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg",
     sources: [
       {
         size: 720,
@@ -59,6 +64,7 @@ const videos = {
         src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1440p.mp4',
         type: 'video/mp4',
       }],
+    title: "Kishi Bashi &ndash; &ldquo;It All Began With A Burst&rdquo;",
     tracks: [
       {
         default: true,
@@ -98,8 +104,11 @@ class Wrapper extends React.Component<WrapperNameSpace.State>{
       <>
 
         <ReactPlyr
+          muted={videos[video].muted}
+          poster={videos[video].poster}
           sources={videos[video].sources}
           tracks={videos[video].tracks}
+          title={videos[video].title}
           type={videos[video].type}
           ref={this.elementRef}
         />
