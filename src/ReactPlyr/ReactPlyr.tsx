@@ -460,9 +460,9 @@ class ReactPlyr extends React.Component
 
   updateSource = ({
     poster = '',
-    sources,
+    sources = [],
     title = '',
-    tracks,
+    tracks = [],
     type = '',
     url = '',
   }) => {
@@ -591,8 +591,8 @@ class ReactPlyr extends React.Component
       sources = [],
       tracks = [],
       url = '',
-      preload,
-      poster,
+      preload = '',
+      poster = '',
     } = this.props;
 
     if (sources?.length) {
@@ -625,8 +625,8 @@ class ReactPlyr extends React.Component
   private renderAudioPlayer = () => {
     const {
       sources = [],
-      url,
-      preload,
+      url = '',
+      preload = '',
       ...rest
     } = this.props;
 

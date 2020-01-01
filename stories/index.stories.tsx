@@ -40,24 +40,24 @@ storiesOf('React Plyr', module)
       poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
       sources={[
         {
+          size: 576,
           src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4',
           type: 'video/mp4',
-          size: 576,
         },
         {
+          size: 720,
           src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4',
           type: 'video/mp4',
-          size: 720,
         },
         {
+          size: 1080,
           src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4',
           type: 'video/mp4',
-          size: 1080,
         },
         {
+          size: 1440,
           src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1440p.mp4',
           type: 'video/mp4',
-          size: 1440,
         },
       ]}
       title="View From A Blue Moon"
@@ -92,34 +92,34 @@ storiesOf('React Plyr', module)
       poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
       sources={[
         {
+          size: 576,
           src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4',
           type: 'video/mp4',
-          size: 576,
         },
         {
+          size: 720,
           src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4',
           type: 'video/mp4',
-          size: 720,
         },
         {
+          size: 1080,
           src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4',
           type: 'video/mp4',
-          size: 1080,
         },
       ]}
       tracks={[
         {
+          default: true,
           kind: 'captions',
           label: 'English',
           srcLang: 'en',
           src: './View_From_A_Blue_Moon_Trailer-HD.en.vtt',
-          default: true,
         },
         {
           kind: 'captions',
           label: 'Français',
-          srcLang: 'fr',
           src: './View_From_A_Blue_Moon_Trailer-HD.fr.vtt',
+          srcLang: 'fr',
         },
       ]}
       type="video"
