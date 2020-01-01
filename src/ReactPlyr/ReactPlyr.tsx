@@ -428,7 +428,7 @@ class ReactPlyr extends React.Component
     }: Readonly<PlayerNameSpace.Props>,
   ): void {
     const {
-      poster, sources, title, tracks, type, url,
+      poster = '', sources = [], title = '', tracks = [], type = '', url = '',
     } = this.props;
 
     console.log('componentDidUpdate PrevProps', {
@@ -459,12 +459,12 @@ class ReactPlyr extends React.Component
   }
 
   updateSource = ({
-    poster = '',
-    sources = [],
-    title = '',
-    tracks = [],
-    type = '',
-    url = '',
+    poster,
+    sources,
+    title,
+    tracks,
+    type,
+    url,
   }) => {
     console.log('updateSource ::::::::::::::::::: ', {
       poster,

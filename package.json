@@ -6,13 +6,13 @@
   "private": true,
   "author": "",
   "license": "MIT",
-  "homepage": "https://github.com/xDae/react-plyr",
+  "homepage": "https://github.com/M2G/react-plyr",
   "bugs": {
-    "url": "https://github.com/xDae/react-plyr/issues"
+    "url": "https://github.com/M2G/react-plyr/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/xDae/react-plyr.git"
+    "url": "https://github.com/M2G/react-plyr.git"
   },
   "scripts": {
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
