@@ -6,3 +6,6 @@ test:
 
 build:
 	npm run build
+
+story:
+	npm run storybook

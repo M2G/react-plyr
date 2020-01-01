@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const TSDocgenPlugin = require('react-docgen-typescript-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
@@ -165,7 +164,6 @@ module.exports = async ({ config }) => {
   };
   config.resolve.extensions.push(".ts", ".tsx");
   config.plugins.push(new TSDocgenPlugin());
-  config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
   return config;
 };

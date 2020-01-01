@@ -17,7 +17,7 @@ export namespace WrapperNameSpace {
   }
 }
 
-class Wrapper extends React.Component<WrapperNameSpace.State>{
+class Wrapper extends React.Component<WrapperNameSpace.State> {
    state: { video: string; };
   private elementRef: any;
   public setState: any;
@@ -25,22 +25,21 @@ class Wrapper extends React.Component<WrapperNameSpace.State>{
     super(props);
 
     this.state = {
-      video: 'video1'
+      video: 'video1',
     };
 
     this.elementRef = React.createRef();
   }
 
   render() {
-
     const { video } = this.state;
 
     return (
       <>
         <ReactPlyr
-          url={videos[video].url}
-          type={videos[video].type}
           ref={this.elementRef}
+          type={videos[video].type}
+          url={videos[video].url}
         />
 
         <hr />
@@ -53,7 +52,4 @@ class Wrapper extends React.Component<WrapperNameSpace.State>{
 }
 
 
-export default stories.add('Updating video (/w URL) on the fly', withInfo()(() =>
-  // @ts-ignore
-  <Wrapper />
-));
+export default stories.add('Updating video (/w URL) on the fly', withInfo()(() => <Wrapper />));

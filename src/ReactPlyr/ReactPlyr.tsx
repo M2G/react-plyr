@@ -69,7 +69,6 @@ export namespace PlayerNameSpace {
 
     tracks?: {
       default: boolean,
-      key: any,
       kind: string;
       label: string;
       srcLang: string;
@@ -219,9 +218,9 @@ class ReactPlyr extends React.Component
     ),
     sources: PropTypes.arrayOf(
       PropTypes.shape({
-        size: PropTypes.number,
+        size: PropTypes.number.isRequired,
         src: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
+        type: PropTypes.string,
       }),
     ),
     speed: PropTypes.shape({
@@ -289,10 +288,9 @@ class ReactPlyr extends React.Component
     const defaultOptions = Object.keys(defaultProps).reduce(
       (acc, current) => ({
         ...acc,
-        // eslint-disable-next-line react/destructuring-assignment
+        // eslint-disable-next-line
         [current]: this.props[current],
-      }),
-      {},
+      }), {},
     );
 
     console.log('defaultOptions', defaultOptions);
@@ -399,7 +397,7 @@ class ReactPlyr extends React.Component
       title: titlePrevProps, tracks: tracksPrevProps, type: typePrevProps,
       url: urlPrevProps,
     }: Readonly<PlayerNameSpace.Props>,
-  ): any {
+  ): boolean {
     console.log('shouldComponentUpdate PrevProps', {
       posterPrevProps,
       sourcesPrevProps,
@@ -428,7 +426,7 @@ class ReactPlyr extends React.Component
       title: titlePrevProps, tracks: tracksPrevProps, type: typePrevProps,
       url: urlPrevProps,
     }: Readonly<PlayerNameSpace.Props>,
-  ): any {
+  ): void {
     const {
       poster, sources, title, tracks, type, url,
     } = this.props;
@@ -454,8 +452,6 @@ class ReactPlyr extends React.Component
         poster, sources, title, tracks, type, url,
       });
     }
-
-    return null;
   }
 
   public componentWillUnmount() {
@@ -464,9 +460,9 @@ class ReactPlyr extends React.Component
 
   updateSource = ({
     poster = '',
-    sources = [],
+    sources,
     title = '',
-    tracks = [],
+    tracks,
     type = '',
     url = '',
   }) => {
@@ -478,18 +474,10 @@ class ReactPlyr extends React.Component
       type,
       url,
     });
-    // eslint-disable-next-line multiline-ternary
-    this.player.source = type === AudioType.Audio
-      ? {
-        sources,
-        title,
-        type,
-      } : {
-        poster,
-        sources,
-        title,
-        type,
-      };
+
+    this.player.source = type === AudioType.Audio ? { sources, title, type } : {
+      poster, sources, title, type,
+    };
   };
 
   decreaseVolume = (step: number) => this.player?.decreaseVolume(step);
@@ -518,13 +506,12 @@ class ReactPlyr extends React.Component
   // eslint-disable-next-line react/sort-comp
   private static captionVideo(tracks: {
     default: boolean,
-    key: any,
     kind: string,
     label: string,
     src: string,
     srcLang: string
   }[] = []) {
-    const captionsMap: any[] = [];
+    const captionsMap: {}[] = [];
 
     console.log('tracks', tracks);
 
@@ -560,7 +547,7 @@ class ReactPlyr extends React.Component
     type: string,
     size?: number
   }[] = []) {
-    const sourcesVideo: any[] = [];
+    const sourcesVideo: {}[] = [];
 
     console.log('sources', sources);
 
@@ -570,7 +557,7 @@ class ReactPlyr extends React.Component
         sourcesVideo.push(
           <source
             key={index}
-            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+            // eslint-disable-next-line
             // @ts-ignore
             size={size}
             src={src}
@@ -583,8 +570,11 @@ class ReactPlyr extends React.Component
     return sourcesVideo;
   }
 
-  private static audioSource(sources: any[] = []) {
-    const audioSource: any[] = [];
+  private static audioSource(sources: {
+    src: string,
+    type: string
+  }[] = []) {
+    const audioSource: {}[] = [];
 
     if (sources?.length) {
       for (let index = 0; index < sources.length; index += 1) {
@@ -634,7 +624,10 @@ class ReactPlyr extends React.Component
 
   private renderAudioPlayer = () => {
     const {
-      sources = [], url, preload, ...rest
+      sources = [],
+      url,
+      preload,
+      ...rest
     } = this.props;
 
     console.log('renderAudioPlayer ', this.props);

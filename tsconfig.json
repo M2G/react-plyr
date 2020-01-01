@@ -44,7 +44,7 @@
   },
   "include": [
     "./src",
-    "src/**/*"
+    "./stories"
   ],
   "exclude": [
     "node_modules",
