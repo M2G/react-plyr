@@ -4,7 +4,7 @@ import Plyr from 'plyr';
 import defaultProps from './defaultProps';
 import AudioType from './types';
 import { CONSTROLS, EVENTS, SETTINGS } from './constants';
-// import isEmptyObject from '../Utils/utils';
+import { pick, difference } from '../Utils/utils';
 import 'plyr/src/sass/plyr.scss';
 
 /*
@@ -89,13 +89,13 @@ export namespace PlayerNameSpace {
     onSeeked?: (
       time: number | string | undefined | null,
     ) => void;
-    onRateChange?: (speed: any) => void;
+    onRateChange?: (speed: number) => void;
     onTimeUpdate?: (
       currentTime: number | string | undefined | null,
     ) => void;
     onEnterFullscreen?: () => void;
     onExitFullscreen?: () => void;
-    onVolumeChange?: (p: { volume: any; muted: any }) => void;
+    onVolumeChange?: (p: { volume: number; muted: boolean }) => void;
     onLanguageChange?: (language: any) => void;
     onControlsHidden?: () => void;
     onControlsShown?: () => void;
@@ -103,21 +103,6 @@ export namespace PlayerNameSpace {
     onCaptionsDisabled?: () => void;
   }
 }
-
-const pick = (object: {} = {}, keys :any[] = []) => {
-  const obj :{} = {};
-  if (keys?.length) {
-    for (let index = 0; index < keys.length; index += 1) {
-      if (object && Object.prototype.hasOwnProperty.call(object, keys[index])) {
-        obj[keys[index]] = object[keys[index]];
-      }
-    }
-  }
-  return obj;
-};
-const difference = (arrays: any[] = []) => arrays
-  .reduce((accumulator, currentValue) => accumulator
-    .filter((value) => !currentValue.includes(value)));
 
 class ReactPlyr extends React.Component
   <PlayerNameSpace.Props> {
