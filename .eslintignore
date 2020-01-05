@@ -1,6 +1,7 @@
 /node_modules
 /dist
 /build
+/config
 /src/serviceWorker.ts
 /src/ReactPlyr/defaultProps.ts
 /src/ReactPlyr/types.ts

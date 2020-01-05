@@ -4,16 +4,16 @@ const preLoader = {
   enforce: 'pre',
   test: /\.(js|jsx|ts|tsx)$/,
   use: [
-  {
-    options: {
-      cache: true,
-      eslintPath: require.resolve('eslint'),
-      resolvePluginsRelativeTo: __dirname,
+    {
+      options: {
+        cache: true,
+        eslintPath: require.resolve('eslint'),
+        resolvePluginsRelativeTo: __dirname,
 
+      },
+      loader: require.resolve('eslint-loader'),
     },
-    loader: require.resolve('eslint-loader'),
-  },
-],
+  ],
   include: path.resolve('src')
 };
 
@@ -34,9 +34,17 @@ const jsLoaderRule = {
   test: /\.(js|jsx)$/,
   exclude: /node_modules/,
   use: [{
-    loader: 'babel-loader',
-    query: {
-      cacheDirectory: true
+    loader: require.resolve('babel-loader'),
+    options: {
+      cacheDirectory: true,
+      presets: [
+        "@babel/preset-env",
+        "@babel/preset-react"
+      ],
+      plugins: [
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-syntax-dynamic-import'
+      ]
     }
   }]
 };
@@ -60,13 +68,13 @@ const svgImageLoaderRule = {
 };
 
 const imagesLoaderRule = {
-  test: /\.(png|jpg|gif)$/,
+  test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
   use: [
     {
       loader: 'url-loader',
       query: {
         limit: 10000,
-        name: '[name]-[sha512:hash:base64:7].[ext]',
+        name: 'static/media/[name].[hash:8].[ext]',
         publicPath: '/'
       }
     }

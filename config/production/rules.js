@@ -9,7 +9,6 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 const cssLoaderRule = {
   test: cssRegex,
-  include: /node_modules/,
   use: [
     {
       loader: MiniCssExtractPlugin.loader,
@@ -49,7 +48,6 @@ const cssLoaderRule = {
 
 const cssModuleLoaderRule = {
   test: cssModuleRegex,
-  include: /node_modules/,
   exclude: cssRegex,
   use: [
     {
@@ -91,7 +89,6 @@ const cssModuleLoaderRule = {
 
 const sassLoaderRule = {
   test: sassRegex,
-  include: /node_modules/,
   exclude: sassModuleRegex,
   use: [
   {
@@ -138,7 +135,6 @@ const sassLoaderRule = {
 
 const sassModuleLoaderRule = {
   test: sassRegex,
-  include: /node_modules/,
   use: [
     {
       loader: MiniCssExtractPlugin.loader,

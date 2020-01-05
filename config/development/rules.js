@@ -8,7 +8,7 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 const cssLoaderRule = {
   test: cssRegex,
-  exclude: [/node_modules/, cssModuleRegex],
+  exclude: cssModuleRegex,
   use: [
     {
       loader: require.resolve('style-loader'),
@@ -48,7 +48,6 @@ const cssLoaderRule = {
 
 const cssModuleLoaderRule = {
   test: cssModuleRegex,
-  exclude: /node_modules/,
   use: [
     {
       loader: require.resolve('style-loader'),
@@ -89,7 +88,6 @@ const cssModuleLoaderRule = {
 
 const sassLoaderRule = {
   test: sassRegex,
-  include: /node_modules/,
   exclude: sassModuleRegex,
   use: [
     {
@@ -136,7 +134,6 @@ const sassLoaderRule = {
 
 const sassModuleLoaderRule = {
   test: sassModuleRegex,
-  include: /node_modules/,
   use: [
     {
       loader: require.resolve('style-loader'),

@@ -9,6 +9,7 @@ const pick = (object: {} = {}, keys :any[] = []) => {
   }
   return obj;
 };
+
 const difference = (arrays: any[] = []) => arrays
   .reduce((accumulator, currentValue) => accumulator
     .filter((value) => !currentValue.includes(value)));

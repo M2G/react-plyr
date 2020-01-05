@@ -104,7 +104,7 @@ export namespace PlayerNameSpace {
   }
 }
 
-class ReactPlyr extends React.Component
+class ReactPlyr extends React.PureComponent
   <PlayerNameSpace.Props> {
   private readonly elementRef;
   private player: any;
@@ -270,13 +270,12 @@ class ReactPlyr extends React.Component
   }
 
   public componentDidMount() {
-    const defaultOptions = Object.keys(defaultProps).reduce(
-      (acc, current) => ({
+    const defaultOptions = Object.keys(defaultProps)
+      .reduce((acc, current) => ({
         ...acc,
         // eslint-disable-next-line
         [current]: this.props[current],
-      }), {},
-    );
+      }), {});
 
     console.log('defaultOptions', defaultOptions);
 
@@ -374,35 +373,6 @@ class ReactPlyr extends React.Component
       CAPTIONSDISABLED,
       () => onCaptionsDisabled && onCaptionsDisabled(),
     );
-  }
-
-  public shouldComponentUpdate(
-    {
-      poster: posterPrevProps, sources: sourcesPrevProps,
-      title: titlePrevProps, tracks: tracksPrevProps, type: typePrevProps,
-      url: urlPrevProps,
-    }: Readonly<PlayerNameSpace.Props>,
-  ): boolean {
-    console.log('shouldComponentUpdate PrevProps', {
-      posterPrevProps,
-      sourcesPrevProps,
-      titlePrevProps,
-      tracksPrevProps,
-      typePrevProps,
-      urlPrevProps,
-    });
-    console.log('shouldComponentUpdate this.props', this.props);
-
-    const {
-      poster, sources, title, tracks, type, url,
-    } = this.props;
-
-    return posterPrevProps !== poster
-    || sourcesPrevProps !== sources
-    || titlePrevProps !== title
-    || tracksPrevProps !== tracks
-    || typePrevProps !== type
-    || urlPrevProps !== url;
   }
 
   public componentDidUpdate(
