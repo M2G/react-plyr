@@ -263,9 +263,35 @@ class ReactPlyr extends React.PureComponent
     this.restProps = difference([Object.keys(this.props), Object.keys(ReactPlyr.defaultProps)]);
     this.elementRef = React.createRef();
     this.player = null;
+
+    this.decreaseVolume = this.decreaseVolume.bind(this);
+    this.enterFullscreen = this.enterFullscreen.bind(this);
+    this.exitFullscreen = this.exitFullscreen.bind(this);
+    this.forward = this.forward.bind(this);
+    this.getCurrentTime = this.getCurrentTime.bind(this);
+    this.getDuration = this.getDuration.bind(this);
+    this.getType = this.getType.bind(this);
+    this.getVolume = this.getVolume.bind(this);
+    this.increaseVolume = this.increaseVolume.bind(this);
+    this.isMuted = this.isMuted.bind(this);
+    this.isPaused = this.isPaused.bind(this);
+    this.setCurrentTime = this.setCurrentTime.bind(this);
+    this.setMuted = this.setMuted.bind(this);
+    this.setVolume = this.setVolume.bind(this);
+    this.stop = this.stop.bind(this);
+    this.restart = this.restart.bind(this);
+    this.rewind = this.rewind.bind(this);
+    this.togglePlay = this.togglePlay.bind(this);
+    this.play = this.play.bind(this);
+    this.pause = this.pause.bind(this);
+    this.toggleFullscreen = this.toggleFullscreen.bind(this);
+    this.toggleMute = this.toggleMute.bind(this);
+
+    this.renderPlayerWithSRC = this.renderPlayerWithSRC.bind(this);
+    this.renderAudioPlayer = this.renderAudioPlayer.bind(this);
   }
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     const defaultOptions = Object.keys(defaultProps)
       .reduce((acc, current) => ({
         ...acc,
@@ -434,30 +460,29 @@ class ReactPlyr extends React.PureComponent
     };
   };
 
-  decreaseVolume = (step: number) => this.player?.decreaseVolume(step);
-  enterFullscreen = () => this.player?.fullscreen.enter();
-  exitFullscreen = () => this.player?.fullscreen.exit();
-  forward = (time: number) => this.player?.forward(time);
-  getCurrentTime = () => this.player?.currentTime;
-  getDuration = () => this.player?.duration;
-  getType = () => this.player?.source?.type;
-  getVolume = () => this.player?.volume;
-  increaseVolume = (step: number) => this.player?.increaseVolume(step);
-  isMuted = () => this.player?.muted;
-  isPaused = () => this.player?.paused;
-  setCurrentTime = (currentTime: number) => (this.player.currentTime = currentTime);
-  setMuted = (muted = true) => (this.player.muted = muted);
-  setVolume = (amount: number) => (this.player.volume = amount);
-  stop = () => this.player?.stop();
-  restart = () => this.player?.restart();
-  rewind = (time: number) => this.player?.rewind(time);
-  togglePlay = () => this.player?.togglePlay();
-  play = () => this.player?.play();
-  pause = () => this.player?.pause();
-  toggleFullscreen = () => this.player?.fullscreen.toggle();
-  toggleMute = () => this.player?.toggleControls(this.player.muted);
+  decreaseVolume(step: number) { return this.player?.decreaseVolume(step); }
+  enterFullscreen() { return this.player?.fullscreen.enter(); }
+  exitFullscreen() { return this.player?.fullscreen.exit(); }
+  forward(time: number) { return this.player?.forward(time); }
+  getCurrentTime() { return this.player?.currentTime; }
+  getDuration() { return this.player?.duration; }
+  getType() { return this.player?.source?.type; }
+  getVolume() { return this.player?.volume; }
+  increaseVolume(step: number) { return this.player?.increaseVolume(step); }
+  isMuted() { return this.player?.muted; }
+  isPaused() { return this.player?.paused; }
+  setCurrentTime(currentTime: number) { return (this.player.currentTime = currentTime); }
+  setMuted(muted = true) { return (this.player.muted = muted); }
+  setVolume(amount: number) { return (this.player.volume = amount); }
+  stop() { return this.player?.stop(); }
+  restart() { return this.player?.restart(); }
+  rewind(time: number) { return this.player?.rewind(time); }
+  togglePlay() { return this.player?.togglePlay(); }
+  play() { return this.player?.play(); }
+  pause() { return this.player?.pause(); }
+  toggleFullscreen() { return this.player?.fullscreen.toggle(); }
+  toggleMute() { return this.player?.toggleControls(this.player.muted); }
 
-  // eslint-disable-next-line react/sort-comp
   private static captionVideo(tracks: {
     default: boolean,
     kind: string,
@@ -540,7 +565,7 @@ class ReactPlyr extends React.PureComponent
     return audioSource;
   }
 
-  private renderPlayerWithSRC = () => {
+  private renderPlayerWithSRC() {
     const {
       sources = [],
       tracks = [],
@@ -574,9 +599,9 @@ class ReactPlyr extends React.PureComponent
         {ReactPlyr.captionVideo(tracks)}
       </video>
     );
-  };
+  }
 
-  private renderAudioPlayer = () => {
+  private renderAudioPlayer() {
     const {
       sources = [],
       url = '',
@@ -602,7 +627,7 @@ class ReactPlyr extends React.PureComponent
         {...pick(rest, this.restProps)}
       />
     );
-  };
+  }
 
   public render(): React.ReactElement<{}> {
     const { type = '' } = this.props;
