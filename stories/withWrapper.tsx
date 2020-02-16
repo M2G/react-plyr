@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 // import { withKnobs, text, number, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
-import ReactPlyr from '../src/ReactPlyr/ReactPlyr';
+import ReactPlyr from '../src/ReactPlyr';
 
 const stories = storiesOf('React Plyr', module);
 

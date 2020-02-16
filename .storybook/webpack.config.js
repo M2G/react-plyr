@@ -159,8 +159,8 @@ module.exports = async ({ config }) => {
   );
 
   config.resolve.alias = {
-    src: '../src',
-    stories: '../stories',
+    "@utils": path.join(process.cwd(), 'src', 'utils'),
+    "@constants": path.join(process.cwd(), 'src', 'constants'),
   };
   config.resolve.extensions.push(".ts", ".tsx");
   config.plugins.push(new TSDocgenPlugin());

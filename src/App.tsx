@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ReactPlyr from './ReactPlyr/ReactPlyr';
+import ReactPlyr from './ReactPlyr';
 
 /*
  * eslint-disable-next-line func-style

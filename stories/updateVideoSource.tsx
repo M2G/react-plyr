@@ -2,7 +2,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 // import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
-import ReactPlyr from '../src/ReactPlyr/ReactPlyr';
+import ReactPlyr from '../src/ReactPlyr';
 
 const stories = storiesOf('React Plyr', module);
 
@@ -86,7 +86,7 @@ export namespace WrapperNameSpace {
   }
 }
 
-class Wrapper extends React.Component<WrapperNameSpace.State> {
+class Wrapper extends React.PureComponent<WrapperNameSpace.State> {
    state: { video: string; };
   private elementRef: any;
   public setState: any;

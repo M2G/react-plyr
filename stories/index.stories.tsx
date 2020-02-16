@@ -2,7 +2,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 import { action } from '@storybook/addon-actions';
-import ReactPlyr from '../src/ReactPlyr/ReactPlyr';
+import ReactPlyr from '../src/ReactPlyr';
 import './withWrapper';
 import './updateVideoSource';
 import './updateVideoUrl';
@@ -112,8 +112,8 @@ storiesOf('React Plyr', module)
           default: true,
           kind: 'captions',
           label: 'English',
-          srcLang: 'en',
           src: './View_From_A_Blue_Moon_Trailer-HD.en.vtt',
+          srcLang: 'en',
         },
         {
           kind: 'captions',

@@ -13,15 +13,8 @@ module.exports = {
     extensions: ['*', '.js', '.jsx', '.json', '.tsx', '.ts', '.scss'],
     alias: {
       '@': path.join(process.cwd(), 'src'),
-      "@adapters": path.join(process.cwd(), 'src', 'adapters'),
-      "@components": path.join(process.cwd(), 'src', 'components'),
-      "@config": path.join(process.cwd(), 'src', 'config'),
+      "@utils": path.join(process.cwd(), 'src', 'utils'),
       "@constants": path.join(process.cwd(), 'src', 'constants'),
-      "@actions": path.join(process.cwd(), 'src', 'actions'),
-      "@helpers": path.join(process.cwd(), 'src', 'helpers'),
-      "@store": path.join(process.cwd(), 'src', 'store'),
-      "@models": path.join(process.cwd(), 'src', 'models'),
-      "@stylesheets": path.join(process.cwd(), 'src', 'stylesheets'),
     }
   },
   plugins,

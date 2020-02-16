@@ -1,16 +1,11 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import Plyr from 'plyr';
+import { pick, difference } from '@utils';
+import { CONSTROLS, EVENTS, SETTINGS } from '@constants';
 import defaultProps from './defaultProps';
 import AudioType from './types';
-import { CONSTROLS, EVENTS, SETTINGS } from './constants';
-import { pick, difference } from '../Utils/utils';
 import 'plyr/src/sass/plyr.scss';
-
-/*
- * Typescript: Static type check.
- * PropTypes: Runtime type check.
- */
 
 const {
   READY,
@@ -52,7 +47,7 @@ const {
   LOOP,
 } = SETTINGS;
 
-export namespace PlayerNameSpace {
+export namespace PlayerNS {
   export interface Props {
     url?: string;
     type: string;
@@ -80,7 +75,8 @@ export namespace PlayerNameSpace {
     preload?: string;
     poster?: string;
     autoplay: boolean;
-
+  }
+  export interface PropsAction {
     onReady?: (player: Function) => void;
     onPlay?: () => void;
     onPause?: () => void;
@@ -105,7 +101,7 @@ export namespace PlayerNameSpace {
 }
 
 class ReactPlyr extends React.PureComponent
-  <PlayerNameSpace.Props> {
+  <PlayerNS.Props & PlayerNS.PropsAction> {
   private readonly elementRef;
   private player: any;
   private readonly restProps: any[];
@@ -261,7 +257,7 @@ class ReactPlyr extends React.PureComponent
     ...defaultProps,
   };
 
-  constructor(props: Readonly<PlayerNameSpace.Props>) {
+  constructor(props: Readonly<PlayerNS.Props>) {
     super(props);
 
     this.restProps = difference([Object.keys(this.props), Object.keys(ReactPlyr.defaultProps)]);
@@ -313,7 +309,10 @@ class ReactPlyr extends React.PureComponent
     });
 
     const {
-      speed, muted, volume, language,
+      speed,
+      muted,
+      volume,
+      language,
     } = this.player;
 
     this.player.on(
@@ -380,7 +379,7 @@ class ReactPlyr extends React.PureComponent
       poster: posterPrevProps, sources: sourcesPrevProps,
       title: titlePrevProps, tracks: tracksPrevProps, type: typePrevProps,
       url: urlPrevProps,
-    }: Readonly<PlayerNameSpace.Props>,
+    }: Readonly<PlayerNS.Props>,
   ): void {
     const {
       poster = '', sources = [], title = '', tracks = [], type = '', url = '',

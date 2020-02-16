@@ -111,10 +111,10 @@
     "hard-source-webpack-plugin": "^0.13.1"
   },
   "dependencies": {
-    "plyr": "^3.5.6",
+    "@types/prop-types": "^15.7.3",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
-    "@types/prop-types": "^15.7.3",
+    "plyr": "^3.5.10",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
