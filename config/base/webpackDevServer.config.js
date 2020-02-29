@@ -1,29 +1,30 @@
+const paths = require('./paths');
+const fs = require('fs');
+
+const overlay = process.env.NODE_ENV === 'development' ? { warnings: false, errors: true } : false;
+
 module.exports = {
   devServer: {
     stats: {
       children: false,
-      maxModules: 0
+      maxModules: 0,
     },
     hot: true,
     inline: true,
     open: true,
     clientLogLevel: 'none',
-    overlay: {
-      warnings: false,
-      errors: true
-    },
-    contentBase: './public/',
+    overlay: overlay,
+    publicPath: '/',
+    contentBase: paths.appPublic,
     watchContentBase: true,
-    port: 8484,
+    port: 8585,
     historyApiFallback: {
       disableDotRule: true,
     },
     before(app, server) {
-      console.log('app', app)
-      // if (fs.existsSync(paths.proxySetup)) {
-      // This registers user provided middleware for proxy reasons
-      // require(paths.proxySetup)(app);
-      // }
-    }
-  }
+      if (fs.existsSync(paths.proxySetup)) {
+        require(paths.proxySetup)(app);
+      }
+    },
+  },
 };

@@ -1,17 +1,47 @@
 const TerserPlugin            = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const safePostCssParser       = require('postcss-safe-parser');
+const path                    = require('path');
 const baseConfig              = require('../base/webpack.config');
 const output                  = require('./output');
 const plugins                 = require('./plugins');
 const rules                   = require('./rules');
 
 module.exports = Object.assign({}, baseConfig, {
-  mode: 'staging',
+  mode: 'production',
   bail: true,
   output,
   module: {
     rules
+  },
+  resolve: {
+    modules: [
+      path.resolve(__dirname, '../../src'),
+      'node_modules'
+    ],
+    extensions: ['*', '.js', '.jsx', '.json', '.tsx', '.ts', '.scss'],
+    alias: {
+      "@Icon": path.join(process.cwd(), 'src', 'Icon'),
+      "@Alert": path.join(process.cwd(), 'src', 'Alert'),
+      "@Hint": path.join(process.cwd(), 'src', 'Hint'),
+      "@Portal": path.join(process.cwd(), 'src', 'Portal'),
+      'react': path.resolve(__dirname, './node_modules/react'),
+      'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
+    }
+  },
+  externals: {
+    react: {
+      commonjs: "react",
+      commonjs2: "react",
+      amd: "React",
+      root: "React"
+    },
+    "react-dom": {
+      commonjs: "react-dom",
+      commonjs2: "react-dom",
+      amd: "ReactDOM",
+      root: "ReactDOM"
+    }
   },
   optimization: {
     minimize: true,
@@ -21,16 +51,9 @@ module.exports = Object.assign({}, baseConfig, {
           parse: {
             ecma: 8,
           },
-          compress: {
-            ecma: 5,
-            warnings: false,
-            comparisons: false,
-            inline: 2,
-          },
           mangle: {
             safari10: true,
           },
-          // Added for profiling in devtools
           keep_classnames: true,
           keep_fnames: true,
           output: {
@@ -39,30 +62,20 @@ module.exports = Object.assign({}, baseConfig, {
             ascii_only: true,
           },
         },
-        sourceMap: true,
+        parallel: true,
+        cache: true,
+        sourceMap: false,
       }),
       new OptimizeCSSAssetsPlugin({
-        cssProcessor: require('cssnano'),
-        cssProcessorPluginOptions: {
-          preset: ['default', { discardComments: { removeAll: true } }],
-        },
         cssProcessorOptions: {
           parser: safePostCssParser,
           map: {
-            inline: false,
-            annotation: true,
-          },
+              inline: false,
+              annotation: true,
+            },
         },
-        canPrint: true
       }),
     ],
-    splitChunks: {
-      chunks: 'all',
-      name: false,
-    },
-    runtimeChunk: {
-      name: entrypoint => `runtime-${entrypoint.name}`,
-    },
   },
   plugins
 });

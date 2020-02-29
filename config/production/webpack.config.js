@@ -21,9 +21,16 @@ module.exports = Object.assign({}, baseConfig, {
           parse: {
             ecma: 8,
           },
+          compress: {
+            ecma: 5,
+            warnings: false,
+            comparisons: false,
+            inline: 2,
+          },
           mangle: {
             safari10: true,
           },
+          // Added for profiling in devtools
           keep_classnames: true,
           keep_fnames: true,
           output: {
@@ -32,18 +39,21 @@ module.exports = Object.assign({}, baseConfig, {
             ascii_only: true,
           },
         },
-        parallel: true,
-        cache: true,
-        sourceMap: false,
+        sourceMap: true,
       }),
       new OptimizeCSSAssetsPlugin({
+        cssProcessor: require('cssnano'),
+        cssProcessorPluginOptions: {
+          preset: ['default', { discardComments: { removeAll: true } }],
+        },
         cssProcessorOptions: {
           parser: safePostCssParser,
           map: {
-              inline: false,
-              annotation: true,
-            },
+            inline: false,
+            annotation: true,
+          },
         },
+        canPrint: true
       }),
     ],
     splitChunks: {

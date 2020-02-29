@@ -1,5 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
+const path = require('path');
 const rules = require('../base/rules');
 
 const cssRegex = /\.css$/;
@@ -9,17 +10,24 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 const cssLoaderRule = {
   test: cssRegex,
+  exclude: cssModuleRegex,
   use: [
     {
       loader: MiniCssExtractPlugin.loader,
-      options: { publicPath: '../../../' },
+      options: {
+        publicPath: (resourcePath, context) => {
+          return (
+            path.relative(path.dirname(resourcePath), context) + '/'
+          );
+        },
+      },
     },
     {
       loader: require.resolve('css-loader'),
       options: {
         importLoaders: 1,
-        sourceMap: true
-      }
+        sourceMap: true,
+      },
     },
     {
       loader: require.resolve('postcss-loader'),
@@ -34,33 +42,36 @@ const cssLoaderRule = {
             stage: 3,
           }),
           autoprefixer({
-            browsers: [
-              "> 1%",
-              "last 2 versions"
-            ]
-          })
+            browsers: ['> 1%', 'last 2 versions'],
+          }),
         ],
         sourceMap: true,
       },
-    }],
-  sideEffects: true
+    },
+  ],
+  sideEffects: true,
 };
 
 const cssModuleLoaderRule = {
   test: cssModuleRegex,
-  exclude: cssRegex,
   use: [
     {
       loader: MiniCssExtractPlugin.loader,
-      options: { publicPath: '../../../' },
+      options: {
+        publicPath: (resourcePath, context) => {
+          return (
+            path.relative(path.dirname(resourcePath), context) + '/'
+          );
+        },
+      },
     },
     {
       loader: require.resolve('css-loader'),
       options: {
         importLoaders: 1,
         sourceMap: true,
-        modules: true
-      }
+        modules: true,
+      },
     },
     {
       loader: require.resolve('postcss-loader'),
@@ -75,16 +86,13 @@ const cssModuleLoaderRule = {
             stage: 3,
           }),
           autoprefixer({
-            browsers: [
-              "> 1%",
-              "last 2 versions"
-            ]
-          })
+            browsers: ['> 1%', 'last 2 versions'],
+          }),
         ],
         sourceMap: true,
       },
-    }],
-  sideEffects: true
+    },
+  ],
 };
 
 const sassLoaderRule = {
@@ -93,14 +101,20 @@ const sassLoaderRule = {
   use: [
     {
       loader: MiniCssExtractPlugin.loader,
-      options: { publicPath: '../../../' },
+      options: {
+        publicPath: (resourcePath, context) => {
+          return (
+            path.relative(path.dirname(resourcePath), context) + '/'
+          );
+        },
+      },
     },
     {
       loader: require.resolve('css-loader'),
       options: {
         importLoaders: 2,
-        sourceMap: true
-      }
+        sourceMap: true,
+      },
     },
     {
       loader: require.resolve('postcss-loader'),
@@ -129,24 +143,31 @@ const sassLoaderRule = {
       options: {
         sourceMap: true,
       },
-    }],
+    },
+  ],
   sideEffects: true,
 };
 
 const sassModuleLoaderRule = {
-  test: sassRegex,
+  test: sassModuleRegex,
   use: [
     {
       loader: MiniCssExtractPlugin.loader,
-      options: { publicPath: '../../../' },
+      options: {
+        publicPath: (resourcePath, context) => {
+          return (
+            path.relative(path.dirname(resourcePath), context) + '/'
+          );
+        },
+      },
     },
     {
       loader: require.resolve('css-loader'),
       options: {
         importLoaders: 2,
         sourceMap: true,
-        modules: true
-      }
+        modules: true,
+      },
     },
     {
       loader: require.resolve('postcss-loader'),
@@ -170,13 +191,14 @@ const sassModuleLoaderRule = {
         sourceMap: true,
       },
     },
+
     {
       loader: require.resolve('sass-loader'),
       options: {
         sourceMap: true,
       },
-    }],
-  sideEffects: true,
+    },
+  ],
 };
 
 rules.push(

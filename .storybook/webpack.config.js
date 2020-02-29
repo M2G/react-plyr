@@ -1,4 +1,5 @@
 const path = require('path');
+const paths = require('../config/base/paths');
 const autoprefixer = require('autoprefixer');
 const TSDocgenPlugin = require('react-docgen-typescript-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
@@ -84,13 +85,51 @@ module.exports = async ({ config }) => {
         },
       },
     ],
-    sideEffects: false,
+    sideEffects: true,
+  });
+
+  config.module.rules.push({
+    test: cssModuleRegex,
+    use: [
+      {
+        loader: require.resolve('style-loader'),
+      },
+      {
+        loader: require.resolve('css-loader'),
+        options: {
+          importLoaders: 1,
+          sourceMap: false,
+          modules: true
+        },
+      },
+      {
+        loader: require.resolve('postcss-loader'),
+        options: {
+          ident: 'postcss',
+          plugins: () => [
+            require('postcss-flexbugs-fixes'),
+            require('postcss-preset-env')({
+              autoprefixer: {
+                flexbox: 'no-2009',
+              },
+              stage: 3,
+            }),
+            autoprefixer({
+              browsers: [
+                "> 1%",
+                "last 2 versions"
+              ]
+            })
+          ],
+          sourceMap: false,
+        },
+      },
+    ],
   });
 
   config.module.rules.push({
     test: sassRegex,
-    include: /node_modules/,
-    exclude: sassModuleRegex,
+    exclude: [/node_modules/, sassModuleRegex],
     use: [
       {
         loader: require.resolve('style-loader'),
@@ -135,6 +174,52 @@ module.exports = async ({ config }) => {
   });
 
   config.module.rules.push({
+    test: sassModuleRegex,
+    test: sassModuleRegex,
+    use: [
+      {
+        loader: require.resolve('style-loader'),
+      },
+      {
+        loader: require.resolve('css-loader'),
+        options: {
+          importLoaders: 2,
+          sourceMap: true,
+          modules: true
+        },
+      },
+      {
+        loader: require.resolve('postcss-loader'),
+        options: {
+          ident: 'postcss',
+          plugins: () => [
+            require('postcss-flexbugs-fixes'),
+            require('postcss-preset-env')({
+              autoprefixer: {
+                flexbox: 'no-2009',
+              },
+              stage: 3,
+            }),
+          ],
+          sourceMap: true,
+        },
+      },
+      {
+        loader: require.resolve('resolve-url-loader'),
+        options: {
+          sourceMap: true,
+        },
+      },
+      {
+        loader: require.resolve('sass-loader'),
+        options: {
+          sourceMap: true,
+        },
+      },
+    ],
+  });
+
+  config.module.rules.push({
     test: /.(ttf|otf|eot|woff(2)?)(\?[a-z0-9]+)?$/,
     use: [{
       loader: 'file-loader',
@@ -159,11 +244,16 @@ module.exports = async ({ config }) => {
   );
 
   config.resolve.alias = {
-    "@utils": path.join(process.cwd(), 'src', 'utils'),
-    "@constants": path.join(process.cwd(), 'src', 'constants'),
+    "@Icon": path.join(process.cwd(), 'src', 'Icon'),
+    "@Alert": path.join(process.cwd(), 'src', 'Alert'),
+    "@Hint": path.join(process.cwd(), 'src', 'Hint'),
+    "@Portal": path.join(process.cwd(), 'src', 'Portal'),
+    "@Layout": path.join(process.cwd(), 'src', 'Layout'),
+    "@Toggle": path.join(process.cwd(), 'src', 'Toggle'),
+    "@Dropdown": path.join(process.cwd(), 'src', 'Dropdown'),
   };
   config.resolve.extensions.push(".ts", ".tsx");
-  config.plugins.push(new TSDocgenPlugin());
+  // config.plugins.push(new TSDocgenPlugin());
 
   return config;
 };

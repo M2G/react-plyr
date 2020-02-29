@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DotenvPlugin = require('webpack-dotenv-plugin');
 const plugins = require('../base/plugins');
+const paths = require('../base/paths');
 const pkg = require('../../package.json');
 
 plugins.push(
@@ -19,7 +20,7 @@ plugins.push(
   new HtmlWebpackPlugin({
     title: pkg.name,
     inject: true,
-    template: path.resolve('public/index.ejs'),
+    template: paths.appHtml,
   }),
   new MiniCssExtractPlugin({
     filename: '[name].[hash].css',

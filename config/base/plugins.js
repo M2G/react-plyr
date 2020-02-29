@@ -1,18 +1,11 @@
 const webpack = require('webpack');
 const resolve = require('resolve');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const publicPath = '/';
 
 const plugins = [
-  new CleanWebpackPlugin(),
-  new CopyWebpackPlugin([{
-    from: 'public/assets',
-    to: 'build/assets'
-  }]),
   new ManifestPlugin({
     fileName: 'manifest.json',
     publicPath: publicPath,

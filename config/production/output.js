@@ -1,7 +1,7 @@
-const path = require('path');
+const paths = require('../base/paths');
 const output = require('../base/output');
 
-output.path = path.resolve(process.cwd(), 'build');
+output.path = paths.appBuild;
 output.filename = 'static/js/[name].[contenthash:8].js';
 output.chunkFilename = 'static/js/[name].[contenthash:8].chunk.js';
 

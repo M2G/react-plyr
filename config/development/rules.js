@@ -43,7 +43,7 @@ const cssLoaderRule = {
       },
     },
   ],
-  sideEffects: false,
+  sideEffects: true,
 };
 
 const cssModuleLoaderRule = {
@@ -83,7 +83,6 @@ const cssModuleLoaderRule = {
       },
     },
   ],
-  sideEffects: true,
 };
 
 const sassLoaderRule = {
@@ -175,7 +174,6 @@ const sassModuleLoaderRule = {
       },
     },
   ],
-  sideEffects: true,
 };
 
 rules.push(

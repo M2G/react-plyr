@@ -205,7 +205,7 @@ rules.push(
   cssLoaderRule,
   cssModuleLoaderRule,
   sassLoaderRule,
-  sassModuleLoaderRule
+  sassModuleLoaderRule,
 );
 
 module.exports = rules;

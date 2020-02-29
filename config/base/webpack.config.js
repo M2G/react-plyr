@@ -12,9 +12,13 @@ module.exports = {
     ],
     extensions: ['*', '.js', '.jsx', '.json', '.tsx', '.ts', '.scss'],
     alias: {
-      '@': path.join(process.cwd(), 'src'),
-      "@utils": path.join(process.cwd(), 'src', 'utils'),
-      "@constants": path.join(process.cwd(), 'src', 'constants'),
+      "@Icon": path.join(process.cwd(), 'src', 'Icon'),
+      "@Alert": path.join(process.cwd(), 'src', 'Alert'),
+      "@Hint": path.join(process.cwd(), 'src', 'Hint'),
+      "@Portal": path.join(process.cwd(), 'src', 'Portal'),
+      "@Layout": path.join(process.cwd(), 'src', 'Layout'),
+      "@Toggle": path.join(process.cwd(), 'src', 'Toggle'),
+      "@Dropdown": path.join(process.cwd(), 'src', 'Dropdown'),
     }
   },
   plugins,
