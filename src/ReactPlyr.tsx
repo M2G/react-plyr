@@ -63,7 +63,7 @@ export namespace PlayerNS {
     }[];
 
     tracks?: {
-      default: boolean,
+      default: boolean;
       kind: string;
       label: string;
       srcLang: string;
@@ -257,7 +257,7 @@ class ReactPlyr extends React.PureComponent
     ...defaultProps,
   };
 
-  constructor(props: Readonly<PlayerNS.Props>) {
+  public constructor (props: Readonly<PlayerNS.Props>) {
     super(props);
 
     this.restProps = difference([Object.keys(this.props), Object.keys(ReactPlyr.defaultProps)]);
@@ -289,9 +289,10 @@ class ReactPlyr extends React.PureComponent
 
     this.renderPlayerWithSRC = this.renderPlayerWithSRC.bind(this);
     this.renderAudioPlayer = this.renderAudioPlayer.bind(this);
+    this.updateSource = this.updateSource.bind(this);
   }
 
-  public componentDidMount(): void {
+  public componentDidMount (): void {
     const defaultOptions = Object.keys(defaultProps)
       .reduce((acc, current) => ({
         ...acc,
@@ -328,7 +329,7 @@ class ReactPlyr extends React.PureComponent
     } = this.props;
 
     this.player.on(READY, () => {
-      onReady && onReady(this.player);
+      onReady?.(this.player);
       if (autoplay) {
         this.player?.play();
       }
@@ -342,65 +343,65 @@ class ReactPlyr extends React.PureComponent
     } = this.player;
 
     this.player.on(
-      EVENTPLAY, () => onPlay && onPlay(),
+      EVENTPLAY, () => onPlay?.(),
     );
     this.player.on(
-      PAUSE, () => onPause && onPause(),
+      PAUSE, () => onPause?.(),
     );
     this.player.on(
-      ENDED, () => onEnd && onEnd(),
+      ENDED, () => onEnd?.(),
     );
     this.player.on(
       LOADEDDATA,
-      () => onLoadedData && onLoadedData(),
+      () => onLoadedData?.(),
     );
     this.player.on(
       SEEKED,
-      () => onSeeked && onSeeked(this.getCurrentTime()),
+      () => onSeeked?.(this.getCurrentTime()),
     );
     this.player.on(
       RATECHANGE,
-      () => onRateChange && onRateChange(speed),
+      () => onRateChange?.(speed),
     );
     this.player.on(
       TIMEUPDATE,
-      () => onTimeUpdate && onTimeUpdate(this.getCurrentTime()),
+      () => onTimeUpdate?.(this.getCurrentTime()),
     );
     this.player.on(
       ENTERFULLSCREEN,
-      () => onEnterFullscreen && onEnterFullscreen(),
+      () => onEnterFullscreen?.(),
     );
     this.player.on(
       EXITFULLSCREEN,
-      () => onExitFullscreen && onExitFullscreen(),
+      () => onExitFullscreen?.(),
     );
     this.player.on(
       VOLUMECHANGE,
-      () => onVolumeChange && onVolumeChange({ muted, volume }),
+      () => onVolumeChange?.({ muted, volume }),
     );
     this.player.on(
       LANGUAGECHANGE,
-      () => onLanguageChange && onLanguageChange(language),
+      () => onLanguageChange?.(language),
     );
     this.player.on(
       CONTROLSHIDDEN,
-      () => onControlsHidden && onControlsHidden(),
+      () => onControlsHidden?.(),
     );
     this.player.on(
       CONTROLSSHOWN,
-      () => onControlsShown && onControlsShown(),
+      () => onControlsShown?.(),
     );
     this.player.on(
       CAPTIONSENABLED,
-      () => onCaptionsEnabled && onCaptionsEnabled(),
+      () => onCaptionsEnabled?.(),
     );
     this.player.on(
       CAPTIONSDISABLED,
-      () => onCaptionsDisabled && onCaptionsDisabled(),
+      () => onCaptionsDisabled?.(),
     );
   }
 
-  public componentDidUpdate(
+  public componentDidUpdate (
     {
       poster: posterPrevProps, sources: sourcesPrevProps,
       title: titlePrevProps, tracks: tracksPrevProps, type: typePrevProps,
@@ -434,18 +435,18 @@ class ReactPlyr extends React.PureComponent
     }
   }
 
-  public componentWillUnmount() {
+  public componentWillUnmount (): void {
     this.player?.destroy();
   }
 
-  updateSource = ({
+  private updateSource ({
     poster,
     sources,
     title,
     tracks,
     type,
     url,
-  }) => {
+  }): void {
     console.log('updateSource ::::::::::::::::::: ', {
       poster,
       sources,
@@ -455,40 +456,42 @@ class ReactPlyr extends React.PureComponent
       url,
     });
 
-    this.player.source = type === AudioType.Audio ? { sources, title, type } : {
-      poster, sources, title, type,
+    this.player.source = type === AudioType.Audio
+      ? { sources, title, type } : {
+    poster, sources, title, type,
     };
-  };
+  }
 
-  decreaseVolume(step: number) { return this.player?.decreaseVolume(step); }
-  enterFullscreen() { return this.player?.fullscreen.enter(); }
-  exitFullscreen() { return this.player?.fullscreen.exit(); }
-  forward(time: number) { return this.player?.forward(time); }
-  getCurrentTime() { return this.player?.currentTime; }
-  getDuration() { return this.player?.duration; }
-  getType() { return this.player?.source?.type; }
-  getVolume() { return this.player?.volume; }
-  increaseVolume(step: number) { return this.player?.increaseVolume(step); }
-  isMuted() { return this.player?.muted; }
-  isPaused() { return this.player?.paused; }
-  setCurrentTime(currentTime: number) { return (this.player.currentTime = currentTime); }
-  setMuted(muted = true) { return (this.player.muted = muted); }
-  setVolume(amount: number) { return (this.player.volume = amount); }
-  stop() { return this.player?.stop(); }
-  restart() { return this.player?.restart(); }
-  rewind(time: number) { return this.player?.rewind(time); }
-  togglePlay() { return this.player?.togglePlay(); }
-  play() { return this.player?.play(); }
-  pause() { return this.player?.pause(); }
-  toggleFullscreen() { return this.player?.fullscreen.toggle(); }
-  toggleMute() { return this.player?.toggleControls(this.player.muted); }
+  private decreaseVolume (step: number) { return this.player?.decreaseVolume(step); }
+  private enterFullscreen () { return this.player?.fullscreen.enter(); }
+  private exitFullscreen () { return this.player?.fullscreen.exit(); }
+  private forward (time: number) { return this.player?.forward(time); }
+  private getCurrentTime () { return this.player?.currentTime; }
+  private getDuration () { return this.player?.duration; }
+  private getType () { return this.player?.source?.type; }
+  private getVolume () { return this.player?.volume; }
+  private increaseVolume (step: number) { return this.player?.increaseVolume(step); }
+  private isMuted () { return this.player?.muted; }
+  private isPaused () { return this.player?.paused; }
+  private setCurrentTime (currentTime: number) { return (this.player.currentTime = currentTime); }
+  // eslint-disable-next-line
+  private setMuted (muted = true) { return (this.player.muted = muted); }
+  private setVolume (amount: number) { return (this.player.volume = amount); }
+  private stop () { return this.player?.stop(); }
+  private restart () { return this.player?.restart(); }
+  private rewind (time: number) { return this.player?.rewind(time); }
+  private togglePlay () { return this.player?.togglePlay(); }
+  private play () { return this.player?.play(); }
+  private pause () { return this.player?.pause(); }
+  private toggleFullscreen () { return this.player?.fullscreen.toggle(); }
+  private toggleMute () { return this.player?.toggleControls(this.player.muted); }
 
-  private static captionVideo(tracks: {
-    default: boolean,
-    kind: string,
-    label: string,
-    src: string,
-    srcLang: string
+  private static captionVideo (tracks: {
+    default: boolean;
+    kind: string;
+    label: string;
+    src: string;
+    srcLang: string;
   }[] = []) {
     const captionsMap: {}[] = [];
 
@@ -521,10 +524,10 @@ class ReactPlyr extends React.PureComponent
     return captionsMap;
   }
 
-  private static sourcesVideo(sources: {
-    src: string,
-    type: string,
-    size?: number
+  private static sourcesVideo (sources: {
+    src: string;
+    type: string;
+    size?: number;
   }[] = []) {
     const sourcesVideo: {}[] = [];
 
@@ -549,9 +552,9 @@ class ReactPlyr extends React.PureComponent
     return sourcesVideo;
   }
 
-  private static audioSource(sources: {
-    src: string,
-    type: string
+  private static audioSource (sources: {
+    src: string;
+    type: string;
   }[] = []) {
     const audioSource: {}[] = [];
 
@@ -565,7 +568,7 @@ class ReactPlyr extends React.PureComponent
     return audioSource;
   }
 
-  private renderPlayerWithSRC() {
+  private renderPlayerWithSRC () {
     const {
       sources = [],
       tracks = [],
@@ -601,7 +604,7 @@ class ReactPlyr extends React.PureComponent
     );
   }
 
-  private renderAudioPlayer() {
+  private renderAudioPlayer () {
     const {
       sources = [],
       url = '',
@@ -629,7 +632,7 @@ class ReactPlyr extends React.PureComponent
     );
   }
 
-  public render(): React.ReactElement<{}> {
+  public render (): React.ReactElement<{}> {
     const { type = '' } = this.props;
     return type === AudioType.Video ? this.renderPlayerWithSRC() : this.renderAudioPlayer();
   }

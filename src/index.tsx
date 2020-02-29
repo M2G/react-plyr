@@ -14,3 +14,5 @@ const render = (Component) => {
 render(App);
 
 unregister();
+
+// export { default as ReactPlyr } from './ReactPlyr';
