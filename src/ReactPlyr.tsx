@@ -300,8 +300,6 @@ class ReactPlyr extends React.PureComponent
         [current]: this.props[current],
       }), {});
 
-    console.log('defaultOptions', defaultOptions);
-
     const node = this.elementRef.current;
 
     this.player = node ? new Plyr(node, defaultOptions) : null;
@@ -412,17 +410,6 @@ class ReactPlyr extends React.PureComponent
       poster = '', sources = [], title = '', tracks = [], type = '', url = '',
     } = this.props;
 
-    console.log('componentDidUpdate PrevProps', {
-      posterPrevProps,
-      sourcesPrevProps,
-      titlePrevProps,
-      tracksPrevProps,
-      typePrevProps,
-      urlPrevProps,
-    });
-
-    console.log('componentDidUpdate this.props', this.props);
-
     if (posterPrevProps !== poster
       || sourcesPrevProps !== sources
       || titlePrevProps !== title
@@ -430,6 +417,7 @@ class ReactPlyr extends React.PureComponent
       || typePrevProps !== type
       || urlPrevProps !== url) {
       this.updateSource({
+        // @ts-ignore
         poster, sources, title, tracks, type, url,
       });
     }
@@ -443,19 +431,8 @@ class ReactPlyr extends React.PureComponent
     poster,
     sources,
     title,
-    tracks,
     type,
-    url,
   }): void {
-    console.log('updateSource ::::::::::::::::::: ', {
-      poster,
-      sources,
-      title,
-      tracks,
-      type,
-      url,
-    });
-
     this.player.source = type === AudioType.Audio
       ? { sources, title, type } : {
     poster, sources, title, type,
@@ -494,8 +471,6 @@ class ReactPlyr extends React.PureComponent
   }[] = []) {
     const captionsMap: {}[] = [];
 
-    console.log('tracks', tracks);
-
     if (tracks?.length) {
       for (let index = 0; index < tracks.length; index += 1) {
         const {
@@ -529,8 +504,6 @@ class ReactPlyr extends React.PureComponent
     size?: number;
   }[] = []) {
     const sourcesVideo: {}[] = [];
-
-    console.log('sources', sources);
 
     if (sources?.length) {
       for (let index = 0; index < sources.length; index += 1) {
@@ -609,8 +582,6 @@ class ReactPlyr extends React.PureComponent
       preload = '',
       ...rest
     } = this.props;
-
-    console.log('renderAudioPlayer ', this.props);
 
     if (sources?.length) {
       return (
