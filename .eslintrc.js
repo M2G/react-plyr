@@ -92,6 +92,7 @@ module.exports = {
     "@typescript-eslint/member-ordering": 1,
     "@typescript-eslint/typedef": 1,
     "@typescript-eslint/no-unused-vars-experimental": 0,
+    "@typescript-eslint/ban-ts-comment": 0,
     "react/boolean-prop-naming": [1, { "rule": "^(is|has)[A-Z]([A-Za-z0-9]?)+" }],
 
 

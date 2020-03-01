@@ -420,6 +420,7 @@ class ReactPlyr extends React.PureComponent
       typePrevProps,
       urlPrevProps,
     });
+
     console.log('componentDidUpdate this.props', this.props);
 
     if (posterPrevProps !== poster
