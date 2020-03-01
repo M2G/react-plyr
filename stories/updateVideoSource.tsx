@@ -124,6 +124,5 @@ class Wrapper extends React.PureComponent<WrapperNameSpace.State> {
     );
   }
 }
-
-
+// @ts-ignore
 export default stories.add('Updating video (/w Source) on the fly', withInfo()(() => <Wrapper />));

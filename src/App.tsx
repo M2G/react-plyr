@@ -51,6 +51,7 @@ const App = () => (
         }
       title="Kishi Bashi &ndash; &ldquo;It All Began With A Burst&rdquo;"
       tracks={
+        // @ts-ignore
           [{
             kind: 'captions',
             label: 'English',

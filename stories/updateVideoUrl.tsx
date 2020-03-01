@@ -50,6 +50,5 @@ class Wrapper extends React.Component<WrapperNameSpace.State> {
     );
   }
 }
-
-
+// @ts-ignore
 export default stories.add('Updating video (/w URL) on the fly', withInfo()(() => <Wrapper />));

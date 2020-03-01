@@ -3,5 +3,6 @@
 /build
 /config
 /src/serviceWorker.ts
-/src/ReactPlyr/defaultProps.ts
-/src/ReactPlyr/types.ts
+/src/defaultProps.ts
+/src/types.ts
+/stories

@@ -98,6 +98,7 @@ class Wrapper extends React.Component<WrapperNameSpace.State> {
           type="video"
           url="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
           muted={muted}
+          // @ts-ignore
           volume={0.5}
           hideControls={false}
           onReady={action('Is Ready!')}

@@ -10,6 +10,7 @@ import './updateVideoUrl';
 storiesOf('React Plyr', module)
   .add('Video with all Controls', withInfo()(() => (
     <ReactPlyr
+      // @ts-ignore
       controls={[
         'play-large',
         'play',
@@ -80,6 +81,7 @@ storiesOf('React Plyr', module)
       onVolumeChange={action('Volume changed')}
       // onTimeUpdate={action('time update')}
       url="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4"
+      // @ts-ignore
       volume={0.4}
       type="video"
     />
@@ -116,6 +118,7 @@ storiesOf('React Plyr', module)
           src: './View_From_A_Blue_Moon_Trailer-HD.en.vtt',
           srcLang: 'en',
         },
+        // @ts-ignore
         {
           kind: 'captions',
           label: 'Français',
@@ -152,5 +155,6 @@ storiesOf('React Plyr', module)
     'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4',
     'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4',
   ].map((video, index) => (
+    // @ts-ignore
     <ReactPlyr key={index} style={{ width: 540 }} type="video" url={video} />
   ))));
