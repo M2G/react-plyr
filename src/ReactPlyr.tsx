@@ -74,7 +74,7 @@ export namespace PlayerNS {
 
     preload?: string;
     poster?: string;
-    autoplay: boolean;
+    autoplay?: boolean;
   }
   export interface PropsAction {
     onReady?: (player: Function) => void;
@@ -438,7 +438,6 @@ class ReactPlyr extends React.PureComponent
     this.player?.destroy();
   }
 
-  // eslint-disable-next-line
   private updateSource ({
     poster,
     sources,
@@ -474,7 +473,6 @@ class ReactPlyr extends React.PureComponent
   private isMuted () { return this.player?.muted; }
   private isPaused () { return this.player?.paused; }
   private setCurrentTime (currentTime: number) { return (this.player.currentTime = currentTime); }
-  // eslint-disable-next-line
   private setMuted (muted = true) { return (this.player.muted = muted); }
   private setVolume (amount: number) { return (this.player.volume = amount); }
   private stop () { return this.player?.stop(); }
@@ -539,7 +537,6 @@ class ReactPlyr extends React.PureComponent
         sourcesVideo.push(
           <source
             key={index}
-            // eslint-disable-next-line
             // @ts-ignore
             size={size}
             src={src}

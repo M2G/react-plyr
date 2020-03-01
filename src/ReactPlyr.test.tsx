@@ -38,9 +38,8 @@ it('renders a simple HTML5 Video with Captions', () => {
     <ReactPlyr
       poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
       provider="video"
-      // eslint-disable-next-line
-      // @ts-ignore
       tracks={
+        // @ts-ignore
         [{
           kind: 'captions',
           label: 'English',
@@ -88,15 +87,15 @@ it('renders a simple HTML5 Video with Sources and Captions', () => {
           type: 'video/mp4',
         }]
       }
-      // eslint-disable-next-line
-      // @ts-ignore
       tracks={
+        // @ts-ignore
         [{
           kind: 'captions',
           label: 'English',
           src: '/View_From_A_Blue_Moon_Trailer-HD.en.vtt',
           srcLang: 'en',
         },
+          // @ts-ignore
         {
           kind: 'captions',
           label: 'French',

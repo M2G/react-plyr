@@ -20,6 +20,8 @@ module.exports = {
   "modulePaths": [],
   "moduleNameMapper": {
     '\\.(css|scss)$': 'identity-obj-proxy',
+    "^@utils$": "<rootDir>/src/utils",
+    "^@constants$": "<rootDir>/src/constants"
   },
   "moduleFileExtensions": [
     "ts",
