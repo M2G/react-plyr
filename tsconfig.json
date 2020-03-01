@@ -6,6 +6,7 @@
     "sourceMap": true,
     "allowJs": true,
     "jsx": "react",
+    "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "declaration": false,
@@ -24,7 +25,7 @@
     "paths": {
       "@utils": ["utils"],
       "@constants": ["constants"]
-    },
+    }
   },
   "include": [
     "./src",

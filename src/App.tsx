@@ -2,23 +2,21 @@ import * as React from 'react';
 import ReactPlyr from './ReactPlyr';
 
 /*
- * eslint-disable-next-line func-style
- *function play() {
- *  console.log('play');
- *}
- * eslint-disable-next-line func-style
- *function pause() {
- *  console.log('pause');
- *}
+ function play() {
+ console.log('play');
+ }
+
+ function pause() {
+   console.log('pause');
+ }
  */
 
 const App = () => (
   <div>
     {/*
     <Plyr
-      // onPause={pause}
-
-      // onPlay={play}
+      onPause={pause}
+      onPlay={play}
       type="video"
       url="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
     />
@@ -50,8 +48,6 @@ const App = () => (
           }]
         }
       title="Kishi Bashi &ndash; &ldquo;It All Began With A Burst&rdquo;"
-      // eslint-disable-next-line
-      // @ts-ignore
       tracks={
           [{
             kind: 'captions',
@@ -69,22 +65,6 @@ const App = () => (
         }
       type="video"
     />
-    {/*
-        <Plyr
-          type='audio'
-          title='Kishi Bashi &ndash; &ldquo;It All Began With A Burst&rdquo;'
-           sources={
-          [{
-            src: 'https://cdn.plyr.io/static/demo/Kishi_Bashi_-_It_All_Began_With_a_Burst.mp3'
-           type=: 'audio/mp3'
-          },
-          {
-          src: 'https://cdn.plyr.io/static/demo/Kishi_Bashi_-_It_All_Began_With_a_Burst.ogg'
-          type: 'audio/ogg'
-          }]
-        }
-        />
-       */}
     {/*
     <ReactPlyr
       onPause={pause}

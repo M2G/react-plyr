@@ -20,8 +20,8 @@ import ReactPlyr from '@m2g/react-plyr';
 render() {
   return (
     <ReactPlyr
-      type="video" // or "vimeo"
-      videoId="CDFN1VatiJA"
+      type="video"
+      url="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
     />
   )
 }
@@ -34,14 +34,15 @@ import ReactPlyr from '@m2g/react-plyr';
 render() {
   return (
     <ReactPlyr
-      type="audio" // or "vimeo"
-      videoId="CDFN1VatiJA"
+      type='audio'
+      title='Kishi Bashi &ndash; &ldquo;It All Began With A Burst&rdquo;'
+      url="https://cdn.plyr.io/static/demo/Kishi_Bashi_-_It_All_Began_With_a_Burst.mp3"
     />
   )
 }
 ```
 
-Note: The ``videoId`` can either be the video ID or URL for the media.
+Note: See App.tsx on project if you want more example.
 
 ## Props
 

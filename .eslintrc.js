@@ -50,6 +50,7 @@ module.exports = {
     "no-undefined": 0,
     "id-length": 0,
     "max-params": 0,
+    "multiline-comment-style": 0,
     "multiline-ternary": 0,
     "init-declarations": 0,
     "func-style": 0,

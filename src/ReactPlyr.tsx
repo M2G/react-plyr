@@ -102,11 +102,14 @@ export namespace PlayerNS {
 
 class ReactPlyr extends React.PureComponent
   <PlayerNS.Props & PlayerNS.PropsAction> {
+  // eslint-disable-next-line
   private readonly elementRef;
   private player: any;
   private readonly restProps: any[];
 
-  static propTypes = {
+  // eslint-disable-next-line max-len
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars-experimental,@typescript-eslint/typedef
+  private static readonly propTypes = {
     autopause: PropTypes.bool,
     autoplay: PropTypes.bool,
     blankVideo: PropTypes.string,
@@ -230,7 +233,9 @@ class ReactPlyr extends React.PureComponent
     url: PropTypes.string,
     volume: PropTypes.number,
   };
-  static defaultProps = {
+
+  // eslint-disable-next-line
+  private static readonly defaultProps = {
     onCaptionsDisabled: () => {},
     onCaptionsEnabled: () => {},
     onControlsHidden: () => {},
@@ -275,26 +280,25 @@ class ReactPlyr extends React.PureComponent
     this.increaseVolume = this.increaseVolume.bind(this);
     this.isMuted = this.isMuted.bind(this);
     this.isPaused = this.isPaused.bind(this);
+    this.pause = this.pause.bind(this);
+    this.play = this.play.bind(this);
+    this.restart = this.restart.bind(this);
+    this.rewind = this.rewind.bind(this);
     this.setCurrentTime = this.setCurrentTime.bind(this);
     this.setMuted = this.setMuted.bind(this);
     this.setVolume = this.setVolume.bind(this);
     this.stop = this.stop.bind(this);
-    this.restart = this.restart.bind(this);
-    this.rewind = this.rewind.bind(this);
-    this.togglePlay = this.togglePlay.bind(this);
-    this.play = this.play.bind(this);
-    this.pause = this.pause.bind(this);
-    this.toggleFullscreen = this.toggleFullscreen.bind(this);
-    this.toggleMute = this.toggleMute.bind(this);
-
     this.renderPlayerWithSRC = this.renderPlayerWithSRC.bind(this);
     this.renderAudioPlayer = this.renderAudioPlayer.bind(this);
+    this.togglePlay = this.togglePlay.bind(this);
+    this.toggleFullscreen = this.toggleFullscreen.bind(this);
+    this.toggleMute = this.toggleMute.bind(this);
     this.updateSource = this.updateSource.bind(this);
   }
 
   public componentDidMount (): void {
     const defaultOptions = Object.keys(defaultProps)
-      .reduce((acc, current) => ({
+      .reduce((acc: {}, current: string) => ({
         ...acc,
         // eslint-disable-next-line
         [current]: this.props[current],
@@ -439,6 +443,7 @@ class ReactPlyr extends React.PureComponent
     this.player?.destroy();
   }
 
+  // eslint-disable-next-line
   private updateSource ({
     poster,
     sources,
@@ -568,7 +573,7 @@ class ReactPlyr extends React.PureComponent
     return audioSource;
   }
 
-  private renderPlayerWithSRC () {
+  private renderPlayerWithSRC (): React.ReactElement {
     const {
       sources = [],
       tracks = [],
@@ -604,7 +609,7 @@ class ReactPlyr extends React.PureComponent
     );
   }
 
-  private renderAudioPlayer () {
+  private renderAudioPlayer (): React.ReactElement {
     const {
       sources = [],
       url = '',
