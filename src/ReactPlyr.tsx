@@ -102,13 +102,10 @@ export namespace PlayerNS {
 
 class ReactPlyr extends React.PureComponent
   <PlayerNS.Props & PlayerNS.PropsAction> {
-  // eslint-disable-next-line
-  private readonly elementRef;
+  private readonly elementRef: React.RefObject<any>;
   private player: any;
   private readonly restProps: any[];
 
-  // eslint-disable-next-line max-len
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars-experimental,@typescript-eslint/typedef
   private static readonly propTypes = {
     autopause: PropTypes.bool,
     autoplay: PropTypes.bool,
@@ -234,7 +231,6 @@ class ReactPlyr extends React.PureComponent
     volume: PropTypes.number,
   };
 
-  // eslint-disable-next-line
   private static readonly defaultProps = {
     onCaptionsDisabled: () => {},
     onCaptionsEnabled: () => {},
@@ -425,7 +421,6 @@ class ReactPlyr extends React.PureComponent
       urlPrevProps,
     });
     console.log('componentDidUpdate this.props', this.props);
-
 
     if (posterPrevProps !== poster
       || sourcesPrevProps !== sources

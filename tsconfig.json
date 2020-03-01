@@ -17,7 +17,7 @@
     "noImplicitAny": false,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "outDir": "build",
     "lib": ["es5", "es6", "es7", "es2017", "dom"],
     "rootDirs": ["src", "stories"],

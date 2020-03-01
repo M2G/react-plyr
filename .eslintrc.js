@@ -89,8 +89,11 @@ module.exports = {
     "@typescript-eslint/unbound-method": 1,
 
     // only for plyr
-    "@typescript-eslint/member-ordering": 0,
+    "@typescript-eslint/member-ordering": 1,
+    "@typescript-eslint/typedef": 1,
+    "@typescript-eslint/no-unused-vars-experimental": 0,
     "react/boolean-prop-naming": [1, { "rule": "^(is|has)[A-Z]([A-Za-z0-9]?)+" }],
+
 
     "react/jsx-props-no-spreading": 0,
     "react/prop-types": "off",

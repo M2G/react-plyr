@@ -1,20 +1,20 @@
 import * as React from 'react';
 import ReactPlyr from './ReactPlyr';
 
-/*
- function play() {
+
+ function play () {
  console.log('play');
  }
 
- function pause() {
+ function pause () {
    console.log('pause');
  }
- */
+
 
 const App = () => (
   <div>
     {/*
-    <Plyr
+    <ReactPlyr
       onPause={pause}
       onPlay={play}
       type="video"
@@ -23,6 +23,8 @@ const App = () => (
 */}
 
     <ReactPlyr
+      onPause={pause}
+      onPlay={play}
       poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
       settings={['quality', 'captions']}
       sources={
