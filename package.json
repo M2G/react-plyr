@@ -2,7 +2,7 @@
   "name": "react-plyr",
   "version": "1.0.0",
   "description": "A wrapper plyr with React (only HTML5 video and audio)",
-  "main": "./src/index.tsx",
+  "main": "./build/react-plyr.js",
   "private": true,
   "author": "",
   "license": "MIT",
@@ -31,8 +31,8 @@
     "publish:npm": "rm -rf ./build && NODE_ENV=production webpack --mode production --config ./config/publish/webpack.config.js --progress"
   },
   "peerDependencies": {
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
@@ -119,8 +119,8 @@
     "enzyme": "^3.11.0",
     "eslint-config-airbnb-typescript": "^6.3.1",
     "prop-types": "^15.7.2",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
     "plyr": "^3.5.10",
     "workbox-webpack-plugin": "^4.3.1"
   },

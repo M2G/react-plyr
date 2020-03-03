@@ -15,6 +15,7 @@ npm install @m2g/react-plyr --save
 ### Simple Video
 ```javascript
 import ReactPlyr from '@m2g/react-plyr';
+import '@m2g/react-plyr/build/react-plyr.css';
 
 // add the component in the render function
 render() {
@@ -29,6 +30,7 @@ render() {
 ### Simple Audio
 ```javascript
 import ReactPlyr from '@m2g/react-plyr';
+import '@m2g/react-plyr/build/react-plyr.css';
 
 // add the component in the render function
 render() {
@@ -42,7 +44,7 @@ render() {
 }
 ```
 
-Note: See App.tsx on project if you want more example.
+Note: See App.tsx file on project if you want more example.
 
 ## Props
 
