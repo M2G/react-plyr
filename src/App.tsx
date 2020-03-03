@@ -1,3 +1,4 @@
+/*
 import * as React from 'react';
 import ReactPlyr from './ReactPlyr';
 
@@ -20,8 +21,9 @@ const App = () => (
       type="video"
       url="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
     />
-*/}
-
+    */
+  /*
+    }
     <ReactPlyr
       onPause={pause}
       onPlay={play}
@@ -85,7 +87,10 @@ const App = () => (
       title="Kishi Bashi &ndash; &ldquo;It All Began With A Burst&rdquo;"
       type="audio"
     />
-    */}
+    */
+  /*
+    }
   </div>
-);
+  );
 export default App;
+*/

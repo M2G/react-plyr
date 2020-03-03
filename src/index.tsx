@@ -1,3 +1,4 @@
+/*
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from './App';
@@ -15,5 +16,7 @@ const render = (Component) => {
 render(App);
 
 unregister();
+*/
+import ReactPlyr from './ReactPlyr';
 
-// export { default as ReactPlyr } from './ReactPlyr';
+export default ReactPlyr;
