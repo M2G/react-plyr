@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A wrapper plyr with React (only HTML5 video and audio)",
   "main": "./build/react-plyr.js",
-  "private": true,
+  "private": false,
   "author": "",
   "license": "MIT",
   "homepage": "https://github.com/M2G/react-plyr",
