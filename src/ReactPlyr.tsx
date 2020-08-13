@@ -326,7 +326,7 @@ class ReactPlyr extends React.PureComponent
       onCaptionsDisabled,
     } = this.props;
 
-    this.player.on(READY, () => {
+    this.player?.on(READY, () => {
       onReady?.(this.player);
       if (autoplay) {
         this.player?.play();
@@ -340,63 +340,21 @@ class ReactPlyr extends React.PureComponent
       language,
     } = this.player;
 
-    this.player.on(
-      EVENTPLAY, () => onPlay?.(),
-    );
-    this.player.on(
-      PAUSE, () => onPause?.(),
-    );
-    this.player.on(
-      ENDED, () => onEnd?.(),
-    );
-    this.player.on(
-      LOADEDDATA,
-      () => onLoadedData?.(),
-    );
-    this.player.on(
-      SEEKED,
-      () => onSeeked?.(this.getCurrentTime()),
-    );
-    this.player.on(
-      RATECHANGE,
-      () => onRateChange?.(speed),
-    );
-    this.player.on(
-      TIMEUPDATE,
-      () => onTimeUpdate?.(this.getCurrentTime()),
-    );
-    this.player.on(
-      ENTERFULLSCREEN,
-      () => onEnterFullscreen?.(),
-    );
-    this.player.on(
-      EXITFULLSCREEN,
-      () => onExitFullscreen?.(),
-    );
-    this.player.on(
-      VOLUMECHANGE,
-      () => onVolumeChange?.({ muted, volume }),
-    );
-    this.player.on(
-      LANGUAGECHANGE,
-      () => onLanguageChange?.(language),
-    );
-    this.player.on(
-      CONTROLSHIDDEN,
-      () => onControlsHidden?.(),
-    );
-    this.player.on(
-      CONTROLSSHOWN,
-      () => onControlsShown?.(),
-    );
-    this.player.on(
-      CAPTIONSENABLED,
-      () => onCaptionsEnabled?.(),
-    );
-    this.player.on(
-      CAPTIONSDISABLED,
-      () => onCaptionsDisabled?.(),
-    );
+    this.player?.on(EVENTPLAY, () => onPlay?.());
+    this.player?.on(PAUSE, () => onPause?.());
+    this.player?.on(ENDED, () => onEnd?.());
+    this.player?.on(LOADEDDATA, () => onLoadedData?.());
+    this.player?.on(SEEKED, () => onSeeked?.(this.getCurrentTime()));
+    this.player?.on(RATECHANGE, () => onRateChange?.(speed));
+    this.player?.on(TIMEUPDATE, () => onTimeUpdate?.(this.getCurrentTime()));
+    this.player?.on(ENTERFULLSCREEN, () => onEnterFullscreen?.());
+    this.player?.on(EXITFULLSCREEN, () => onExitFullscreen?.());
+    this.player?.on(VOLUMECHANGE, () => onVolumeChange?.({ muted, volume }));
+    this.player?.on(LANGUAGECHANGE, () => onLanguageChange?.(language));
+    this.player?.on(CONTROLSHIDDEN, () => onControlsHidden?.());
+    this.player?.on(CONTROLSSHOWN, () => onControlsShown?.());
+    this.player?.on(CAPTIONSENABLED, () => onCaptionsEnabled?.());
+    this.player?.on(CAPTIONSDISABLED, () => onCaptionsDisabled?.());
   }
 
   public componentDidUpdate (
@@ -439,28 +397,28 @@ class ReactPlyr extends React.PureComponent
     };
   }
 
-  private decreaseVolume (step: number) { return this.player?.decreaseVolume(step); }
-  private enterFullscreen () { return this.player?.fullscreen.enter(); }
-  private exitFullscreen () { return this.player?.fullscreen.exit(); }
-  private forward (time: number) { return this.player?.forward(time); }
-  private getCurrentTime () { return this.player?.currentTime; }
-  private getDuration () { return this.player?.duration; }
-  private getType () { return this.player?.source?.type; }
-  private getVolume () { return this.player?.volume; }
-  private increaseVolume (step: number) { return this.player?.increaseVolume(step); }
-  private isMuted () { return this.player?.muted; }
-  private isPaused () { return this.player?.paused; }
-  private setCurrentTime (currentTime: number) { return (this.player.currentTime = currentTime); }
-  private setMuted (muted = true) { return (this.player.muted = muted); }
-  private setVolume (amount: number) { return (this.player.volume = amount); }
-  private stop () { return this.player?.stop(); }
-  private restart () { return this.player?.restart(); }
-  private rewind (time: number) { return this.player?.rewind(time); }
-  private togglePlay () { return this.player?.togglePlay(); }
-  private play () { return this.player?.play(); }
-  private pause () { return this.player?.pause(); }
-  private toggleFullscreen () { return this.player?.fullscreen.toggle(); }
-  private toggleMute () { return this.player?.toggleControls(this.player.muted); }
+  public decreaseVolume (step: number) { return this.player?.decreaseVolume(step); }
+  public enterFullscreen () { return this.player?.fullscreen.enter(); }
+  public exitFullscreen () { return this.player?.fullscreen.exit(); }
+  public forward (time: number) { return this.player?.forward(time); }
+  public getCurrentTime () { return this.player?.currentTime; }
+  public getDuration () { return this.player?.duration; }
+  public getType () { return this.player?.source?.type; }
+  public getVolume () { return this.player?.volume; }
+  public increaseVolume (step: number) { return this.player?.increaseVolume(step); }
+  public isMuted () { return this.player?.muted; }
+  public isPaused () { return this.player?.paused; }
+  public setCurrentTime (currentTime: number) { return (this.player.currentTime = currentTime); }
+  public setMuted (muted = true) { return (this.player.muted = muted); }
+  public setVolume (amount: number) { return (this.player.volume = amount); }
+  public stop () { return this.player?.stop(); }
+  public restart () { return this.player?.restart(); }
+  public rewind (time: number) { return this.player?.rewind(time); }
+  public togglePlay () { return this.player?.togglePlay(); }
+  public play () { return this.player?.play(); }
+  public pause () { return this.player?.pause(); }
+  public toggleFullscreen () { return this.player?.fullscreen.toggle(); }
+  public toggleMute () { return this.player?.toggleControls(this.player.muted); }
 
   private static captionVideo (tracks: {
     default: boolean;
@@ -502,7 +460,7 @@ class ReactPlyr extends React.PureComponent
     src: string;
     type: string;
     size?: number;
-  }[] = []) {
+  }[] = []): {}[] {
     const sourcesVideo: {}[] = [];
 
     if (sources?.length) {
@@ -524,9 +482,8 @@ class ReactPlyr extends React.PureComponent
   }
 
   private static audioSource (sources: {
-    src: string;
-    type: string;
-  }[] = []) {
+    src: string; type: string;
+  }[] = []): {}[] {
     const audioSource: {}[] = [];
 
     if (sources?.length) {

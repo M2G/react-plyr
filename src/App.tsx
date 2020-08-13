@@ -94,3 +94,29 @@ const App = () => (
   );
 export default App;
 */
+
+import * as React from 'react';
+import ReactPlyr from '@m2g/react-plyr';
+import '@m2g/react-plyr/build/react-plyr.css';
+
+function play () {
+  console.log('play');
+}
+
+function pause () {
+  console.log('pause');
+}
+
+
+const App = () => (
+  <div>
+    <ReactPlyr
+      onPause={pause}
+      onPlay={play}
+      type="video"
+      url="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
+    />
+  </div>
+);
+
+export default App;

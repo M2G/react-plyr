@@ -22,12 +22,9 @@ const plugins = [
   }),
   new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   new ForkTsCheckerWebpackPlugin({
-    eslint: true,
-    typescript: resolve.sync('typescript', /node_modules/),
-      async: true,
-      useTypescriptIncrementalApi: true,
-      checkSyntacticErrors: true,
-      silent: true,
+    eslint: {
+      files: './src/**/*.{ts,tsx,js,jsx}' // required - same as command `eslint ./src/**/*.{ts,tsx,js,jsx} --ext .ts,.tsx,.js,.jsx`
+    }
   })
 ];
 

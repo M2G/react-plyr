@@ -1,5 +1,5 @@
-const paths = require('./paths');
 const fs = require('fs');
+const paths = require('./paths');
 
 const overlay = process.env.NODE_ENV === 'development' ? { warnings: false, errors: true } : false;
 
@@ -17,7 +17,7 @@ module.exports = {
     publicPath: '/',
     contentBase: paths.appPublic,
     watchContentBase: true,
-    port: 9001,
+    port: 8686,
     historyApiFallback: {
       disableDotRule: true,
     },
