@@ -23,7 +23,7 @@ function SourcesVideo(sources: {
     }
   }
 
-  return SourcesVideo;
+  return sourcesVideo;
 }
 
 export default SourcesVideo;
