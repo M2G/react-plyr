@@ -10,18 +10,18 @@ module.exports = {
   ],
   "transform": {
     "^.+\\.(js|jsx)$": "babel-jest",
-    "^.+\\.(tsx|ts)?$": "ts-jest"
+    "^.+\\.(tsx|ts)?$": "ts-jest",
+    "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "<rootDir>/fileTransform.js"
   },
   "transformIgnorePatterns": [
     "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
-    "^.+\\.module\\.(css|sass|scss)$"
+    "^.+\\.module\\.(css|sass|scss)$",
+    "^.+\\.module\\.(svg)$"
   ],
   "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
   "modulePaths": [],
   "moduleNameMapper": {
     '\\.(css|scss)$': 'identity-obj-proxy',
-    "^@utils$": "<rootDir>/src/utils",
-    "^@constants$": "<rootDir>/src/constants"
   },
   "moduleFileExtensions": [
     "ts",

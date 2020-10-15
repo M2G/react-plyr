@@ -1,5 +1,5 @@
 /* eslint-disable */
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import * as PropTypes from 'prop-types';
 import Plyr from 'plyr';
 import { pick, difference } from '@utils';
@@ -121,12 +121,77 @@ function ReactPlyr({
                      onControlsShown,
                      onCaptionsEnabled,
                      onCaptionsDisabled,
-  ...rest
+  ...props
                    }: AllProps) {
 
+  const restProps = difference([Object.keys(props), Object.keys(defaultProps)]);
+  const elementRef = React.createRef();
+  const player = null;
+
+  useEffect(() => {
+    const defaultOptions = Object.keys(defaultProps)
+      .reduce((acc: {}, current: string) => ({
+        ...acc,
+        [current]: props[current],
+      }), {});
+
+    const node: any = elementRef?.current;
+
+    const player = node ? new Plyr(node, defaultOptions) : null;
+
+    if (!player) return;
+
+
+
+
+    const {
+      speed,
+      muted,
+      volume,
+      language,
+    } = player;
+
+    //@ts-ignore
+    player?.on(READY, () => { onReady?.(player); if (autoplay) { player?.play()}});
+    player?.on(EVENTPLAY, () => onPlay?.());
+    player?.on(PAUSE, () => onPause?.());
+    player?.on(ENDED, () => onEnd?.());
+    player?.on(LOADEDDATA, () => onLoadedData?.());
+    player?.on(SEEKED, () => onSeeked?.(this.getCurrentTime()));
+    player?.on(RATECHANGE, () => onRateChange?.(speed));
+    player?.on(TIMEUPDATE, () => onTimeUpdate?.(this.getCurrentTime()));
+    player?.on(ENTERFULLSCREEN, () => onEnterFullscreen?.());
+    player?.on(EXITFULLSCREEN, () => onExitFullscreen?.());
+    player?.on(VOLUMECHANGE, () => onVolumeChange?.({ muted, volume }));
+    player?.on(LANGUAGECHANGE, () => onLanguageChange?.(language));
+    player?.on(CONTROLSHIDDEN, () => onControlsHidden?.());
+    player?.on(CONTROLSSHOWN, () => onControlsShown?.());
+    player?.on(CAPTIONSENABLED, () => onCaptionsEnabled?.());
+    player?.on(CAPTIONSDISABLED, () => onCaptionsDisabled?.());
+
+
+    return () => {
+      player?.destroy();
+    };
+  }, []);
+
+
+private updateSource ({
+    poster,
+    sources,
+    title,
+    type,
+  }): void {
+    this.player.source = type === AudioType.Audio
+      ? { sources, title, type } : {
+        poster, sources, title, type,
+      };
 }
 
 
+  const { type = '' } = props;
+  return type === AudioType.Video ? this.renderPlayerWithSRC() : this.renderAudioPlayer();
+}
 
 
 class ReactPlyr extends React.PureComponent
