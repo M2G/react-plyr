@@ -1,5 +1,4 @@
 const webpack = require('webpack');
-const resolve = require('resolve');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 

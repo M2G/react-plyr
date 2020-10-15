@@ -2,7 +2,6 @@
 import * as React from 'react';
 import ReactPlyr from './ReactPlyr';
 
-
  function play () {
  console.log('play');
  }
@@ -10,7 +9,6 @@ import ReactPlyr from './ReactPlyr';
  function pause () {
    console.log('pause');
  }
-
 
 const App = () => (
   <div>
@@ -99,14 +97,13 @@ import * as React from 'react';
 import ReactPlyr from '@m2g/react-plyr';
 import '@m2g/react-plyr/build/react-plyr.css';
 
-function play () {
+function play() {
   console.log('play');
 }
 
-function pause () {
+function pause() {
   console.log('pause');
 }
-
 
 const App = () => (
   <div>

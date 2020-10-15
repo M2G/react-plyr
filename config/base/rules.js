@@ -40,13 +40,18 @@ const jsLoaderRule = {
   use: [{
     loader: require.resolve('babel-loader'),
     options: {
-      cacheDirectory: true
+      // This is a feature of `babel-loader` for webpack (not Babel itself).
+      // It enables caching results in ./node_modules/.cache/babel-loader/
+      // directory for faster rebuilds.
+      cacheDirectory: true,
+      cacheCompression: false,
+      compact: false,
     }
   }]
 };
 
 const filesLoaderRule = {
-  test: /.(png|svg|jpe?g|gif|ttf|otf|eot|woff(2)?)(\?[a-z0-9]+)?$/,
+  test: /.(png|jpe?g|gif|ttf|otf|eot|woff(2)?)(\?[a-z0-9]+)?$/,
   use: [{
     loader: require.resolve('file-loader'),
     options: {
@@ -61,11 +66,17 @@ const filesLoaderRule = {
   }]
 };
 
+const svg = {
+  test: /\.svg$/,
+  use: ['@svgr/webpack'],
+};
+
 const rules = [
   preLoader,
   jsLoaderRule,
   tsLoader,
   filesLoaderRule,
+  svg
 ];
 
 module.exports = rules;

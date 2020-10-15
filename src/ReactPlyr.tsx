@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import Plyr from 'plyr';
@@ -99,6 +100,34 @@ export namespace PlayerNS {
     onCaptionsDisabled?: () => void;
   }
 }
+
+type AllProps = PlayerNS.Props & PlayerNS.PropsAction;
+
+function ReactPlyr({
+                     autoplay,
+                     onReady,
+                     onPlay,
+                     onPause,
+                     onEnd,
+                     onLoadedData,
+                     onSeeked,
+                     onRateChange,
+                     onTimeUpdate,
+                     onEnterFullscreen,
+                     onExitFullscreen,
+                     onVolumeChange,
+                     onLanguageChange,
+                     onControlsHidden,
+                     onControlsShown,
+                     onCaptionsEnabled,
+                     onCaptionsDisabled,
+  ...rest
+                   }: AllProps) {
+
+}
+
+
+
 
 class ReactPlyr extends React.PureComponent
   <PlayerNS.Props & PlayerNS.PropsAction> {

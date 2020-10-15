@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "target": "es5",
     "module": "esnext",
     "moduleResolution": "node",
     "sourceMap": true,
     "allowJs": true,
     "jsx": "react",
-    "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "declaration": false,
+    "declaration": true,
     "noImplicitReturns": false,
     "removeComments": true,
     "forceConsistentCasingInFileNames": true,
@@ -17,14 +18,23 @@
     "noImplicitAny": false,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": false,
-    "outDir": "build",
-    "lib": ["es5", "es6", "es7", "es2017", "dom"],
+    "noUnusedLocals": true,
+    "outDir": "./build",
+    "lib": [
+      "ES2015",
+      "ES2016",
+      "ES2017",
+      "ES2018",
+      "ES2019",
+      "ES2020",
+      "ESNext",
+      "dom"
+    ],
     "rootDirs": ["src", "stories"],
     "baseUrl": "./src",
     "paths": {
-      "@utils": ["utils"],
-      "@constants": ["constants"]
+      "@constants": ["constants"],
+      "@utils": ["utils"]
     }
   },
   "include": [
@@ -32,6 +42,7 @@
     "./stories"
   ],
   "exclude": [
+    "**/__tests__/*",
     "node_modules",
     "dist",
     "build",
@@ -39,6 +50,9 @@
     "config",
     "webpack",
     "jest"
+  ],
+  "files": [
+    "custom.d.ts"
   ],
   "compileOnSave": false,
   "buildOnSave": false

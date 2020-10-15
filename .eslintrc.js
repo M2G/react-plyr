@@ -13,6 +13,7 @@ module.exports = {
     "./node_modules/eslint-config-airbnb-base/rules/variables.js",
     "./node_modules/eslint-config-airbnb-base/rules/es6.js",
     "prettier",
+    "prettier/standard",
     "prettier/@typescript-eslint",
     "prettier/react",
     "plugin:react/recommended",
@@ -50,10 +51,10 @@ module.exports = {
     "no-undefined": 0,
     "id-length": 0,
     "max-params": 0,
-    "multiline-comment-style": 0,
     "multiline-ternary": 0,
     "init-declarations": 0,
     "func-style": 0,
+    "class-methods-use-this": 1,
 
     "max-statements": 0,
     "max-lines": 0,
@@ -66,6 +67,8 @@ module.exports = {
     "jsx-a11y/media-has-caption": 0,
     "jsx-a11y/rule-name": "off",
     "jsx-a11y/click-events-have-key-events": 'off',
+    "jsx-a11y/label-has-associated-control": 1,
+    "jsx-a11y/no-noninteractive-element-interactions": 1,
 
     "import/extensions": "off",
     "import/no-unresolved": 0,
@@ -73,6 +76,10 @@ module.exports = {
 
     "lines-between-class-members": "off",
 
+    "@typescript-eslint/no-type-alias": 1,
+    "@typescript-eslint/no-unsafe-call": 1,
+    "@typescript-eslint/member-ordering": 1,
+    "@typescript-eslint/no-unsafe-assignment": 1,
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-namespace": "off",
@@ -87,15 +94,13 @@ module.exports = {
     "@typescript-eslint/quotes": 0,
     "@typescript-eslint/restrict-template-expressions": 0,
     "@typescript-eslint/unbound-method": 1,
-
-    // only for plyr
-    "@typescript-eslint/member-ordering": 1,
     "@typescript-eslint/typedef": 1,
-    "@typescript-eslint/no-unused-vars-experimental": 0,
-    "@typescript-eslint/ban-ts-comment": 0,
-    "react/boolean-prop-naming": [1, { "rule": "^(is|has)[A-Z]([A-Za-z0-9]?)+" }],
+    "@typescript-eslint/prefer-readonly-parameter-types": 1,
+    "@typescript-eslint/explicit-module-boundary-types": 1,
+    "typescript-eslint/ban-ts-comment": 0,
 
-
+    "react/jsx-handler-names": 1,
+    "react/jsx-child-element-spacing": 1,
     "react/jsx-props-no-spreading": 0,
     "react/prop-types": "off",
     "react/static-property-placement": 0,
@@ -109,7 +114,7 @@ module.exports = {
     "react/function-component-definition": [0, {
       "namedComponents": "function-declaration" | "function-expression" | "arrow-function",
       "unnamedComponents": "function-expression" | "arrow-function"
-    }]
+    }],
   },
   settings: {
     "html/html-extensions": [".html"],

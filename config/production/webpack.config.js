@@ -9,7 +9,6 @@ const rules                   = require('./rules');
 module.exports = Object.assign({}, baseConfig, {
   mode: 'production',
   bail: true,
-  devtool: 'source-map',
   output,
   module: {
     rules

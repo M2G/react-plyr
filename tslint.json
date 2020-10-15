@@ -2,7 +2,6 @@
   "extends": [
     "airbnb",
     "tslint:recommended",
-    "tslint-react",
     "tslint-config-prettier",
     "plugin:@typescript-eslint/recommended"
   ],
@@ -40,6 +39,6 @@
       "check-typecast",
       "check-type-operator",
       "check-preblock"
-    ],
+    ]
   }
 }

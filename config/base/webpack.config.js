@@ -12,7 +12,8 @@ module.exports = {
     ],
     extensions: ['*', '.js', '.jsx', '.json', '.tsx', '.ts', '.scss'],
     alias: {
-      "@Icon": path.join(process.cwd(), 'src', 'Icon')
+      "@constants": path.join(process.cwd(), 'src', 'constants'),
+      "@utils": path.join(process.cwd(), 'src', 'utils'),
     }
   },
   plugins,
