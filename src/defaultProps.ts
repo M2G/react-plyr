@@ -1,3 +1,4 @@
+/* eslint-disable */
 const defaults = {
   // Disable
   enabled: true,

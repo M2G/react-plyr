@@ -14,34 +14,25 @@ npm install @m2g/react-plyr --save
 
 ### Simple Video
 ```javascript
-import ReactPlyr from '@m2g/react-plyr';
-import '@m2g/react-plyr/build/react-plyr.css';
+import ReactPlyr from './ReactPlyr';
 
 // add the component in the render function
-render() {
-  return (
     <ReactPlyr
       type="video"
       url="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
     />
-  )
-}
 ```
 ### Simple Audio
 ```javascript
 import ReactPlyr from '@m2g/react-plyr';
-import '@m2g/react-plyr/build/react-plyr.css';
 
 // add the component in the render function
-render() {
-  return (
     <ReactPlyr
       type='audio'
       title='Kishi Bashi &ndash; &ldquo;It All Began With A Burst&rdquo;'
       url="https://cdn.plyr.io/static/demo/Kishi_Bashi_-_It_All_Began_With_a_Burst.mp3"
     />
-  )
-}
+
 ```
 
 Note: See App.tsx file on project if you want more example.

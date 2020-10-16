@@ -76,12 +76,13 @@ module.exports = {
 
     "lines-between-class-members": "off",
 
+    "no-unused-vars": ["error", { "varsIgnorePattern": "^_" }],
+
     "@typescript-eslint/no-type-alias": 1,
     "@typescript-eslint/no-unsafe-call": 1,
     "@typescript-eslint/member-ordering": 1,
     "@typescript-eslint/no-unsafe-assignment": 1,
     "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-for-in-array": "warn",
     "@typescript-eslint/no-empty-function": 0,
