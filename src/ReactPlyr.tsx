@@ -2,7 +2,7 @@
 import React, { useEffect, createRef, memo } from 'react';
 import * as PropTypes from 'prop-types';
 import Plyr from 'plyr';
-import { pick, difference } from './utils';
+import { pick, difference, isEqual } from './utils';
 import { CONSTROLS, EVENTS, SETTINGS } from './constants';
 import defaultProps from './defaultProps';
 import AudioType from './types';
@@ -95,9 +95,8 @@ export namespace PlayerNS {
 }
 
 const areEqual = (prevProps, nextProps) => {
-
-  console.log('areEqual', { prevProps, nextProps })
-
+  const { sources } = prevProps;
+  return isEqual(nextProps.sources, sources);
 };
 
 type AllProps = PlayerNS.Props & PlayerNS.PropsAction;

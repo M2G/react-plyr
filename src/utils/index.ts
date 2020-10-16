@@ -1,3 +1,3 @@
-import { pick, difference } from './utils';
+import { pick, difference, isEqual } from './utils';
 
-export { pick, difference };
+export { pick, difference, isEqual };
