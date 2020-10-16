@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
@@ -5,6 +6,7 @@ import ReactPlyr from './ReactPlyr';
 
 it('renders a simple HTML5 Audio', () => {
   const wrapper = shallow(
+    //@ts-ignore
     <ReactPlyr
       sources={
         [{
@@ -23,18 +25,9 @@ it('renders a simple HTML5 Audio', () => {
   expect(toJson(wrapper)).toMatchSnapshot();
 });
 
-it('renders a simple HTML5 Video', () => {
-  const wrapper = shallow(
-    <ReactPlyr
-      type="video"
-      url="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
-    />,
-  );
-  expect(toJson(wrapper)).toMatchSnapshot();
-});
-
 it('renders a simple HTML5 Video with Captions', () => {
   const wrapper = shallow(
+    //@ts-ignore
     <ReactPlyr
       poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
       provider="video"
@@ -62,6 +55,7 @@ it('renders a simple HTML5 Video with Captions', () => {
 
 it('renders a simple HTML5 Video with Sources and Captions', () => {
   const wrapper = shallow(
+    //@ts-ignore
     <ReactPlyr
       poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
       settings={['quality', 'captions']}

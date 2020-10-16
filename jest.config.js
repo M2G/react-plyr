@@ -10,13 +10,11 @@ module.exports = {
   ],
   "transform": {
     "^.+\\.(js|jsx)$": "babel-jest",
-    "^.+\\.(tsx|ts)?$": "ts-jest",
-    "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "<rootDir>/fileTransform.js"
+    "^.+\\.(tsx|ts)?$": "ts-jest"
   },
   "transformIgnorePatterns": [
     "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
-    "^.+\\.module\\.(css|sass|scss)$",
-    "^.+\\.module\\.(svg)$"
+    "^.+\\.module\\.(css|sass|scss)$"
   ],
   "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
   "modulePaths": [],
@@ -34,9 +32,17 @@ module.exports = {
   "testPathIgnorePatterns": [
     "<rootDir>/(build|node_modules)/"
   ],
-  "testEnvironment": "jest-environment-jsdom-fourteen",
+  "testEnvironment": "jest-environment-jsdom-sixteen",
 
   // Setup Enzyme
   "snapshotSerializers": ["enzyme-to-json/serializer"],
-  "setupTestFrameworkScriptFile": "<rootDir>/setupEnzyme.ts",
+
+  "setupFilesAfterEnv": [
+    "<rootDir>/setupEnzyme.ts",
+    "<rootDir>/src/setupTests.ts"
+  ],
+  "collectCoverageFrom": [
+    "src/**/*.{js,jsx,ts,tsx}",
+    "!src/**/*.d.ts"
+  ],
 };

@@ -16,9 +16,8 @@ render(App);
 
 unregister();
 
-
 /*
-import ReactPlyr from './ReactPlyr';
-
-export default ReactPlyr;
-*/
+ *import ReactPlyr from './ReactPlyr';
+ *
+ *export default ReactPlyr;
+ */

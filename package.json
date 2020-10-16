@@ -31,8 +31,8 @@
     "publish:npm": "rm -rf ./build && NODE_ENV=production webpack --mode production --config ./config/publish/webpack.config.js --progress"
   },
   "peerDependencies": {
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
@@ -96,7 +96,7 @@
     "ts-loader": "^8.0.1",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.9.7",
-    "webpack": "^4.44.0",
+    "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
     "webpack-dev-middleware": "^3.7.2",
     "webpack-dev-server": "^3.11.0",
@@ -115,6 +115,8 @@
     "@storybook/addon-storysource": "^5.3.19",
     "@storybook/addons": "5.3.19",
     "@storybook/react": "^6.0.5",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
     "@types/classnames": "^2.2.10",
     "@types/prop-types": "^15.7.3",
     "@types/react": "^16.9.43",
@@ -126,8 +128,8 @@
     "eslint-config-airbnb-typescript": "^9.0.0",
     "plyr": "^3.6.2",
     "prop-types": "^15.7.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "workbox-webpack-plugin": "^5.1.3"
   },
   "files": [
