@@ -73,7 +73,7 @@ export namespace PlayerNS {
     autoplay?: boolean;
   }
   export interface PropsAction {
-    onReady?: (player: Function) => void;
+    onReady?: (player: { language; volume; muted; speed; on; destroy; play; currentTime }) => void;
     onPlay?: () => void;
     onPause?: () => void;
     onEnd?: () => void;
@@ -95,8 +95,8 @@ export namespace PlayerNS {
 }
 
 const areEqual = (prevProps, nextProps) => {
-  const { sources } = prevProps;
-  return isEqual(nextProps.sources, sources);
+  const { sources, url } = prevProps;
+  return sources?.length ? isEqual(nextProps.sources, sources) : isEqual(nextProps.url, url);
 };
 
 type AllProps = PlayerNS.Props & PlayerNS.PropsAction;
@@ -136,7 +136,7 @@ function ReactPlyr({
 
     const node: any = elementRef?.current;
 
-    const player: { language, volume, muted, speed, on, destroy, play, currentTime } = node ? new Plyr(node, defaultOptions) : null;
+    const player: Plyr | null = node ? new Plyr(node, defaultOptions) : null;
 
     if (!player) return;
 
@@ -169,11 +169,11 @@ function ReactPlyr({
     };
   }, []);
 
-  const { poster, sources, title, tracks, type } = props;
+  const { poster, sources, title, tracks, type, url } = props;
 
   useEffect(() => {
     return updateSource({ poster, sources, title, tracks, type });
-  }, [poster, sources, title, tracks, type]);
+  }, [sources, url]);
 
   function updateSource({
     poster,
@@ -194,6 +194,7 @@ function ReactPlyr({
   // function enterFullscreen () { return player?.fullscreen.enter(); }
   // function exitFullscreen () { return player?.fullscreen.exit(); }
   // function forward (time: number) { return player?.forward(time); }
+  //@ts-ignore
   function getCurrentTime () { return player?.currentTime; }
   // function getDuration () { return player?.duration; }
   // function getType () { return player?.source?.type; }
@@ -451,8 +452,8 @@ ReactPlyr.propTypes = {
   ),
   sources: PropTypes.arrayOf(
     PropTypes.shape({
-      size: PropTypes.number.isRequired,
-      src: PropTypes.string.isRequired,
+      size: PropTypes.number,
+      src: PropTypes.string,
       type: PropTypes.string,
     }),
   ),
@@ -509,5 +510,4 @@ ReactPlyr.defaultProps = {
   ...defaultProps,
 };
 
-// @ts-ignore
 export default memo(ReactPlyr, areEqual);

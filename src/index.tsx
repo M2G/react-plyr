@@ -4,7 +4,7 @@ import App from './App';
 import { unregister } from './serviceWorker';
 import './index.scss';
 
-// eslint-disable-next-line @typescript-eslint/typedef
+// eslint-disable-next-line
 const render = (Component) => {
   const MOUNT_NODE = document.getElementById('root');
   if (MOUNT_NODE) {
@@ -15,9 +15,3 @@ const render = (Component) => {
 render(App);
 
 unregister();
-
-/*
- *import ReactPlyr from './ReactPlyr';
- *
- *export default ReactPlyr;
- */
