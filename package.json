@@ -18,7 +18,7 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .; exit 0",
     "test:e2e": "node_modules/.bin/nightwatch -c ./tests/e2e/nightwatch.conf.js --env chrome",
-    "test": "jest --env=jsdom",
+    "test": "jest --env=jsdom --watchAll=false --coverage",
     "test:watch": "jest --watch",
     "storybook": "start-storybook -s ./public -p 6006",
     "storybook-build": "rm -rf docs && build-storybook -c .storybook -o docs && copyfiles -u 1 public/* docs",
