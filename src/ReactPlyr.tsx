@@ -94,14 +94,10 @@ export namespace PlayerNS {
   }
 }
 
-const areEqual = (prevProps, nextProps) => {
+function areEqual(prevProps, nextProps){
   const { sources, url } = prevProps;
-
-  console.log('areEqual prevProps', prevProps)
-  console.log('areEqual nextProps', nextProps.sources, nextProps.url)
-
-  return sources?.length ? !isEqual(nextProps.sources, sources) : !isEqual(nextProps.url, url);
-};
+  return sources?.length ? isEqual(nextProps.sources, sources) : isEqual(nextProps.url, url);
+}
 
 type AllProps = PlayerNS.Props & PlayerNS.PropsAction;
 
@@ -130,6 +126,7 @@ function ReactPlyr({
   const player = null;
 
   useEffect(() => {
+    console.log('[did mount]');
     const defaultOptions = Object.keys(defaultProps)?.reduce(
       (acc: {}, current: string) => ({
         ...acc,
@@ -173,30 +170,22 @@ function ReactPlyr({
 
   const { poster, sources, title, tracks, type, url } = props;
 
-  console.log('[props]', sources);
-
-
   useEffect(() => {
-
-    console.log('[useEffect useEffect useEffect useEffect]');
-
+    console.log('[did update]');
     updateSource({ poster, sources, title, tracks, type });
   }, [sources, url]);
 
   function updateSource({
-    poster,
-    sources,
-    title,
-    tracks,
-    type,
-  }): void {
-
-    console.log('[updateSource]');
-
+                          poster,
+                          sources,
+                          title,
+                          tracks,
+                          type,
+                        }): void {
     // @ts-ignore
     player?.source = type === AudioType.Audio
-        ? { sources, title, type }
-        : { poster, sources, title, type, tracks };
+      ? { sources, title, type }
+      : { poster, sources, title, type, tracks };
   }
 
   // function decreaseVolume (step: number) { return player?.decreaseVolume(step); }
@@ -204,7 +193,7 @@ function ReactPlyr({
   // function exitFullscreen () { return player?.fullscreen.exit(); }
   // function forward (time: number) { return player?.forward(time); }
   //@ts-ignore
-  function getCurrentTime () { return player?.currentTime; }
+  function getCurrentTime (): number { return player?.currentTime; }
   // function getDuration () { return player?.duration; }
   // function getType () { return player?.source?.type; }
   // function getVolume () { return player?.volume; }
@@ -367,7 +356,7 @@ function ReactPlyr({
 
   console.log('[render audio]');
 
-  return type === AudioType.Video
+  return props?.type === AudioType.Video
     ? renderVideo()
     : renderAudio();
 }
