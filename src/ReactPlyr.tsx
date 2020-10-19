@@ -2,8 +2,8 @@
 import React, { useEffect, createRef, memo } from 'react';
 import * as PropTypes from 'prop-types';
 import Plyr from 'plyr';
-import { pick, difference, isEqual } from './utils';
-import { CONSTROLS, EVENTS, SETTINGS } from './constants';
+import { pick, difference, isEqual } from '@utils';
+import { CONSTROLS, EVENTS, SETTINGS } from '@constants';
 import defaultProps from './defaultProps';
 import AudioType from './types';
 import 'plyr/src/sass/plyr.scss';
@@ -96,7 +96,11 @@ export namespace PlayerNS {
 
 const areEqual = (prevProps, nextProps) => {
   const { sources, url } = prevProps;
-  return sources?.length ? isEqual(nextProps.sources, sources) : isEqual(nextProps.url, url);
+
+  console.log('areEqual prevProps', prevProps)
+  console.log('areEqual nextProps', nextProps.sources, nextProps.url)
+
+  return sources?.length ? !isEqual(nextProps.sources, sources) : !isEqual(nextProps.url, url);
 };
 
 type AllProps = PlayerNS.Props & PlayerNS.PropsAction;
@@ -126,17 +130,15 @@ function ReactPlyr({
   const player = null;
 
   useEffect(() => {
-    const defaultOptions = Object.keys(defaultProps).reduce(
+    const defaultOptions = Object.keys(defaultProps)?.reduce(
       (acc: {}, current: string) => ({
         ...acc,
-        [current]: props[current],
-      }),
-      {},
-    );
+        [current]: props?.[current],
+      }), {});
 
-    const node: any = elementRef?.current;
+    const node: HTMLElement = elementRef?.current;
 
-    const player: Plyr | null = node ? new Plyr(node, defaultOptions) : null;
+    const player: any = node ? new Plyr(node, defaultOptions) : null;
 
     if (!player) return;
 
@@ -171,8 +173,14 @@ function ReactPlyr({
 
   const { poster, sources, title, tracks, type, url } = props;
 
+  console.log('[props]', sources);
+
+
   useEffect(() => {
-    return updateSource({ poster, sources, title, tracks, type });
+
+    console.log('[useEffect useEffect useEffect useEffect]');
+
+    updateSource({ poster, sources, title, tracks, type });
   }, [sources, url]);
 
   function updateSource({
@@ -183,9 +191,10 @@ function ReactPlyr({
     type,
   }): void {
 
+    console.log('[updateSource]');
+
     // @ts-ignore
-    player?.source =
-      type === AudioType.Audio
+    player?.source = type === AudioType.Audio
         ? { sources, title, type }
         : { poster, sources, title, type, tracks };
   }
@@ -356,7 +365,7 @@ function ReactPlyr({
     );
   }
 
-  console.log('[render]');
+  console.log('[render audio]');
 
   return type === AudioType.Video
     ? renderVideo()

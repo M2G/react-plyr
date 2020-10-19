@@ -3,3 +3,7 @@
 /build
 /src/serviceWorker.ts
 /config
+/jest.config.js
+/babel.config.js
+/fileTransform.js
+/postcss.config.js

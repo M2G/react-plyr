@@ -20,6 +20,8 @@ module.exports = {
   "modulePaths": [],
   "moduleNameMapper": {
     '\\.(css|scss)$': 'identity-obj-proxy',
+    "^@utils$": "<rootDir>/src/utils",
+    "^@constants$": "<rootDir>/src/constants"
   },
   "moduleFileExtensions": [
     "ts",
@@ -43,6 +45,11 @@ module.exports = {
   ],
   "collectCoverageFrom": [
     "src/**/*.{js,jsx,ts,tsx}",
-    "!src/**/*.d.ts"
+    "!src/**/*.d.ts",
+    "!<rootDir>/src/constants/*.ts",
+    "!<rootDir>/src/index.tsx",
+    "!<rootDir>/src/serviceWorker.ts",
+    "!<rootDir>/src/App.tsx",
+    "!<rootDir>/src/utils/*.ts",
   ],
 };

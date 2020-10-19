@@ -1,7 +1,6 @@
 /* eslint-disable */
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
 import ReactPlyr from './ReactPlyr';
 
 describe('React Plyr', () => {
@@ -98,25 +97,54 @@ describe('React Plyr', () => {
   });
 
   it('renders a simple HTML5 Audio', () => {
-    // expect(toJson(wrapper)).toMatchSnapshot();
     expect(wrapper.find('audio').length).toEqual(1);
     expect(wrapper.find('source').length).toEqual(2);
+    expect(wrapper.prop('children')[0].props.src).toEqual("https://cdn.plyr.io/static/demo/Kishi_Bashi_-_It_All_Began_With_a_Burst.mp3");
   });
 
   it('renders a simple HTML5 Audio without source', () => {
-   expect(toJson(wrapper2)).toMatchSnapshot();
     expect(wrapper2.find('audio').length).toEqual(1);
+    expect(wrapper2.prop('src')).toEqual("https://cdn.plyr.io/static/demo/Kishi_Bashi_-_It_All_Began_With_a_Burst.mp3");
+    wrapper2.setProps({ src: "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3" });
+    expect(wrapper2.prop('src')).toEqual("https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3");
   });
 
   it('renders a simple HTML5 Video with Sources and Captions', () => {
-    expect(toJson(wrapper3)).toMatchSnapshot();
-    expect(wrapper3.find('video').length).toEqual(1);
-  });
-
-  it('renders a simple HTML5 Video with Sources and Captions', () => {
-    expect(toJson(wrapper4)).toMatchSnapshot();
     expect(wrapper4.find('video').length).toEqual(1);
     expect(wrapper4.find('source').length).toEqual(4);
     expect(wrapper4.find('track').length).toEqual(2);
+    expect(wrapper4.prop('children')[0][0].props.src).toEqual("https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4");
+    wrapper4.setProps({ sources: [{
+        size: 576,
+        src: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4',
+        type: 'video/mp4',
+      },
+        {
+          size: 720,
+          src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4',
+          type: 'video/mp4',
+        },
+        {
+          size: 1080,
+          src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4',
+          type: 'video/mp4',
+        },
+        {
+          size: 1440,
+          src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1440p.mp4',
+          type: 'video/mp4',
+        }] });
+
+
+    console.log('::::', wrapper4.prop('children')[0][0].props)
+
   });
+
+  it('renders a simple HTML5 Video with Sources and Captions', () => {
+    expect(wrapper3.find('video').length).toEqual(1);
+    expect(wrapper3.prop('src')).toEqual("https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4");
+    wrapper3.setProps({ src: "https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4" });
+    expect(wrapper3.prop('src')).toEqual("https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4");
+  });
+
 });
