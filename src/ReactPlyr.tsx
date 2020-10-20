@@ -94,7 +94,7 @@ export namespace PlayerNS {
   }
 }
 
-function areEqual(prevProps, nextProps){
+function areEqual(prevProps, nextProps): boolean {
   const { sources, url } = prevProps || {};
   return sources?.length ? isEqual(nextProps.sources, sources) : isEqual(nextProps.url, url);
 }
@@ -175,28 +175,6 @@ const ReactPlyr: React.FC<AllProps> = React.forwardRef<HTMLPlyrVideoElement, Ply
 
     return () => player?.destroy();
   }, []);
-
-  const { poster, sources, title, tracks, type, url } = props;
-
-  useEffect(() => {
-    console.log('[did update]');
-    updateSource({ poster, sources, title, tracks, type });
-  }, [sources, url]);
-
-  function updateSource({
-                          poster,
-                          sources,
-                          title,
-                          tracks,
-                          type,
-                        }): void {
-
-    console.log('[updateSource]', sources);
-    // @ts-ignore
-    player?.source = type === AudioType.Audio
-      ? { sources, title, type }
-      : { poster, sources, title, type, tracks };
-  }
 
   //@ts-ignore
   useImperativeHandle(ref, () => {
