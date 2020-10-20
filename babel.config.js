@@ -1,24 +1,9 @@
 module.exports = {
-  presets: [
-    [
-      'babel-preset-airbnb',
-      "@babel/preset-typescript",
-      [
-        "@babel/preset-env",
-        {
-          "useBuiltIns": "usage",
-        }],
-      "@babel/preset-react",
-      {
-        targets: {
-          node: 'current'
-        }
-      }
-    ]
-  ],
-  plugins: [
-    "@babel/plugin-proposal-optional-chaining",
-    "@babel/proposal-class-properties",
-    "@babel/proposal-object-rest-spread"
+  "presets": ["@babel/preset-env", "@babel/preset-react", "airbnb"],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/proposal-optional-chaining",
+    "@babel/proposal-nullish-coalescing-operator"
   ]
 };

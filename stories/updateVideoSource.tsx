@@ -1,4 +1,5 @@
-import * as React from 'react';
+/* eslint-disable */
+import React, { useState, createRef } from 'react';
 import { storiesOf } from '@storybook/react';
 // import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
@@ -52,7 +53,7 @@ const videos = {
     sources: [
       {
         size: 720,
-        src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4',
+        src: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4',
         type: 'video/mp4',
       },
       {
@@ -80,34 +81,26 @@ const videos = {
   },
 };
 
-export namespace WrapperNameSpace {
+export namespace WrapperNameSpaceNS {
   export interface State {
     video: string;
   }
 }
 
-class Wrapper extends React.PureComponent<WrapperNameSpace.State> {
-   state: { video: string; };
-  private elementRef: any;
-  public setState: any;
-  constructor(props) {
-    super(props);
+function Wrapper({}:WrapperNameSpaceNS.State) {
 
-    this.state = {
-      video: 'video1',
-    };
+  const [state, setState] = useState({
+    video: 'video1',
+  });
 
-    this.elementRef = React.createRef();
-  }
+    const elementRef = createRef();
 
-  render() {
-    const { video } = this.state;
+    const { video } = state;
 
     return (
-      <>
-
+      <div>
         <ReactPlyr
-          ref={this.elementRef}
+          ref={elementRef}
           muted={videos[video].muted}
           poster={videos[video].poster}
           sources={videos[video].sources}
@@ -115,14 +108,12 @@ class Wrapper extends React.PureComponent<WrapperNameSpace.State> {
           tracks={videos[video].tracks}
           type={videos[video].type}
         />
-
         <hr />
-
-        <button onClick={() => this.setState({ video: 'video1' })}>Set video 1 sources</button>
-        <button onClick={() => this.setState({ video: 'video2' })}>Set video 2 sources</button>
-      </>
+        <button onClick={() => setState({ video: 'video1' })}>Set video 1 sources</button>
+        <button onClick={() => setState({ video: 'video2' })}>Set video 2 sources</button>
+      </div>
     );
-  }
 }
+
 // @ts-ignore
 export default stories.add('Updating video (/w Source) on the fly', withInfo()(() => <Wrapper />));

@@ -1,7 +1,7 @@
 /* eslint-disable */
-import React, { useEffect, createRef, memo } from 'react';
+import React, { useEffect, createRef, memo, useImperativeHandle, HTMLAttributes } from 'react';
 import * as PropTypes from 'prop-types';
-import Plyr from 'plyr';
+import Plyr, { Options, SourceInfo } from 'plyr';
 import { pick, difference, isEqual } from '@utils';
 import { CONSTROLS, EVENTS, SETTINGS } from '@constants';
 import defaultProps from './defaultProps';
@@ -95,13 +95,23 @@ export namespace PlayerNS {
 }
 
 function areEqual(prevProps, nextProps){
-  const { sources, url } = prevProps;
+  const { sources, url } = prevProps || {};
   return sources?.length ? isEqual(nextProps.sources, sources) : isEqual(nextProps.url, url);
+}
+
+type PlyrInstance = Plyr
+
+type PlyrProps = HTMLAttributes<HTMLVideoElement> & {
+  source?: SourceInfo
+   options?: Options
 }
 
 type AllProps = PlayerNS.Props & PlayerNS.PropsAction;
 
-function ReactPlyr({
+type HTMLPlyrVideoElement = HTMLVideoElement & { plyr?: PlyrInstance }
+
+//@ts-ignore
+const ReactPlyr: React.FC<AllProps> = React.forwardRef<HTMLPlyrVideoElement, PlyrProps>(({
   autoplay,
   onReady,
   onPlay,
@@ -120,10 +130,10 @@ function ReactPlyr({
   onCaptionsEnabled,
   onCaptionsDisabled,
   ...props
-}: AllProps) {
+}: AllProps, ref) => {
   const restProps = difference([Object.keys(props), Object.keys(defaultProps)]);
-  const elementRef: any = createRef();
-  const player = null;
+  const elementRef: any = createRef<HTMLPlyrVideoElement>();
+  let player: any = null;
 
   useEffect(() => {
     console.log('[did mount]');
@@ -135,7 +145,7 @@ function ReactPlyr({
 
     const node: HTMLElement = elementRef?.current;
 
-    const player: any = node ? new Plyr(node, defaultOptions) : null;
+    player = node ? new Plyr(node, defaultOptions) : null;
 
     if (!player) return;
 
@@ -163,9 +173,7 @@ function ReactPlyr({
     player?.on(CAPTIONSENABLED, () => onCaptionsEnabled?.());
     player?.on(CAPTIONSDISABLED, () => onCaptionsDisabled?.());
 
-    return () => {
-      player?.destroy();
-    };
+    return () => player?.destroy();
   }, []);
 
   const { poster, sources, title, tracks, type, url } = props;
@@ -182,35 +190,64 @@ function ReactPlyr({
                           tracks,
                           type,
                         }): void {
+
+    console.log('[updateSource]', sources);
     // @ts-ignore
     player?.source = type === AudioType.Audio
       ? { sources, title, type }
       : { poster, sources, title, type, tracks };
   }
 
-  // function decreaseVolume (step: number) { return player?.decreaseVolume(step); }
-  // function enterFullscreen () { return player?.fullscreen.enter(); }
-  // function exitFullscreen () { return player?.fullscreen.exit(); }
-  // function forward (time: number) { return player?.forward(time); }
   //@ts-ignore
+  useImperativeHandle(ref, () => {
+    return {
+      decreaseVolume: decreaseVolume,
+      enterFullscreen: enterFullscreen,
+      exitFullscreen: exitFullscreen,
+      forward: forward,
+      getCurrentTime: getCurrentTime,
+      getDuration: getDuration,
+      getType: getType,
+      getVolume: getVolume,
+      increaseVolume: increaseVolume,
+      isMuted: isMuted,
+      isPaused: isPaused,
+      setCurrentTime: setCurrentTime,
+      setMuted: setMuted,
+      setVolume: setVolume,
+      stop: stop,
+      restart: restart,
+      rewind: rewind,
+      togglePlay: togglePlay,
+      play: play,
+      pause: pause,
+      toggleFullscreen: toggleFullscreen,
+      toggleMute: toggleMute,
+    };
+  });
+
+  function decreaseVolume (step: number) { return player?.decreaseVolume(step); }
+  function enterFullscreen () { return player?.fullscreen.enter(); }
+  function exitFullscreen () { return player?.fullscreen.exit(); }
+  function forward (time: number) { return player?.forward(time); }
   function getCurrentTime (): number { return player?.currentTime; }
-  // function getDuration () { return player?.duration; }
-  // function getType () { return player?.source?.type; }
-  // function getVolume () { return player?.volume; }
-  // function increaseVolume (step: number) { return player?.increaseVolume(step); }
-  // function isMuted () { return player?.muted; }
-  // function isPaused () { return player?.paused; }
-  // function setCurrentTime (currentTime: number) { return (player.currentTime = currentTime); }
-  // function setMuted (muted = true) { return (player.muted = muted); }
-  // function setVolume (amount: number) { return (player.volume = amount); }
-  // function stop () { return player?.stop(); }
-  // function restart () { return layer?.restart(); }
-  // function rewind (time: number) { return player?.rewind(time); }
-  // function togglePlay () { return player?.togglePlay(); }
-  // function play () { return player?.play(); }
-  // function pause () { return player?.pause(); }
-  // function toggleFullscreen () { return player?.fullscreen.toggle(); }
-  // function toggleMute () { return player?.toggleControls(player.muted); }
+  function getDuration () { return player?.duration; }
+  function getType () { return player?.source?.type; }
+  function getVolume () { return player?.volume; }
+  function increaseVolume (step: number) { return player?.increaseVolume(step); }
+  function isMuted () { return player?.muted; }
+  function isPaused () { return player?.paused; }
+  function setCurrentTime (currentTime: number) { return (player.currentTime = currentTime); }
+  function setMuted (muted = true) { return (player.muted = muted); }
+  function setVolume (amount: number) { return (player.volume = amount); }
+  function stop () { return player?.stop(); }
+  function restart () { return player?.restart(); }
+  function rewind (time: number) { return player?.rewind(time); }
+  function togglePlay () { return player?.togglePlay(); }
+  function play () { return player?.play(); }
+  function pause () { return player?.pause(); }
+  function toggleFullscreen () { return player?.fullscreen.toggle(); }
+  function toggleMute () { return player?.toggleControls(player.muted); }
 
   function captionVideo(
     tracks: {
@@ -359,7 +396,9 @@ function ReactPlyr({
   return props?.type === AudioType.Video
     ? renderVideo()
     : renderAudio();
-}
+});
+
+ReactPlyr.displayName = 'ReactPlyr';
 
 ReactPlyr.propTypes = {
   autopause: PropTypes.bool,
@@ -445,9 +484,11 @@ ReactPlyr.propTypes = {
   ratio: PropTypes.string,
   resetOnEnd: PropTypes.bool,
   seekTime: PropTypes.number,
+  // @ts-ignore
   settings: PropTypes.arrayOf(
     PropTypes.oneOf([CAPTIONS, QUALITY, SPEED, LOOP]),
   ),
+  // @ts-ignore
   sources: PropTypes.arrayOf(
     PropTypes.shape({
       size: PropTypes.number,
@@ -465,6 +506,7 @@ ReactPlyr.propTypes = {
   }),
   title: PropTypes.string,
   toggleInvert: PropTypes.bool,
+  // @ts-ignore
   tracks: PropTypes.arrayOf(
     PropTypes.shape({
       default: PropTypes.bool,
@@ -503,6 +545,7 @@ ReactPlyr.defaultProps = {
   sources: [],
   tracks: [],
   type: '',
+  //@ts-ignore
   url: null,
 
   ...defaultProps,

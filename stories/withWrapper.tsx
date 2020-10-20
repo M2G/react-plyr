@@ -1,4 +1,5 @@
-import * as React from 'react';
+/* eslint-disable */
+import React, { useState, useRef } from 'react';
 import { storiesOf } from '@storybook/react';
 // import { withKnobs, text, number, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
@@ -7,24 +8,20 @@ import ReactPlyr from '../src/ReactPlyr';
 
 const stories = storiesOf('React Plyr', module);
 
-export namespace WrapperNameSpace {
+export namespace WrapperNameSpaceNS {
   export interface State {
     muted: boolean;
   }
 }
 
-class Wrapper extends React.Component<WrapperNameSpace.State> {
-  private plyr: any;
-  constructor(props) {
-    super(props);
+function Wrapper({}:WrapperNameSpaceNS.State) {
+  const ref = useRef(null);
+  const [state, setState] = useState({
+    muted: false,
+    playerState: 'isStopped',
+  });
 
-    this.state = {
-      muted: false,
-      playerState: 'isStopped',
-    };
-  }
-
-  getState = state => {
+  function getState(state){
     switch (state) {
       case 'isPlaying':
         return '▶️';
@@ -35,117 +32,108 @@ class Wrapper extends React.Component<WrapperNameSpace.State> {
       default:
         return '⏺';
     }
-  };
+  }
 
-  handlePlay = () => {
-    this.plyr.play();
-    this.setState({ playerState: 'isPlaying' });
-  };
+  function handlePlay(){
+    console.log('handlePlay', ref)
+    ref.current.play();
+    setState({ playerState: 'isPlaying' });
+  }
 
-  handleToogle = () => {
-    this.plyr.togglePlay();
-    this.setState(state => ({
+  function handleToogle(){
+    ref.current.togglePlay();
+    setState(state => ({
       playerState: state === 'isPlaying' ? 'isPaused' : 'isPlaying',
     }));
-  };
+  }
 
-  handlePause = () => {
-    this.plyr.pause();
-    this.setState({ playerState: 'isPaused' });
-  };
+  function handlePause(){
+    console.log('handlePause', ref)
+    ref.current.pause();
+    setState({ playerState: 'isPaused' });
+  }
 
-  handleStop = () => {
-    this.plyr.stop();
-    this.setState({ playerState: 'isStopped' });
-  };
+  function handleStop(){
+    ref.current.stop();
+    setState({ playerState: 'isStopped' });
+  }
 
-  handleRestart = () => {
-    this.plyr.restart();
-  };
+  function handleRestart(){
+    ref.current.restart();
+  }
 
-  handleRewind = () => {
-    this.plyr.rewind();
-  };
+  function handleRewind(){
+    ref.current.rewind();
+  }
 
-  handleForward = () => {
-    this.plyr.forward();
-  };
+  function handleForward(){
+    ref.current.forward();
+  }
 
-  handleMute = () => {
-    this.setState({ muted: true });
-  };
+  function handleMute(){
+    setState({ muted: true });
+  }
 
-  handleDecreaseVolume = step => {
-    this.plyr.decreaseVolume(step);
-  };
+  function handleDecreaseVolume(step){
+    ref.current.decreaseVolume(step);
+  }
 
-  handleIncreaseVolume = step => {
-    this.plyr.increaseVolume(step);
-  };
+  function handleIncreaseVolume(step){
+    ref.current.increaseVolume(step);
+  }
 
-  handleSetFullVolume = amount => {
-    this.plyr.setVolume(amount);
-  };
-
-  render() {
+  function handleSetFullVolume(amount) {
+    ref.current.setVolume(amount);
+  }
 
     // @ts-ignore
-    const { muted, playerState } = this.state;
+    const { muted, playerState } = state;
 
     return (
-      <>
+      <div>
         <ReactPlyr
           type="video"
           url="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
           muted={muted}
-          // @ts-ignore
           volume={0.5}
           hideControls={false}
           onReady={action('Is Ready!')}
           // controls={[]}
-          onPlay={this.handlePlay}
-          onPause={this.handlePause}
+          onPlay={handlePlay}
+          onPause={handlePause}
           onEnd={action('Video has finished!')}
           onEnterFullscreen={action('Fullscreen is enabled')}
           onExitFullscreen={action('Fullscreen is disabled')}
           onVolumeChange={action('Volume changed')}
           onSeeked={action('Seeked!')}
-          ref={plyr => (this.plyr = plyr)}
+          ref={ref}
         />
-
         <hr />
-
-        <button onClick={this.handleRewind}>️⏪ Rewind</button>
-        <button onClick={this.handlePlay}>️▶️ Play</button>
-        <button onClick={this.handleForward}>️⏩ Forward</button>
-        <button onClick={this.handleToogle}>️⏯ Toggle Playing</button>
-        <button onClick={this.handlePause}>️⏸️ Pause</button>
-        <button onClick={this.handleStop}>️⏹ Stop</button>
-        <button onClick={this.handleRestart}>️🔄 Restart</button>
-
+        <button onClick={handleRewind}>️⏪ Rewind</button>
+        <button onClick={handlePlay}>️▶️ Play</button>
+        <button onClick={handleForward}>️⏩ Forward</button>
+        <button onClick={handleToogle}>️⏯ Toggle Playing</button>
+        <button onClick={handlePause}>️⏸️ Pause</button>
+        <button onClick={handleStop}>️⏹ Stop</button>
+        <button onClick={handleRestart}>️🔄 Restart</button>
         <hr />
-
-        <button onClick={this.handleMute}>️🔇 Mute</button>
-        <button onClick={() => this.handleDecreaseVolume(0.2)}>
+        <button onClick={handleMute}>️🔇 Mute</button>
+        <button onClick={() => handleDecreaseVolume(0.2)}>
           ️🔉 Decrease volume
         </button>
-        <button onClick={() => this.handleIncreaseVolume(0.2)}>
+        <button onClick={() => handleIncreaseVolume(0.2)}>
           ️🔊 Increase volume
         </button>
-        <button onClick={() => this.handleSetFullVolume(1)}>
+        <button onClick={() => handleSetFullVolume(1)}>
           ️🔊 Set volume to full
         </button>
-
         <hr />
-
-        <h4>State: {this.getState(playerState)}</h4>
-      </>
+        <h4>State: {getState(playerState)}</h4>
+      </div>
     );
   }
-}
 
 export default stories.add(
   'External Controls & State',
-  // @ts-ignore
   withInfo()(() => <Wrapper />),
 );
