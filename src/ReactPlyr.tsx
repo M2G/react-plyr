@@ -1,5 +1,12 @@
 /* eslint-disable */
-import React, { useEffect, createRef, memo, useImperativeHandle, HTMLAttributes } from 'react';
+import React, {
+  useEffect,
+  createRef,
+  memo,
+  useImperativeHandle,
+  HTMLAttributes,
+  MutableRefObject
+} from 'react';
 import * as PropTypes from 'prop-types';
 import Plyr, { Options, SourceInfo } from 'plyr';
 import { pick, difference, isEqual } from '@utils';
@@ -94,11 +101,6 @@ export namespace PlayerNS {
   }
 }
 
-function areEqual(prevProps, nextProps): boolean {
-  const { sources, url } = prevProps || {};
-  return sources?.length ? isEqual(nextProps.sources, sources) : isEqual(nextProps.url, url);
-}
-
 type PlyrInstance = Plyr
 
 type PlyrProps = HTMLAttributes<HTMLVideoElement> & {
@@ -109,6 +111,11 @@ type PlyrProps = HTMLAttributes<HTMLVideoElement> & {
 type AllProps = PlayerNS.Props & PlayerNS.PropsAction;
 
 type HTMLPlyrVideoElement = HTMLVideoElement & { plyr?: PlyrInstance }
+
+function areEqual(prevProps, nextProps): boolean {
+  const { sources, url } = prevProps || {};
+  return sources?.length ? isEqual(nextProps.sources, sources) : isEqual(nextProps.url, url);
+}
 
 //@ts-ignore
 const ReactPlyr: React.FC<AllProps> = React.forwardRef<HTMLPlyrVideoElement, PlyrProps>(({
@@ -135,6 +142,7 @@ const ReactPlyr: React.FC<AllProps> = React.forwardRef<HTMLPlyrVideoElement, Ply
   const elementRef: any = createRef<HTMLPlyrVideoElement>();
   let player: any = null;
 
+  // like did mount
   useEffect(() => {
     console.log('[did mount]');
     const defaultOptions = Object.keys(defaultProps)?.reduce(
@@ -176,6 +184,7 @@ const ReactPlyr: React.FC<AllProps> = React.forwardRef<HTMLPlyrVideoElement, Ply
     return () => player?.destroy();
   }, []);
 
+  // Getting a reference to a React Component using useRef hook
   //@ts-ignore
   useImperativeHandle(ref, () => {
     return {
@@ -288,7 +297,6 @@ const ReactPlyr: React.FC<AllProps> = React.forwardRef<HTMLPlyrVideoElement, Ply
         );
       }
     }
-
     return sourcesVideo;
   }
 
@@ -306,7 +314,6 @@ const ReactPlyr: React.FC<AllProps> = React.forwardRef<HTMLPlyrVideoElement, Ply
         audioSource.push(<source key={i} src={src} type={type} />);
       }
     }
-
     return audioSource;
   }
 
@@ -324,7 +331,7 @@ const ReactPlyr: React.FC<AllProps> = React.forwardRef<HTMLPlyrVideoElement, Ply
     if (sources?.length) {
       return (
         <video
-          ref={elementRef}
+          ref={(elementRef as unknown) as MutableRefObject<HTMLVideoElement>}
           poster={poster}
           preload={preload}
           {...pick(props, restProps)}
@@ -337,7 +344,7 @@ const ReactPlyr: React.FC<AllProps> = React.forwardRef<HTMLPlyrVideoElement, Ply
 
     return (
       <video
-        ref={elementRef}
+        ref={(elementRef as unknown) as MutableRefObject<HTMLVideoElement>}
         poster={poster}
         preload={preload}
         src={url}
@@ -353,7 +360,7 @@ const ReactPlyr: React.FC<AllProps> = React.forwardRef<HTMLPlyrVideoElement, Ply
 
     if (sources?.length) {
       return (
-        <audio ref={elementRef} preload={preload}>
+        <audio ref={(elementRef as unknown) as MutableRefObject<HTMLAudioElement>} preload={preload}>
           {audioSource(sources)}
         </audio>
       );
@@ -361,7 +368,7 @@ const ReactPlyr: React.FC<AllProps> = React.forwardRef<HTMLPlyrVideoElement, Ply
 
     return (
       <audio
-        ref={elementRef}
+        ref={(elementRef as unknown) as MutableRefObject<HTMLAudioElement>}
         preload={preload}
         src={url}
         {...pick(rest, restProps)}
