@@ -211,7 +211,7 @@ const ReactPlyr: React.FC<AllProps> = React.forwardRef<HTMLPlyrVideoElement, Ply
       toggleFullscreen: toggleFullscreen,
       toggleMute: toggleMute,
     };
-  });
+  }, []);
 
   function decreaseVolume (step: number) { return player?.decreaseVolume(step); }
   function enterFullscreen () { return player?.fullscreen.enter(); }
