@@ -24,7 +24,7 @@ import ReactPlyr from './ReactPlyr';
 ```
 ### Simple Audio
 ```javascript
-import ReactPlyr from '@m2g/react-plyr';
+import ReactPlyr from './ReactPlyr';
 
 // add the component in the render function
     <ReactPlyr
