@@ -3,6 +3,9 @@ const defaults = {
   // Disable
   enabled: true,
 
+  // Hls
+  isHls: false,
+
   // Custom media title
   title: '',
 

@@ -4,9 +4,11 @@ import React, {
   createRef,
   memo,
   useImperativeHandle,
+  forwardRef,
   HTMLAttributes,
   MutableRefObject
 } from 'react';
+import Hls from 'hls.js/dist/hls.min';
 import * as PropTypes from 'prop-types';
 import Plyr, { Options, SourceInfo } from 'plyr';
 import { pick, difference, isEqual } from '@utils';
@@ -55,6 +57,8 @@ export namespace PlayerNS {
     url?: string;
     type: string;
     title?: string;
+
+    isHls?: boolean;
     src?: string;
     size?: number;
     muted?: boolean;
@@ -79,6 +83,7 @@ export namespace PlayerNS {
     poster?: string;
     autoplay?: boolean;
   }
+
   export interface PropsAction {
     onReady?: (player: { language; volume; muted; speed; on; destroy; play; currentTime }) => void;
     onPlay?: () => void;
@@ -108,7 +113,7 @@ type PlyrProps = HTMLAttributes<HTMLVideoElement> & {
    options?: Options
 }
 
-type AllProps = PlayerNS.Props & PlayerNS.PropsAction;
+type AllProps = PlayerNS.Props & PlayerNS.PropsAction & PlyrProps;
 
 type HTMLPlyrVideoElement = HTMLVideoElement & { plyr?: PlyrInstance }
 
@@ -117,8 +122,7 @@ function areEqual(prevProps, nextProps): boolean {
   return sources?.length ? isEqual(nextProps.sources, sources) : isEqual(nextProps.url, url);
 }
 
-//@ts-ignore
-const ReactPlyr: React.FC<AllProps> = React.forwardRef<HTMLPlyrVideoElement, PlyrProps>(({
+const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>(({
   autoplay,
   onReady,
   onPlay,
@@ -144,7 +148,6 @@ const ReactPlyr: React.FC<AllProps> = React.forwardRef<HTMLPlyrVideoElement, Ply
 
   // like did mount
   useEffect(() => {
-    console.log('[did mount]');
     const defaultOptions = Object.keys(defaultProps)?.reduce(
       (acc: {}, current: string) => ({
         ...acc,
@@ -181,7 +184,23 @@ const ReactPlyr: React.FC<AllProps> = React.forwardRef<HTMLPlyrVideoElement, Ply
     player?.on(CAPTIONSENABLED, () => onCaptionsEnabled?.());
     player?.on(CAPTIONSDISABLED, () => onCaptionsDisabled?.());
 
-    return () => player?.destroy();
+    const { isHls, url } = props || {};
+
+    if (isHls && Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(url);
+      hls.attachMedia(node as HTMLMediaElement);
+
+      return () => {
+        if (hls) {
+          hls.destroy();
+        }
+      }
+    }
+
+    return () => {
+      player?.destroy();
+    }
   }, []);
 
   // Getting a reference to a React Component using useRef hook
@@ -326,7 +345,8 @@ const ReactPlyr: React.FC<AllProps> = React.forwardRef<HTMLPlyrVideoElement, Ply
       poster = '',
     } = props;
 
-    console.log('[render video]');
+    //@ts-ignore
+    console.log('[render video]', pick(props, restProps));
 
     if (sources?.length) {
       return (
@@ -429,6 +449,7 @@ ReactPlyr.propTypes = {
   hideControls: PropTypes.bool,
   iconPrefix: PropTypes.string,
   iconUrl: PropTypes.string,
+  isHls: PropTypes.bool,
   invertTime: PropTypes.bool,
   keyboard: PropTypes.shape({
     focused: PropTypes.bool,
