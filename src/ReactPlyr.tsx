@@ -122,6 +122,18 @@ function areEqual(prevProps, nextProps): boolean {
   return sources?.length ? isEqual(nextProps.sources, sources) : isEqual(nextProps.url, url);
 }
 
+
+function updateQuality(newQuality) {
+  //@ts-ignore
+  window.hls?.levels?.map((level, levelIndex) => {
+    if (level.height === newQuality) {
+      console.log("Found quality match with " + newQuality);
+      //@ts-ignore
+      window.hls.currentLevel = levelIndex;
+    }
+  });
+}
+
 const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>(({
   autoplay,
   onReady,
@@ -148,6 +160,7 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
 
   // like did mount
   useEffect(() => {
+    // For more options see: https://github.com/sampotts/plyr/#options
     const defaultOptions = Object.keys(defaultProps)?.reduce(
       (acc: {}, current: string) => ({
         ...acc,
@@ -156,7 +169,50 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
 
     const node: HTMLElement = elementRef?.current;
 
-    player = node ? new Plyr(node, defaultOptions) : null;
+    const { isHls, url } = props || {};
+
+    //@see https://github.com/sampotts/plyr/issues/1741#issuecomment-640293554
+    if (isHls && Hls.isSupported()) {
+      // For more Hls.js options, see https://github.com/dailymotion/hls.js
+      const hls = new Hls();
+      hls.loadSource(url);
+      hls.attachMedia(node as HTMLMediaElement);
+
+      // From the m3u8 playlist, hls parses the manifest and returns
+      // all available video qualities. This is important, in this approach,
+      // we will have one source on the Plyr player.
+      hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+
+        // Transform available levels into an array of integers (height values).
+        const availableQualities = hls.levels?.map(l => l.height);
+
+        // Add new qualities to option
+        //@ts-ignore
+        defaultOptions.quality = {
+          default: availableQualities[0], //Default - AUTO
+          options: availableQualities,
+          // this ensures Plyr to use Hls to update quality level
+          // Ref: https://github.com/sampotts/plyr/blob/master/src/js/html5.js#L77
+          forced: true,
+          onChange: (e) => updateQuality(e),
+        }
+        // Initialize new Plyr player with quality options
+        player = node ? new Plyr(node, defaultOptions) : null;
+      });
+
+      hls.attachMedia(node as HTMLMediaElement);
+      //@ts-ignore
+      window.hls = hls;
+
+      return () => {
+        if (hls) {
+          hls.destroy();
+        }
+      }
+    } else {
+      // default options with no quality update in case Hls is not supported
+      player = node ? new Plyr(node, defaultOptions) : null;
+    }
 
     if (!player) return;
 
@@ -183,20 +239,6 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
     player?.on(CONTROLSSHOWN, () => onControlsShown?.());
     player?.on(CAPTIONSENABLED, () => onCaptionsEnabled?.());
     player?.on(CAPTIONSDISABLED, () => onCaptionsDisabled?.());
-
-    const { isHls, url } = props || {};
-
-    if (isHls && Hls.isSupported()) {
-      const hls = new Hls();
-      hls.loadSource(url);
-      hls.attachMedia(node as HTMLMediaElement);
-
-      return () => {
-        if (hls) {
-          hls.destroy();
-        }
-      }
-    }
 
     return () => {
       player?.destroy();
