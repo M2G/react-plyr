@@ -386,9 +386,6 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
       poster = '',
     } = props;
 
-    //@ts-ignore
-    console.log('[render video]', pick(props, restProps));
-
     if (sources?.length) {
       return (
         <video
@@ -436,8 +433,6 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
       />
     );
   }
-
-  console.log('[render audio]');
 
   return props?.type === AudioType.Video
     ? renderVideo()
