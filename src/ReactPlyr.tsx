@@ -127,7 +127,6 @@ function updateQuality(newQuality) {
   //@ts-ignore
   window.hls?.levels?.map((level, levelIndex) => {
     if (level.height === newQuality) {
-      console.log("Found quality match with " + newQuality);
       //@ts-ignore
       window.hls.currentLevel = levelIndex;
     }
