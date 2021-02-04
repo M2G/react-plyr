@@ -125,7 +125,7 @@ function areEqual(prevProps, nextProps): boolean {
 
 function updateQuality(newQuality) {
   //@ts-ignore
-  window.hls?.levels?.map((level, levelIndex) => {
+  window.hls?.levels?.forEach((level, levelIndex) => {
     if (level.height === newQuality) {
       //@ts-ignore
       window.hls.currentLevel = levelIndex;
@@ -563,6 +563,7 @@ ReactPlyr.propTypes = {
     .isRequired,
   url: PropTypes.string,
   volume: PropTypes.number,
+  previewThumbnails: PropTypes.object,
 };
 
 ReactPlyr.defaultProps = {
