@@ -15,7 +15,8 @@ import { pick, difference, isEqual } from './utils';
 import { CONSTROLS, EVENTS, SETTINGS } from './constants';
 import defaultProps from './defaultProps';
 import AudioType from './types';
-import 'plyr/src/sass/plyr.scss';
+import './sass/plyr.scss';
+import './index.scss';
 
 const {
   READY,
@@ -106,11 +107,15 @@ export namespace PlayerNS {
   }
 }
 
+const iconPlay = `<svg id="icon-play" aria-hidden="true" focusable="false" viewBox="0 0 18 18">
+                    <use xlink:href="#plyr-play"></use>
+                  </svg>`;
+
 type PlyrInstance = Plyr
 
 type PlyrProps = HTMLAttributes<HTMLVideoElement> & {
   source?: SourceInfo
-   options?: Options
+  options?: Options
 }
 
 type AllProps = PlayerNS.Props & PlayerNS.PropsAction & PlyrProps;
@@ -122,127 +127,168 @@ function areEqual(prevProps, nextProps): boolean {
   return sources?.length ? isEqual(nextProps.sources, sources) : isEqual(nextProps.url, url);
 }
 
-
 function updateQuality(newQuality) {
-  //@ts-ignore
-  window.hls?.levels?.forEach((level, levelIndex) => {
-    if (level.height === newQuality) {
-      //@ts-ignore
-      window.hls.currentLevel = levelIndex;
-    }
-  });
+  if (newQuality === 0) {
+    //@ts-ignore
+    window.hls.currentLevel = -1; //Enable AUTO quality if option.value = 0
+  } else {
+    //@ts-ignore
+    window.hls.levels.forEach((level, levelIndex) => {
+      if (level.height === newQuality) {
+        console.log("Found quality match with " + newQuality);
+        //@ts-ignore
+        window.hls.currentLevel = levelIndex;
+      }
+    });
+  }
 }
 
 const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>(({
-  autoplay,
-  onReady,
-  onPlay,
-  onPause,
-  onEnd,
-  onLoadedData,
-  onSeeked,
-  onRateChange,
-  onTimeUpdate,
-  onEnterFullscreen,
-  onExitFullscreen,
-  onVolumeChange,
-  onLanguageChange,
-  onControlsHidden,
-  onControlsShown,
-  onCaptionsEnabled,
-  onCaptionsDisabled,
-  ...props
-}: AllProps, ref) => {
+                                                                                    autoplay,
+                                                                                    onReady,
+                                                                                    onPlay,
+                                                                                    onPause,
+                                                                                    onEnd,
+                                                                                    onLoadedData,
+                                                                                    onSeeked,
+                                                                                    onRateChange,
+                                                                                    onTimeUpdate,
+                                                                                    onEnterFullscreen,
+                                                                                    onExitFullscreen,
+                                                                                    onVolumeChange,
+                                                                                    onLanguageChange,
+                                                                                    onControlsHidden,
+                                                                                    onControlsShown,
+                                                                                    onCaptionsEnabled,
+                                                                                    onCaptionsDisabled,
+                                                                                    ...props
+                                                                                  }: AllProps, ref) => {
   const restProps = difference([Object.keys(props), Object.keys(defaultProps)]);
   const elementRef: any = createRef<HTMLPlyrVideoElement>();
   let player: any = null;
 
   // like did mount
   useEffect(() => {
-    // For more options see: https://github.com/sampotts/plyr/#options
-    const defaultOptions = Object.keys(defaultProps)?.reduce(
-      (acc: {}, current: string) => ({
-        ...acc,
-        [current]: props?.[current],
-      }), {});
+      // For more options see: https://github.com/sampotts/plyr/#options
+      const defaultOptions = Object.keys(defaultProps)?.reduce(
+        (acc: {}, current: string) => ({
+          ...acc,
+          [current]: props?.[current],
+        }), {});
 
-    const node: HTMLElement = elementRef?.current;
+      const node: HTMLElement = elementRef?.current;
 
-    const { isHls, url } = props || {};
+      const { isHls, url } = props || {};
 
-    //@see https://github.com/sampotts/plyr/issues/1741#issuecomment-640293554
-    if (isHls && Hls.isSupported()) {
-      // For more Hls.js options, see https://github.com/dailymotion/hls.js
-      const hls = new Hls();
-      hls.loadSource(url);
-      hls.attachMedia(node as HTMLMediaElement);
+      //@see https://github.com/sampotts/plyr/issues/1741#issuecomment-640293554
+      if (isHls && Hls.isSupported()) {
+        // For more Hls.js options, see https://github.com/dailymotion/hls.js
+        const hls = new Hls();
+        hls.loadSource(url);
+        hls.attachMedia(node as HTMLMediaElement);
 
-      // From the m3u8 playlist, hls parses the manifest and returns
-      // all available video qualities. This is important, in this approach,
-      // we will have one source on the Plyr player.
-      hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+        // From the m3u8 playlist, hls parses the manifest and returns
+        // all available video qualities. This is important, in this approach,
+        // we will have one source on the Plyr player.
+        hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
 
-        // Transform available levels into an array of integers (height values).
-        const availableQualities = hls.levels?.map(l => l.height);
+          // Transform available levels into an array of integers (height values).
+          const availableQualities = hls.levels?.map(l => l.height);
 
-        // Add new qualities to option
+          availableQualities.unshift(0) //prepend 0 to quality array
+          // Add new qualities to option
+
+          console.log('availableQualities[0]', availableQualities[0])
+
+          //@ts-ignore
+          defaultOptions.quality = {
+            default: availableQualities[0], //Default - AUTO
+            options: availableQualities,
+            // this ensures Plyr to use Hls to update quality level
+            // Ref: https://github.com/sampotts/plyr/blob/master/src/js/html5.js#L77
+            forced: true,
+            onChange: (e) => updateQuality(e),
+          }
+
+          hls.on(Hls.Events.LEVEL_SWITCHED, function (event, data) {
+
+            const offsetParentChildNodes = elementRef.current.offsetParent.offsetParent.childNodes[0];
+
+            const span = offsetParentChildNodes.querySelector(".plyr__menu__container [data-plyr='quality'][value='0'] span");
+            if (hls.autoLevelEnabled) {
+
+              //@TODO rewrite
+              offsetParentChildNodes.childNodes[5].lastChild
+                .querySelectorAll("[role='menuitem']")[1].childNodes[0].children[0].innerHTML = `AUTO (${hls.levels[data.level].height}p)`;
+
+              console.log('hls.levels[data.level].height', hls.levels[data.level].height)
+              span.innerHTML = `AUTO (${hls.levels[data.level].height}p)`;
+            } else {
+
+              //@TODO rewrite
+              offsetParentChildNodes.childNodes[5].lastChild
+                .querySelectorAll("[role='menuitem']")[1].childNodes[0].children[0].innerHTML = `AUTO`;
+
+              span.innerHTML = `AUTO`
+            }
+          });
+
+          // Initialize new Plyr player with quality options
+          player = node ? new Plyr(node, defaultOptions) : null;
+
+          // @ts-ignore
+          player?.elements?.buttons?.play?.[0].innerHTML = iconPlay;
+        });
+
+        hls.attachMedia(node as HTMLMediaElement);
         //@ts-ignore
-        defaultOptions.quality = {
-          default: availableQualities[0], //Default - AUTO
-          options: availableQualities,
-          // this ensures Plyr to use Hls to update quality level
-          // Ref: https://github.com/sampotts/plyr/blob/master/src/js/html5.js#L77
-          forced: true,
-          onChange: (e) => updateQuality(e),
+        window.hls = hls;
+
+        return () => {
+          if (hls) {
+            hls.destroy();
+          }
         }
-        // Initialize new Plyr player with quality options
+      } else {
+        // default options with no quality update in case Hls is not supported
         player = node ? new Plyr(node, defaultOptions) : null;
+        // @ts-ignore
+        player?.elements?.buttons?.play?.[0].innerHTML = iconPlay;
+      }
+
+      if (!player) return;
+
+      const { speed, muted, volume, language } = player;
+
+      player?.on(READY, () => {
+        onReady?.(player);
+        if (autoplay) {
+          player?.play();
+        }
       });
 
-      hls.attachMedia(node as HTMLMediaElement);
-      //@ts-ignore
-      window.hls = hls;
+      player?.on(EVENTPLAY, () => onPlay?.());
+      player?.on(PAUSE, () => onPause?.());
+      player?.on(ENDED, () => onEnd?.());
+      player?.on(LOADEDDATA, () => onLoadedData?.());
+      player?.on(SEEKED, () => onSeeked?.(getCurrentTime()));
+      player?.on(RATECHANGE, () => onRateChange?.(speed));
+      player?.on(TIMEUPDATE, () => onTimeUpdate?.(getCurrentTime()));
+      player?.on(ENTERFULLSCREEN, () => onEnterFullscreen?.());
+      player?.on(EXITFULLSCREEN, () => onExitFullscreen?.());
+      player?.on(VOLUMECHANGE, () => onVolumeChange?.({ muted, volume }));
+      player?.on(LANGUAGECHANGE, () => onLanguageChange?.(language));
+      player?.on(CONTROLSHIDDEN, () => onControlsHidden?.());
+      player?.on(CONTROLSSHOWN, () => onControlsShown?.());
+      player?.on(CAPTIONSENABLED, () => onCaptionsEnabled?.());
+      player?.on(CAPTIONSDISABLED, () => onCaptionsDisabled?.());
 
       return () => {
-        if (hls) {
-          hls.destroy();
-        }
+        player?.destroy();
       }
-    } else {
-      // default options with no quality update in case Hls is not supported
-      player = node ? new Plyr(node, defaultOptions) : null;
-    }
-
-    if (!player) return;
-
-    const { speed, muted, volume, language } = player;
-
-    player?.on(READY, () => {
-      onReady?.(player);
-      if (autoplay) {
-        player?.play();
-      }
-    });
-    player?.on(EVENTPLAY, () => onPlay?.());
-    player?.on(PAUSE, () => onPause?.());
-    player?.on(ENDED, () => onEnd?.());
-    player?.on(LOADEDDATA, () => onLoadedData?.());
-    player?.on(SEEKED, () => onSeeked?.(getCurrentTime()));
-    player?.on(RATECHANGE, () => onRateChange?.(speed));
-    player?.on(TIMEUPDATE, () => onTimeUpdate?.(getCurrentTime()));
-    player?.on(ENTERFULLSCREEN, () => onEnterFullscreen?.());
-    player?.on(EXITFULLSCREEN, () => onExitFullscreen?.());
-    player?.on(VOLUMECHANGE, () => onVolumeChange?.({ muted, volume }));
-    player?.on(LANGUAGECHANGE, () => onLanguageChange?.(language));
-    player?.on(CONTROLSHIDDEN, () => onControlsHidden?.());
-    player?.on(CONTROLSSHOWN, () => onControlsShown?.());
-    player?.on(CAPTIONSENABLED, () => onCaptionsEnabled?.());
-    player?.on(CAPTIONSDISABLED, () => onCaptionsDisabled?.());
-
-    return () => {
-      player?.destroy();
-    }
-  }, []);
+    },
+    props?.isHls ? [props?.url] : []
+  );
 
   // Getting a reference to a React Component using useRef hook
   //@ts-ignore
@@ -304,7 +350,7 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
       src: string;
       srcLang: string;
     }[] = [],
-  ) {
+  ): {}[] {
     const captionsMap: {}[] = [];
 
     if (tracks?.length) {
