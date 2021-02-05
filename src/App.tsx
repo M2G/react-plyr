@@ -98,14 +98,14 @@ function App() {
           [{
             kind: 'captions',
             label: 'English',
-            src: 'https://cdn.plyr.io/static/View_From_A_Blue_Moon_Trailer-HD.en.vtt',
+            src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt',
             srcLang: 'en',
           },
             {
               default: true,
               kind: 'captions',
               label: 'French',
-              src: 'https://cdn.plyr.io/static/View_From_A_Blue_Moon_Trailer-HD.fr.vtt',
+              src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt',
               srcLang: 'fr',
             }]
         }
