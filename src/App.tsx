@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from 'react';
+import React from 'react';
 import ReactPlyr from './ReactPlyr';
 
 function play() {
@@ -13,6 +13,7 @@ function pause() {
 // https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8
 
 function App() {
+  /*
   const [slider, setSlider] = useState({ sources: [{
     size: 576,
     src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4',
@@ -35,7 +36,7 @@ function App() {
     }] });
 
   console.log('slider', slider.sources)
-
+*/
 
   return (
     <div>
@@ -62,13 +63,16 @@ function App() {
             type: 'video/mp4',
           }] })}>click</button>
 
-      {/*  <ReactPlyr
+      <ReactPlyr
+        onPause={pause}
+        onPlay={play}
         isHls
         type='video'
         title='Kishi Bashi &ndash; &ldquo;It All Began With A Burst&rdquo;'
-        url="https://stream.mux.com/wocZIhYzdSIO75tju01mse9eFCKDqZhdM5ax8K01xdMQw.m3u8?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InZUYUJhNXoxZXg0M1ZsYXR5bGgzbkFDb29zWDYzeEplSjZXNnd0dVk2cHcifQ.eyJleHAiOjE2MDQ1OTU3NTEsImF1ZCI6InYiLCJzdWIiOiJ3b2NaSWhZemRTSU83NXRqdTAxbXNlOWVGQ0tEcVpoZE01YXg4SzAxeGRNUXcifQ.bxZfH9oF7UNcgYZTySbZuk_ROH2H1ZWKZayvX0VWD_RIlAwTXR0RZKFgffQ6a1dcNoSyWPGbuzCxcdapHex9g2CgMDa9uZen074lRVWIYT92_Jn7_biImUrpW4OSKG4XRIO0NsV1LIhnPzq6aoMj0vupMJbeWw07rk7AVOh7lDszeEH7NsoJ3kp7bnyC5kCuGP648etG6Ww005e5Dsg5K7M9pSBl7GFuL7kQ_v52ycA7f9x7oybV19jKOfysn8WZr08p24_pQM8Fz8o1o_CqAMxEz03L30VAdE5SSO6hUzAQ0I3_5U6KL8BInFm87OSVZzJANYkQEjU_OR8piadBkA"
+        url="https://stream.mux.com/Wxle5yzErvilJ02C13zuv8OSeROvfwsjS.m3u8"
       />
-*/}
+
+      {/*
       <ReactPlyr
         onPause={pause}
         onPlay={play}
@@ -116,7 +120,7 @@ function App() {
         enabled: true,
           src: ['https://cdn.plyr.io/static/demo/thumbs/100p.vtt', 'https://cdn.plyr.io/static/demo/thumbs/240p.vtt'],
         }}
-      />
+      /> */}
       {/*<ReactPlyr
         onPause={pause}
         onPlay={play}

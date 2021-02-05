@@ -15,7 +15,7 @@ import { pick, difference, isEqual } from './utils';
 import { CONSTROLS, EVENTS, SETTINGS } from './constants';
 import defaultProps from './defaultProps';
 import AudioType from './types';
-import 'plyr/src/sass/plyr.scss';
+import './sass/plyr.scss';
 import './index.scss';
 
 const {
@@ -216,6 +216,8 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
 
             const span = offsetParentChildNodes.querySelector(".plyr__menu__container [data-plyr='quality'][value='0'] span");
             if (hls.autoLevelEnabled) {
+
+              console.log('hls.autoLevelEnabled', hls.autoLevelEnabled)
 
               //@TODO rewrite
               offsetParentChildNodes.childNodes[5].lastChild

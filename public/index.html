@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -12,6 +11,25 @@
   <meta name="description" content="Web site created using react" />
   <link rel="apple-touch-icon" href="/logo192.png" />
   <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+  <!-- Preload -->
+  <link
+    rel="preload"
+    as="font"
+    crossorigin
+    type="font/woff2"
+    href="https://cdn.plyr.io/static/fonts/gordita-medium.woff2"
+  />
+  <link
+    rel="preload"
+    as="font"
+    crossorigin
+    type="font/woff2"
+    href="https://cdn.plyr.io/static/fonts/gordita-bold.woff2"
+  />
   <title>
     <%= htmlWebpackPlugin.options.title %>
   </title>
