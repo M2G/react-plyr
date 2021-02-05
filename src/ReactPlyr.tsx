@@ -15,7 +15,7 @@ import { pick, difference, isEqual } from './utils';
 import { CONSTROLS, EVENTS, SETTINGS } from './constants';
 import defaultProps from './defaultProps';
 import AudioType from './types';
-import './sass/plyr.scss';
+import 'plyr/src/sass/plyr.scss';
 import './index.scss';
 
 const {
