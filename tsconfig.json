@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "strictNullChecks": true,
+    "allowSyntheticDefaultImports": true,
+    // "noEmit": true,
+    "strictPropertyInitialization": false,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "target": "es5",
@@ -7,6 +12,7 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "allowJs": true,
+    "checkJs": true,
     "jsx": "react",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -16,9 +22,9 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitThis": false,
     "noImplicitAny": false,
-    "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
+    "importsNotUsedAsValues": "preserve", // this is important for proper files watching
     "outDir": "./build",
     "lib": [
       "ES2015",
@@ -31,10 +37,11 @@
       "dom"
     ],
     "rootDirs": ["src", "stories"],
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
-      "@constants": ["constants"],
-      "@utils": ["utils"]
+      "@constants": ["./src/constants/*"],
+      "@utils": ["./src/utils/*"],
+      "@public": ["./src/public/*"],
     }
   },
   "include": [

@@ -11,8 +11,8 @@ import React, {
 import Hls from 'hls.js/dist/hls.min';
 import * as PropTypes from 'prop-types';
 import Plyr, { Options, SourceInfo } from 'plyr';
-import { pick, difference, isEqual } from '@utils';
-import { CONSTROLS, EVENTS, SETTINGS } from '@constants';
+import { pick, difference, isEqual } from './utils';
+import { CONSTROLS, EVENTS, SETTINGS } from './constants';
 import defaultProps from './defaultProps';
 import AudioType from './types';
 import 'plyr/src/sass/plyr.scss';

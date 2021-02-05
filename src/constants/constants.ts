@@ -38,4 +38,6 @@ const SETTINGS = {
   SPEED: 'speed',
 };
 
-export { EVENTS, CONSTROLS, SETTINGS };
+export {
+  EVENTS, CONSTROLS, SETTINGS,
+};

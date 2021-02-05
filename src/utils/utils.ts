@@ -37,7 +37,6 @@ const isEqual = (val1, val2) => {
   return false;
 };
 
-
 export {
   pick,
   difference,

@@ -4,20 +4,20 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 module.exports = app => {
   app.use(
     createProxyMiddleware("/sso-ws", {
-      target: "https://sso.stayinshape.fit",
+      target: "https://example.com",
       changeOrigin: true,
       onProxyReq(proxyReq) {
         if (proxyReq.getHeader("origin")) {
-          proxyReq.setHeader("origin", "https://sso.stayinshape.fit")
+          proxyReq.setHeader("origin", "example.com")
         }
       },
       secure: false,
-      pathRewrite: { "^/sso-ws": "" },
+      pathRewrite: { "^/": "" },
       logLevel: "debug",
     }));
     app.use(
       createProxyMiddleware("/video-ws", {
-        target: "https://encoding.stayinshape.fit",
+        target: "https://example.com",
         changeOrigin: true,
         onProxyReq(proxyReq) {
           if (proxyReq.getHeader("origin")) {

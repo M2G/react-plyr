@@ -323,11 +323,8 @@ module.exports = function (webpackEnv) {
         .filter(ext => useTypeScript || !ext.includes('ts')),
       alias: {
         "@public": path.join(process.cwd(), 'public'),
+        "@constants": path.join(process.cwd(), 'src', 'constants'),
         "@utils": path.join(process.cwd(), 'src', 'utils'),
-        "@store": path.join(process.cwd(), 'src', 'store'),
-        "@routes": path.join(process.cwd(), 'src', 'routes'),
-        "@services": path.join(process.cwd(), 'src', 'services'),
-
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         // 'react-native': 'react-native-web',
