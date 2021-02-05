@@ -40,7 +40,7 @@ function App() {
 
   return (
     <div>
-      <button onClick={() =>
+      {/*<button onClick={() =>
         // @ts-ignore
         setSlider({ sources: [{
           size: 576,
@@ -61,7 +61,7 @@ function App() {
             size: 1440,
             src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1440p.mp4',
             type: 'video/mp4',
-          }] })}>click</button>
+          }] })}>click</button>*/}
 
       <ReactPlyr
         onPause={pause}
