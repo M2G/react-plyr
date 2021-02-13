@@ -178,6 +178,20 @@ import ReactPlyr from '@m2g/react-plyr';
 />;
 ```
 
+### HLS example
+
+```javascript
+import ReactPlyr from '@m2g/react-plyr';
+
+// add the component in the render function
+<ReactPlyr
+  isHls
+  type='video'
+  title='My title'
+  url="https://stream.mux.com/Wxle5yzErvilJ02C13zuv8OSeROvfwsjS.m3u8"
+/>;
+```
+
 Note: See App.tsx file on project if you want more example.
 
 ## Props
