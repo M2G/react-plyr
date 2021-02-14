@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-// import ReactPlyr from './ReactPlyr';
-import ReactPlyr from 'm2g/react-plyr';
+import ReactPlyr from './ReactPlyr';
 
 function play() {
   console.log('play');
