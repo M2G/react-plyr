@@ -2,20 +2,11 @@
 
 A React video component based on Plyr (without Youtube and Vimeo part).
 
-## Installation
-
-Add `@m2g/react-plyr` into your package.json dependencies:
-
-```sh
-npm install @m2g/react-plyr --save
-```
-
 ## Usage
 
 ### Simple Video
 
 ```javascript
-import ReactPlyr from '@m2g/react-plyr';
 
 // add the component in the render function
 <ReactPlyr
@@ -27,8 +18,6 @@ import ReactPlyr from '@m2g/react-plyr';
 ### Simple Audio
 
 ```javascript
-import ReactPlyr from '@m2g/react-plyr';
-
 // add the component in the render function
 <ReactPlyr
   type="audio"
@@ -40,8 +29,6 @@ import ReactPlyr from '@m2g/react-plyr';
 ### Video with Source
 
 ```javascript
-import ReactPlyr from '@m2g/react-plyr';
-
 // add the component in the render function
 <ReactPlyr
   poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
@@ -98,8 +85,6 @@ import ReactPlyr from '@m2g/react-plyr';
 ### Video with Source and caption
 
 ```javascript
-import ReactPlyr from '@m2g/react-plyr';
-
 // add the component in the render function
 <ReactPlyr
   poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
@@ -159,8 +144,6 @@ import ReactPlyr from '@m2g/react-plyr';
 ### Audio with Source
 
 ```javascript
-import ReactPlyr from '@m2g/react-plyr';
-
 // add the component in the render function
 <ReactPlyr
       title='Example title'
@@ -181,8 +164,6 @@ import ReactPlyr from '@m2g/react-plyr';
 ### HLS example
 
 ```javascript
-import ReactPlyr from '@m2g/react-plyr';
-
 // add the component in the render function
 <ReactPlyr
   isHls
