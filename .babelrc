@@ -3,19 +3,13 @@
     "react-app",
     "@babel/preset-react",
     "@babel/preset-env",
-    "babel-preset-airbnb",
     "@babel/preset-typescript",
-    "@babel/typescript",
     "airbnb"
   ],
-    "plugins": [
-     [
-     "@babel/preset-react", {
-        "runtime": "automatic"
-     }],
+  "plugins": [
     "@babel/plugin-proposal-class-properties",
     "@babel/plugin-syntax-dynamic-import",
     "@babel/proposal-optional-chaining",
     "@babel/proposal-nullish-coalescing-operator"
-    ]
+  ]
 }

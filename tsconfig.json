@@ -41,7 +41,7 @@
     "paths": {
       "@constants": ["./src/constants/*"],
       "@utils": ["./src/utils/*"],
-      "@public": ["./src/public/*"],
+      "@public": ["./public/*"],
     }
   },
   "include": [
