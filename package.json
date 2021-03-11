@@ -2,7 +2,7 @@
   "name": "@m2g/react-plyr",
   "version": "1.1.5",
   "description": "A wrapper plyr with React (only HTML5 video and audio) and HLS quality control",
-  "main": "./build/static/js/bundle.js",
+  "main": "./build/react-plyr.js",
   "private": false,
   "author": "m2g",
   "license": "MIT",
@@ -19,7 +19,8 @@
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .; exit 0",
     "start": "NODE_ENV=development node scripts/start.js",
     "build": "rm -rf build && NODE_ENV=production node scripts/build.js",
-    "test": "NODE_ENV=test node scripts/test.js --coverage --watchAll"
+    "test": "NODE_ENV=test node scripts/test.js --coverage --watchAll",
+    "publish:npm": "rm -rf ./build && NODE_ENV=production webpack --mode production --config ./config2/publish/webpack.config.js --progress"
   },
   "peerDependencies": {
     "react": "^16.14.0",
@@ -125,6 +126,7 @@
     "env-cmd": "^10.1.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
+    "fork-ts-checker-webpack-plugin": "^4.1.6",
     "hard-source-webpack-plugin": "^0.13.1",
     "hls.js": "^0.14.9",
     "http-proxy-middleware": "^1.0.6",

@@ -198,8 +198,6 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
           availableQualities.unshift(0) //prepend 0 to quality array
           // Add new qualities to option
 
-          console.log('availableQualities[0]', availableQualities[0])
-
           //@ts-ignore
           defaultOptions.quality = {
             default: availableQualities[0], //Default - AUTO
@@ -217,13 +215,10 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
             const span = offsetParentChildNodes.querySelector(".plyr__menu__container [data-plyr='quality'][value='0'] span");
             if (hls.autoLevelEnabled) {
 
-              console.log('hls.autoLevelEnabled', hls.autoLevelEnabled)
-
               //@TODO rewrite
               offsetParentChildNodes.childNodes[5].lastChild
                 .querySelectorAll("[role='menuitem']")[1].childNodes[0].children[0].innerHTML = `AUTO (${hls.levels[data.level].height}p)`;
 
-              console.log('hls.levels[data.level].height', hls.levels[data.level].height)
               span.innerHTML = `AUTO (${hls.levels[data.level].height}p)`;
             } else {
 
