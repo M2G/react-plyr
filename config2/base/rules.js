@@ -4,23 +4,6 @@ const imageInlineSizeLimit = parseInt(
   process.env.IMAGE_INLINE_SIZE_LIMIT || 10000
 );
 
-const preLoader = {
-  enforce: 'pre',
-  test: /\.(js|jsx|ts|tsx)$/,
-  use: [
-    {
-      options: {
-        cache: true,
-        eslintPath: require.resolve('eslint'),
-        resolvePluginsRelativeTo: __dirname,
-
-      },
-      loader: require.resolve('eslint-loader'),
-    },
-  ],
-  include: paths.appSrc,
-};
-
 const tsLoader = {
   test: /\.(ts|tsx)$/,
   include: paths.appSrc,
@@ -62,7 +45,6 @@ const filesLoaderRule = {
 };
 
 const rules = [
-  preLoader,
   jsLoaderRule,
   tsLoader,
   filesLoaderRule,

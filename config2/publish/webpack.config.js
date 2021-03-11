@@ -21,10 +21,6 @@ module.exports = Object.assign({}, baseConfig, {
     ],
     extensions: ['*', '.js', '.jsx', '.json', '.tsx', '.ts', '.scss'],
     alias: {
-      "@Icon": path.join(process.cwd(), 'src', 'Icon'),
-      "@Alert": path.join(process.cwd(), 'src', 'Alert'),
-      "@Hint": path.join(process.cwd(), 'src', 'Hint'),
-      "@Portal": path.join(process.cwd(), 'src', 'Portal'),
       'react': path.resolve(__dirname, './node_modules/react'),
       'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
     }

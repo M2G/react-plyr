@@ -198,6 +198,8 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
           availableQualities.unshift(0) //prepend 0 to quality array
           // Add new qualities to option
 
+          console.log('availableQualities[0]', availableQualities[0])
+
           //@ts-ignore
           defaultOptions.quality = {
             default: availableQualities[0], //Default - AUTO
