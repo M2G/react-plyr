@@ -2,11 +2,20 @@
 
 A React video component based on Plyr (without Youtube and Vimeo part).
 
+## Installation
+
+Add `@m2g/react-plyr` into your package.json dependencies:
+
+```sh
+npm install @m2g/react-plyr --save
+```
+
 ## Usage
 
 ### Simple Video
-
 ```javascript
+import ReactPlyr from '@m2g/react-plyr';
+import '@m2g/react-plyr/build/react-plyr.css';
 
 // add the component in the render function
 <ReactPlyr
@@ -16,8 +25,10 @@ A React video component based on Plyr (without Youtube and Vimeo part).
 ```
 
 ### Simple Audio
-
 ```javascript
+import ReactPlyr from '@m2g/react-plyr';
+import '@m2g/react-plyr/build/react-plyr.css';
+
 // add the component in the render function
 <ReactPlyr
   type="audio"
@@ -29,6 +40,9 @@ A React video component based on Plyr (without Youtube and Vimeo part).
 ### Video with Source
 
 ```javascript
+import ReactPlyr from '@m2g/react-plyr';
+import '@m2g/react-plyr/build/react-plyr.css';
+
 // add the component in the render function
 <ReactPlyr
   poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
@@ -85,6 +99,9 @@ A React video component based on Plyr (without Youtube and Vimeo part).
 ### Video with Source and caption
 
 ```javascript
+import ReactPlyr from '@m2g/react-plyr';
+import '@m2g/react-plyr/build/react-plyr.css';
+
 // add the component in the render function
 <ReactPlyr
   poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
@@ -144,6 +161,9 @@ A React video component based on Plyr (without Youtube and Vimeo part).
 ### Audio with Source
 
 ```javascript
+import ReactPlyr from '@m2g/react-plyr';
+import '@m2g/react-plyr/build/react-plyr.css';
+
 // add the component in the render function
 <ReactPlyr
       title='Example title'
@@ -164,6 +184,9 @@ A React video component based on Plyr (without Youtube and Vimeo part).
 ### HLS example
 
 ```javascript
+import ReactPlyr from '@m2g/react-plyr';
+import '@m2g/react-plyr/build/react-plyr.css';
+
 // add the component in the render function
 <ReactPlyr
   isHls
