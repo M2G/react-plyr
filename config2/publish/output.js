@@ -3,7 +3,7 @@ const pkg = require('../../package.json');
 const output = require('../base/output');
 
 output.path = path.resolve(process.cwd(), 'build');
-output.filename = 'toolkit.js';
+output.filename = 'react-plyr.js';
 output.library = pkg.name;
 output.libraryTarget = 'umd';
 output.publicPath = '/build/';

@@ -18,7 +18,7 @@ const hasJsxRuntime = (() => {
 
 const plugins = [
   new MiniCssExtractPlugin({
-    filename: 'toolkit.css'
+    filename: 'react-plyr.css'
   }),
   new ESLintPlugin({
     // Plugin options
