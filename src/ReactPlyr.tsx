@@ -133,7 +133,7 @@ function updateQuality(newQuality) {
     window.hls.currentLevel = -1; //Enable AUTO quality if option.value = 0
   } else {
     //@ts-ignore
-    window.hls.levels.forEach((level, levelIndex) => {
+    window.hls.levels?.forEach((level, levelIndex) => {
       if (level.height === newQuality) {
         console.log("Found quality match with " + newQuality);
         //@ts-ignore
@@ -170,7 +170,7 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
   // like did mount
   useEffect(() => {
       // For more options see: https://github.com/sampotts/plyr/#options
-      const defaultOptions = Object.keys(defaultProps)?.reduce(
+      const defaultOptions: any = Object.keys(defaultProps)?.reduce(
         (acc: {}, current: string) => ({
           ...acc,
           [current]: props?.[current],
@@ -198,7 +198,6 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
           availableQualities.unshift(0) //prepend 0 to quality array
           // Add new qualities to option
 
-          //@ts-ignore
           defaultOptions.quality = {
             default: availableQualities[0], //Default - AUTO
             options: availableQualities,
