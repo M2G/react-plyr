@@ -68,16 +68,16 @@ function App() {
             type: 'video/mp4',
           }] })}>click</button>*/}
 
-      <ReactPlyr
+      {/*  <ReactPlyr
         onPause={pause}
         onPlay={play}
         isHls
         type='video'
         title='Kishi Bashi &ndash; &ldquo;It All Began With A Burst&rdquo;'
         url="https://stream.mux.com/Wxle5yzErvilJ02C13zuv8OSeROvfwsjS.m3u8"
-      />
+      />*/}
 
-      {/*
+
       <ReactPlyr
         onPause={pause}
         onPlay={play}
@@ -125,7 +125,8 @@ function App() {
         enabled: true,
           src: ['https://cdn.plyr.io/static/demo/thumbs/100p.vtt', 'https://cdn.plyr.io/static/demo/thumbs/240p.vtt'],
         }}
-      /> */}
+        ratio='16:9'
+      />
       {/*<ReactPlyr
         onPause={pause}
         onPlay={play}

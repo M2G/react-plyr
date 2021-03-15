@@ -212,23 +212,16 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
             const offsetParentChildNodes = elementRef.current.offsetParent.offsetParent.childNodes[0];
 
             const span = offsetParentChildNodes.querySelector(".plyr__menu__container [data-plyr='quality'][value='0'] span");
+            const menuItem = offsetParentChildNodes.childNodes[5].lastChild.querySelectorAll("[role='menuitem']")[1].childNodes[0].children[0];
+
             if (hls.autoLevelEnabled) {
-
-              //@TODO rewrite
-              offsetParentChildNodes.childNodes[5].lastChild
-                .querySelectorAll("[role='menuitem']")[1].childNodes[0].children[0].innerHTML = `AUTO (${hls.levels[data.level].height}p)`;
-
+              menuItem.innerHTML = `AUTO (${hls.levels[data.level].height}p)`;
               span.innerHTML = `AUTO (${hls.levels[data.level].height}p)`;
             } else {
-
-              //@TODO rewrite
-              offsetParentChildNodes.childNodes[5].lastChild
-                .querySelectorAll("[role='menuitem']")[1].childNodes[0].children[0].innerHTML = `AUTO`;
-
-              span.innerHTML = `AUTO`
+              menuItem.innerHTML = `AUTO`;
+              span.innerHTML = `AUTO`;
             }
           });
-
           // Initialize new Plyr player with quality options
           player = node ? new Plyr(node, defaultOptions) : null;
 

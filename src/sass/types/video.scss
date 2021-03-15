@@ -42,13 +42,6 @@ $embed-padding: ((100 / 16) * 9);
 .plyr--full-ui .plyr__video-embed {
   $height: 240;
   $offset: to-percentage(($height - $embed-padding) / ($height / 50));
-
-  // Only used for Vimeo
-  > .plyr__video-embed__container {
-    padding-bottom: to-percentage($height);
-    position: relative;
-    transform: translateY(-$offset);
-  }
 }
 
 // Controls container

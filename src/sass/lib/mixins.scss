@@ -64,12 +64,6 @@
     position: static;
   }
 
-  // Vimeo requires some different styling
-  &.plyr--vimeo .plyr__video-wrapper {
-    height: 0;
-    position: relative;
-  }
-
   // Display correct icon
   .plyr__control .icon--exit-fullscreen {
     display: block;
