@@ -12,8 +12,8 @@ const pick = (object: {} = {}, keys: any[] = []) => {
 };
 
 const difference = (arrays: any[] = []) => arrays
-  .reduce((accumulator, currentValue) => accumulator
-    .filter((value) => !currentValue.includes(value)));
+  ?.reduce((accumulator, currentValue) => accumulator
+    ?.filter((value) => !currentValue.includes(value)));
 
 const sortObjectKeys = obj =>
   Object.entries(obj)

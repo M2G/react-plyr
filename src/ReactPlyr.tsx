@@ -210,9 +210,9 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
           hls.on(Hls.Events.LEVEL_SWITCHED, function (event, data) {
 
             const offsetParentChildNodes = elementRef.current.offsetParent.offsetParent.childNodes[0];
-
-            const span = offsetParentChildNodes.querySelector(".plyr__menu__container [data-plyr='quality'][value='0'] span");
-            const menuItem = offsetParentChildNodes.childNodes[5].lastChild.querySelectorAll("[role='menuitem']")[1].childNodes[0].children[0];
+            const menuWrapper = offsetParentChildNodes.children[8].children[1].children[0];
+            const span = offsetParentChildNodes.children[8].children[1].children[0].children[2].children[1].children[0].firstChild;
+            const menuItem = menuWrapper.childNodes[0].children[0].children[1];
 
             if (hls.autoLevelEnabled) {
               menuItem.innerHTML = `AUTO (${hls.levels[data.level].height}p)`;
