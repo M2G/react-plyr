@@ -83,6 +83,27 @@ function App() {
         onPlay={play}
         poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
         settings={['quality', 'captions']}
+        // @ts-ignore
+        controls={[
+          'play-large',
+
+          /*
+           * 'restart',
+           * 'rewind',
+           */
+          'play',
+          // 'fast-forward',
+          'progress',
+          'current-time',
+          'mute',
+          'volume',
+          'captions',
+          'settings',
+          'pip',
+          'airplay',
+          'download',
+          'fullscreen',
+          ]}
         sources={[{
           size: 576,
           src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4',

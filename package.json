@@ -117,6 +117,7 @@
     "workbox-webpack-plugin": "^5.1.4"
   },
   "dependencies": {
+    "@m2g/plyr": "npm:plyr@^3.6.8",
     "@m2g/react-plyr": "^1.2.4",
     "@types/classnames": "^2.2.10",
     "@types/prop-types": "^15.7.3",

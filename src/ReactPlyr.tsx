@@ -10,7 +10,7 @@ import React, {
 } from 'react';
 import Hls from 'hls.js/dist/hls.min';
 import * as PropTypes from 'prop-types';
-import Plyr, { Options, SourceInfo } from 'plyr';
+import Plyr, { Options, SourceInfo } from '@m2g/plyr';
 import { pick, difference, isEqual } from './utils';
 import { CONSTROLS, EVENTS, SETTINGS } from './constants';
 import defaultProps from './defaultProps';
