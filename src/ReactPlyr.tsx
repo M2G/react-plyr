@@ -35,6 +35,9 @@ const {
   CONTROLSSHOWN,
   CAPTIONSENABLED,
   CAPTIONSDISABLED,
+
+  BEFOREEND,
+  CLICK,
 }: any = EVENTS;
 
 const {
@@ -58,6 +61,7 @@ export namespace PlayerNS {
     url?: string;
     type: string;
     title?: string;
+    trimming?: boolean;
 
     isHls?: boolean;
     src?: string;
@@ -178,7 +182,7 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
 
       const node: HTMLElement = elementRef?.current;
 
-      const { isHls, url } = props || {};
+      const { isHls, url, trimming } = props || {};
 
       //@see https://github.com/sampotts/plyr/issues/1741#issuecomment-640293554
       if (isHls && Hls.isSupported()) {
@@ -225,6 +229,19 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
           // Initialize new Plyr player with quality options
           player = node ? new Plyr(node, defaultOptions) : null;
 
+          console.log('player', player)
+
+          player.trim.trimming = trimming ? trimming : false;
+
+          if (player.trim.trimming){
+            player.on(TIMEUPDATE, () => {
+              // ended and reboot
+              if (+player.currentTime.toFixed(1) === +player.trim.startTime.toFixed(1)) {
+                player.play();
+              }
+            });
+          }
+
           // @ts-ignore
           player?.elements?.buttons?.play?.[0].innerHTML = iconPlay;
         });
@@ -241,8 +258,45 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
       } else {
         // default options with no quality update in case Hls is not supported
         player = node ? new Plyr(node, defaultOptions) : null;
+
+        // @ts-ignore
+        player?.trim?.trimming = trimming ? trimming : false;
+
+        if (player?.trim?.trimming){
+          player.on(TIMEUPDATE, () => {
+            // ended and reboot
+            if (+player.currentTime.toFixed(1) === +player.trim.startTime.toFixed(1)) {
+              player.play();
+            }
+          });
+        }
+
         // @ts-ignore
         player?.elements?.buttons?.play?.[0].innerHTML = iconPlay;
+
+        //@TODO Feature trim
+
+        const button = `<button class="c-btn--loop">
+                <svg id="icon-loop" viewBox="0 0 32 32">
+                    <path d="M4 10h20v6l8-8-8-8v6h-24v12h4zM28 22h-20v-6l-8 8 8 8v-6h24v-12h-4z"></path>
+                </svg>
+            </button>`;
+
+        player?.elements?.container?.insertAdjacentHTML(BEFOREEND, button);
+
+        player?.elements?.container.children[4].addEventListener(CLICK, () => {
+          if (player?.trim?.trimming) {
+            // @ts-ignore
+            player?.trim?.elements?.bar.style.display = "none";
+            player.trim.trimming = false;
+          } else {
+            // @ts-ignore
+            player?.trim?.elements?.bar.style.display = "block";
+            player.trim.trimming = true;
+          }
+
+          console.log('click', player.trim)
+        });
       }
 
       if (!player) return;

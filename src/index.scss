@@ -32,3 +32,29 @@
 html, body {
   font-family: sans-serif;
 }
+
+.c-btn--loop {
+  background-color: transparent;
+  border: none;
+  position:absolute;
+  top:0;
+  left:0;
+  padding:20px;
+
+  &:hover, &:focus {
+    background-color: transparent;
+  }
+
+  svg {
+    width: 50px;
+    fill: #FF8A00;
+    &:hover, &:focus {
+      fill: #FFFFFF;
+    }
+  }
+}
+
+.plyr--hide-controls .c-btn--loop {
+  opacity: 0;
+  pointer-events: none;
+}

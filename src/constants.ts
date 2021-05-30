@@ -1,6 +1,8 @@
 const EVENTS = {
+  BEFOREEND: "beforeend",
   CAPTIONSDISABLED: 'captionsdisabled',
   CAPTIONSENABLED: 'captionsenabled',
+  CLICK: "click",
   CONTROLSHIDDEN: 'controlshidden',
   CONTROLSSHOWN: 'controlsshown',
   ENDED: 'ended',
