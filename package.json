@@ -20,7 +20,8 @@
     "start": "NODE_ENV=development node scripts/start.js",
     "build": "rm -rf build && NODE_ENV=production node scripts/build.js",
     "test": "NODE_ENV=test node scripts/test.js --coverage --watchAll",
-    "publish:npm": "rm -rf ./build && NODE_ENV=production webpack --mode production --config ./config2/publish/webpack.config.js --progress"
+    "publish:npm": "rm -rf ./build && NODE_ENV=production webpack --mode production --config ./config2/publish/webpack.config.js --progress",
+    "postinstall": "cd ./node_modules/plyr && npm install --legacy-peer-deps && npm run build"
   },
   "peerDependencies": {
     "react": "^16.14.0",
@@ -117,7 +118,6 @@
     "workbox-webpack-plugin": "^5.1.4"
   },
   "dependencies": {
-    "@m2g/plyr": "npm:plyr@^3.6.8",
     "@m2g/react-plyr": "^1.2.4",
     "@types/classnames": "^2.2.10",
     "@types/prop-types": "^15.7.3",
@@ -133,7 +133,7 @@
     "hls.js": "^0.14.9",
     "http-proxy-middleware": "^1.0.6",
     "node-sass": "^4.14.1",
-    "plyr": "^3.6.3",
+    "plyr": "github:M2G/plyr",
     "prop-types": "^15.7.2",
     "webpack-cli": "^4.5.0"
   },
