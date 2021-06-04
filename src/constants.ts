@@ -40,4 +40,9 @@ const SETTINGS = {
   SPEED: 'speed',
 };
 
-export { EVENTS, CONSTROLS, SETTINGS };
+const STYLE = {
+  BLOCK: 'block',
+  NONE: 'none',
+};
+
+export { EVENTS, CONSTROLS, SETTINGS, STYLE };

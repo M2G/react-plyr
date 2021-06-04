@@ -12,7 +12,7 @@ import Hls from 'hls.js/dist/hls.min';
 import * as PropTypes from 'prop-types';
 import Plyr, { Options, SourceInfo } from 'plyr';
 import { pick, difference, isEqual } from './utils';
-import { CONSTROLS, EVENTS, SETTINGS } from './constants';
+import { CONSTROLS, EVENTS, SETTINGS, STYLE } from './constants';
 import defaultProps from './defaultProps';
 import AudioType from './types';
 import '../node_modules/plyr/dist/plyr.css';
@@ -45,6 +45,10 @@ const {
   BEFOREEND,
   CLICK,
 }: any = EVENTS;
+
+const {
+
+}: any = STYLE;
 
 const {
   PLAY_LARGE,
@@ -215,7 +219,6 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
           }
 
           hls.on(Hls.Events.LEVEL_SWITCHED, function (event, data) {
-
             const offsetParentChildNodes = elementRef.current.offsetParent.offsetParent.childNodes[0];
             const menuWrapper = offsetParentChildNodes.children[8].children[1].children[0];
             const span = offsetParentChildNodes.children[8].children[1].children[0].children[2].children[1].children[0].firstChild;
