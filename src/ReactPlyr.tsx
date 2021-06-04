@@ -47,7 +47,8 @@ const {
 }: any = EVENTS;
 
 const {
-
+  BLOCK,
+  NONE
 }: any = STYLE;
 
 const {
@@ -235,10 +236,7 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
           // Initialize new Plyr player with quality options
           player = node ? new Plyr(node, defaultOptions) : null;
 
-          console.log('player', player)
-
           player.trim.trimming = trimming ? trimming : false;
-
           if (player.trim.trimming){
             player.on(TIMEUPDATE, () => {
               // ended and reboot
@@ -288,14 +286,14 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
 
         player?.elements?.container?.insertAdjacentHTML(BEFOREEND, button);
 
-        player?.elements?.container.children[4].addEventListener(CLICK, () => {
+        player?.elements?.container.children?.[4]?.addEventListener(CLICK, () => {
           if (player?.trim?.trimming) {
             // @ts-ignore
-            player?.trim?.elements?.bar.style.display = "none";
+            player?.trim?.elements?.bar.style.display = NONE;
             player.trim.trimming = false;
           } else {
             // @ts-ignore
-            player?.trim?.elements?.bar.style.display = "block";
+            player?.trim?.elements?.bar.style.display = BLOCK;
             player.trim.trimming = true;
           }
 
@@ -485,8 +483,7 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
           ref={(elementRef as unknown) as MutableRefObject<HTMLVideoElement>}
           poster={poster}
           preload={preload}
-          {...pick(props, restProps)}
-        >
+          {...pick(props, restProps)}>
           {sourcesVideo(sources)}
           {captionVideo(tracks)}
         </video>

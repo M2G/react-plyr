@@ -45,4 +45,6 @@ const STYLE = {
   NONE: 'none',
 };
 
-export { EVENTS, CONSTROLS, SETTINGS, STYLE };
+export {
+ EVENTS, CONSTROLS, SETTINGS, STYLE,
+};
