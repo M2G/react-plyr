@@ -236,15 +236,6 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
           // Initialize new Plyr player with quality options
           player = node ? new Plyr(node, defaultOptions) : null;
 
-         /* player.trim.trimming = trimming ? trimming : false;
-          if (player.trim.trimming){
-            player.on(TIMEUPDATE, () => {
-              // ended and reboot
-              if (+player.currentTime.toFixed(1) === +player.trim.startTime.toFixed(1)) {
-                player.play();
-              }
-            });
-          }*/
           // @ts-ignore
           player?.elements?.buttons?.play?.[0].innerHTML = iconPlay;
         });
@@ -262,17 +253,6 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
         // default options with no quality update in case Hls is not supported
         player = node ? new Plyr(node, defaultOptions) : null;
       }
-        // @ts-ignore
-        /*player?.trim?.trimming = trimming ? trimming : false;
-
-        if (player?.trim?.trimming){
-          player.on(TIMEUPDATE, () => {
-            // ended and reboot
-            if (+player.currentTime.toFixed(1) === +player.trim.startTime.toFixed(1)) {
-              player.play();
-            }
-          });
-        }*/
 
         // @ts-ignore
         player?.elements?.buttons?.play?.[0].innerHTML = iconPlay;
