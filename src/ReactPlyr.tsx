@@ -15,7 +15,8 @@ import { pick, difference, isEqual } from './utils';
 import { CONSTROLS, EVENTS, SETTINGS } from './constants';
 import defaultProps from './defaultProps';
 import AudioType from './types';
-import './sass/plyr.scss';
+// import './sass/plyr.scss';
+import '../node_modules/plyr/dist/plyr.css';
 import './index.scss';
 
 const {
@@ -539,9 +540,9 @@ ReactPlyr.propTypes = {
     language: PropTypes.string,
     update: PropTypes.bool,
   }),
+  trimming: PropTypes.bool,
   clickToPlay: PropTypes.bool,
   controls: PropTypes.oneOfType([
-    PropTypes.string,
     PropTypes.arrayOf(
       PropTypes.oneOf([
         PLAY_LARGE,
@@ -557,9 +558,11 @@ ReactPlyr.propTypes = {
         FULLSCREEN,
       ]),
     ),
+    PropTypes.string,
     PropTypes.func,
     PropTypes.object,
     PropTypes.bool,
+    PropTypes.any,
   ]),
   debug: PropTypes.bool,
   disableContextMenu: PropTypes.bool,

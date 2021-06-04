@@ -124,6 +124,9 @@ const defaults = {
     key: 'plyr',
   },
 
+  // Trimming
+  trimming: false,
+
   // Default controls
   controls: [
     'play-large',
