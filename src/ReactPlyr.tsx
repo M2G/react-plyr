@@ -236,7 +236,7 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
           // Initialize new Plyr player with quality options
           player = node ? new Plyr(node, defaultOptions) : null;
 
-          player.trim.trimming = trimming ? trimming : false;
+         /* player.trim.trimming = trimming ? trimming : false;
           if (player.trim.trimming){
             player.on(TIMEUPDATE, () => {
               // ended and reboot
@@ -244,7 +244,7 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
                 player.play();
               }
             });
-          }
+          }*/
           // @ts-ignore
           player?.elements?.buttons?.play?.[0].innerHTML = iconPlay;
         });
@@ -261,9 +261,9 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
       } else {
         // default options with no quality update in case Hls is not supported
         player = node ? new Plyr(node, defaultOptions) : null;
-
+      }
         // @ts-ignore
-        player?.trim?.trimming = trimming ? trimming : false;
+        /*player?.trim?.trimming = trimming ? trimming : false;
 
         if (player?.trim?.trimming){
           player.on(TIMEUPDATE, () => {
@@ -272,7 +272,7 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
               player.play();
             }
           });
-        }
+        }*/
 
         // @ts-ignore
         player?.elements?.buttons?.play?.[0].innerHTML = iconPlay;
@@ -285,8 +285,19 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
                         </button>`;
 
         player?.elements?.container?.insertAdjacentHTML(BEFOREEND, button);
+        // @ts-ignore
+        player?.trim?.trimming = trimming ? trimming : false;
 
-        player?.elements?.container.children?.[4]?.addEventListener(CLICK, () => {
+        if (player?.trim?.trimming){
+          player.on(TIMEUPDATE, () => {
+            // ended and reboot
+            if (+player.currentTime.toFixed(1) === +player.trim.startTime.toFixed(1)) {
+              player.play();
+            }
+          });
+        }
+
+        player?.elements?.container?.children?.[4]?.addEventListener(CLICK, () => {
           if (player?.trim?.trimming) {
             // @ts-ignore
             player?.trim?.elements?.bar.style.display = NONE;
@@ -299,7 +310,6 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
 
           console.log('click', player.trim)
         });
-      }
 
       if (!player) return;
 
