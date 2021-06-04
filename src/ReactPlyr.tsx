@@ -15,9 +15,14 @@ import { pick, difference, isEqual } from './utils';
 import { CONSTROLS, EVENTS, SETTINGS } from './constants';
 import defaultProps from './defaultProps';
 import AudioType from './types';
-// import './sass/plyr.scss';
 import '../node_modules/plyr/dist/plyr.css';
 import './index.scss';
+
+declare global {
+  interface Window {
+    hls:any;
+  }
+}
 
 const {
   READY,
@@ -116,7 +121,7 @@ const iconPlay = `<svg id="icon-play" aria-hidden="true" focusable="false" viewB
                     <use xlink:href="#plyr-play"></use>
                   </svg>`;
 
-type PlyrInstance = Plyr
+type PlyrInstance = Plyr;
 
 type PlyrProps = HTMLAttributes<HTMLVideoElement> & {
   source?: SourceInfo
@@ -125,7 +130,7 @@ type PlyrProps = HTMLAttributes<HTMLVideoElement> & {
 
 type AllProps = PlayerNS.Props & PlayerNS.PropsAction & PlyrProps;
 
-type HTMLPlyrVideoElement = HTMLVideoElement & { plyr?: PlyrInstance }
+type HTMLPlyrVideoElement = HTMLVideoElement & { plyr?: PlyrInstance };
 
 function areEqual(prevProps, nextProps): boolean {
   const { sources, url } = prevProps || {};
@@ -134,14 +139,11 @@ function areEqual(prevProps, nextProps): boolean {
 
 function updateQuality(newQuality) {
   if (newQuality === 0) {
-    //@ts-ignore
     window.hls.currentLevel = -1; //Enable AUTO quality if option.value = 0
   } else {
-    //@ts-ignore
     window.hls.levels?.forEach((level, levelIndex) => {
       if (level.height === newQuality) {
-        console.log("Found quality match with " + newQuality);
-        //@ts-ignore
+        console.log(`Found quality match with : ${newQuality}`);
         window.hls.currentLevel = levelIndex;
       }
     });
@@ -242,13 +244,12 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
               }
             });
           }
-
           // @ts-ignore
           player?.elements?.buttons?.play?.[0].innerHTML = iconPlay;
         });
 
         hls.attachMedia(node as HTMLMediaElement);
-        //@ts-ignore
+
         window.hls = hls;
 
         return () => {
@@ -276,12 +277,11 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
         player?.elements?.buttons?.play?.[0].innerHTML = iconPlay;
 
         //@TODO Feature trim
-
         const button = `<button class="c-btn--loop">
-                <svg id="icon-loop" viewBox="0 0 32 32">
-                    <path d="M4 10h20v6l8-8-8-8v6h-24v12h4zM28 22h-20v-6l-8 8 8 8v-6h24v-12h-4z"></path>
-                </svg>
-            </button>`;
+                          <svg id="icon-loop" viewBox="0 0 32 32">
+                              <path d="M4 10h20v6l8-8-8-8v6h-24v12h4zM28 22h-20v-6l-8 8 8 8v-6h24v-12h-4z"></path>
+                          </svg>
+                        </button>`;
 
         player?.elements?.container?.insertAdjacentHTML(BEFOREEND, button);
 
