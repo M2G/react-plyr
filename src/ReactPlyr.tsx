@@ -124,7 +124,13 @@ export namespace PlayerNS {
 
 const iconPlay = `<svg id="icon-play" aria-hidden="true" focusable="false" viewBox="0 0 18 18">
                     <use xlink:href="#plyr-play"></use>
-                  </svg>`;
+                </svg>`;
+
+const button = `<button class="c-btn--loop">
+                          <svg id="icon-loop" viewBox="0 0 32 32">
+                              <path d="M4 10h20v6l8-8-8-8v6h-24v12h4zM28 22h-20v-6l-8 8 8 8v-6h24v-12h-4z"></path>
+                          </svg>
+                        </button>`;
 
 type PlyrInstance = Plyr;
 
@@ -235,9 +241,6 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
           });
           // Initialize new Plyr player with quality options
           player = node ? new Plyr(node, defaultOptions) : null;
-
-          // @ts-ignore
-          player?.elements?.buttons?.play?.[0].innerHTML = iconPlay;
         });
 
         hls.attachMedia(node as HTMLMediaElement);
@@ -256,15 +259,8 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
 
         // @ts-ignore
         player?.elements?.buttons?.play?.[0].innerHTML = iconPlay;
-
-        //@TODO Feature trim
-        const button = `<button class="c-btn--loop">
-                          <svg id="icon-loop" viewBox="0 0 32 32">
-                              <path d="M4 10h20v6l8-8-8-8v6h-24v12h4zM28 22h-20v-6l-8 8 8 8v-6h24v-12h-4z"></path>
-                          </svg>
-                        </button>`;
-
         player?.elements?.container?.insertAdjacentHTML(BEFOREEND, button);
+
         // @ts-ignore
         player?.trim?.trimming = trimming ? trimming : false;
 
