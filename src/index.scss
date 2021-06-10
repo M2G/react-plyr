@@ -6,29 +6,6 @@
   border-radius: 100%;
 }
 
-.plyr__control {
-  #icon-play {
-    width: 70px;
-    height: 50px;
-  }
-
-  &.plyr__control--overlaid {
-    width: 100px;
-    height: 100px;
-  }
-}
-
-.plyr__menu__container {
-
-  [aria-checked="true"] {
-    background-color: #FFFFFF;
-  }
-
-  .plyr__control.plyr__control--back, .plyr__control {
-    text-transform: uppercase;
-  }
-}
-
 html, body {
   font-family: sans-serif;
 }

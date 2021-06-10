@@ -150,7 +150,7 @@ describe('React Plyr', () => {
     expect(wrapper4.prop('children')[0][0].props.src).toEqual("https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4");
   });
 
-  it('renders a simple HTML5 Video with Sources and Captions', () => {
+  it('renders a simple HTML5 Video with Sources and Captions 2', () => {
     expect(wrapper3.find('video').length).toEqual(1);
     expect(wrapper3.prop('src')).toEqual("https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4");
     wrapper3.setProps({ url: "https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4" });

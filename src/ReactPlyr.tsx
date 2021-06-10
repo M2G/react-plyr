@@ -423,15 +423,8 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
     if (sources?.length) {
       for (let i = 0; i < sources.length; i += 1) {
         const { src = '', type = '', size = 0 } = sources[i];
-        sourcesVideo.push(
-          <source
-            key={i}
-            // @ts-ignore
-            size={size}
-            src={src}
-            type={type}
-          />,
-        );
+        // @ts-ignore
+        sourcesVideo.push(<source key={i} size={size} src={src} type={type}/>);
       }
     }
     return sourcesVideo;
