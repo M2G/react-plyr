@@ -148,7 +148,7 @@ function areEqual(prevProps, nextProps): boolean {
   return sources?.length ? isEqual(nextProps.sources, sources) : isEqual(nextProps.url, url);
 }
 
-function updateQuality(newQuality) {
+function updateQuality(newQuality): void {
   if (newQuality === 0) {
     window.hls.currentLevel = -1; //Enable AUTO quality if option.value = 0
   } else {
