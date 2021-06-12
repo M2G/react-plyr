@@ -24,7 +24,7 @@ function App() {
         isHls
         type='video'
         title='Kishi Bashi &ndash; &ldquo;It All Began With A Burst&rdquo;'
-        url="https://stayinshape.s3.eu-west-3.amazonaws.com/exercice_51_planche_cote/exercice_51_planche_cote.m3u8"
+        url="https://stayinshape.s3.eu-west-3.amazonaws.com/exercice_51_planche_cote/x36xhzz.m3u8"
       />
     </div>
   );

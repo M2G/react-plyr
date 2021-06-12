@@ -151,9 +151,15 @@ function areEqual(prevProps, nextProps): boolean {
 
 function updateQuality(newQuality): void {
   if (newQuality === 0) {
+
+    console.log(window.hls.levels);
+
     window.hls.currentLevel = -1; //Enable AUTO quality if option.value = 0
   } else {
     window.hls.levels?.forEach((level, levelIndex) => {
+
+      console.log(window.hls.levels);
+
       if (level.height === newQuality) {
         console.log(`Found quality match with : ${newQuality}`);
         window.hls.currentLevel = levelIndex;
@@ -216,6 +222,8 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
 
           availableQualities.unshift(0) //prepend 0 to quality array
           // Add new qualities to option
+
+          console.log("hls.levels", hls.levels);
 
           defaultOptions.quality = {
             default: availableQualities[0], //Default - AUTO
