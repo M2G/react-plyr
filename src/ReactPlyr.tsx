@@ -150,16 +150,13 @@ function areEqual(prevProps, nextProps): boolean {
 }
 
 function updateQuality(newQuality): void {
+  console.log('window.hls.levels', window.hls.levels);
+  console.log('newQuality', newQuality);
+
   if (newQuality === 0) {
-
-    console.log(window.hls.levels);
-
     window.hls.currentLevel = -1; //Enable AUTO quality if option.value = 0
   } else {
     window.hls.levels?.forEach((level, levelIndex) => {
-
-      console.log(window.hls.levels);
-
       if (level.height === newQuality) {
         console.log(`Found quality match with : ${newQuality}`);
         window.hls.currentLevel = levelIndex;
@@ -191,7 +188,6 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
   const restProps = difference([Object.keys(props), Object.keys(defaultProps)]);
   const elementRef: any = createRef<HTMLPlyrVideoElement>();
   let player: any = null;
-
   // like did mount
   useEffect(() => {
       // For more options see: https://github.com/sampotts/plyr/#options
@@ -218,13 +214,11 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
         hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
 
           // Transform available levels into an array of integers (height values).
-          const availableQualities = hls.levels?.map(l => l.height);
+          const availableQualities = hls.levels?.map(l => l.height)?.map(d => d)?.filter(Boolean);
 
-          availableQualities.unshift(0) //prepend 0 to quality array
+          console.log('availableQualities', availableQualities)
+
           // Add new qualities to option
-
-          console.log("hls.levels", hls.levels);
-
           defaultOptions.quality = {
             default: availableQualities[0], //Default - AUTO
             options: availableQualities,
@@ -239,6 +233,10 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
             const menuWrapper = offsetParentChildNodes.children[8].children[1].children[0];
             const span = offsetParentChildNodes.children[8].children[1].children[0].children[2].children[1].children[0].firstChild;
             const menuItem = menuWrapper.childNodes[0].children[0].children[1];
+
+
+            console.log("LEVEL_SWITCHED hls.levels", hls.levels);
+            console.log("LEVEL_SWITCHED hls.autoLevelEnabled", hls.autoLevelEnabled);
 
             if (hls.autoLevelEnabled) {
               menuItem.innerHTML = `AUTO (${hls.levels[data.level].height}p)`;
