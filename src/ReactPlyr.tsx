@@ -13,6 +13,7 @@ import * as PropTypes from 'prop-types';
 import Plyr, { Options, SourceInfo } from 'plyr';
 import { pick, difference, isEqual } from './utils';
 import { CONSTROLS, EVENTS, SETTINGS, STYLE } from './constants';
+import { captionVideo, sourcesVideo, audioSource } from './components';
 import defaultProps from './defaultProps';
 import AudioType from './types';
 import '../node_modules/plyr/dist/plyr.css';
@@ -373,80 +374,6 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
   function toggleFullscreen () { return player?.fullscreen.toggle(); }
   function toggleMute () { return player?.toggleControls(player.muted); }
 
-  function captionVideo(
-    tracks: {
-      default: boolean;
-      kind: string;
-      label: string;
-      src: string;
-      srcLang: string;
-    }[] = [],
-  ): {}[] {
-    const captionsMap: {}[] = [];
-
-    if (tracks?.length) {
-      for (let i = 0; i < tracks.length; i += 1) {
-        const {
-          kind = CAPTIONS,
-          label,
-          src,
-          srcLang,
-          default: def,
-          ...attributes
-        } = tracks[i];
-
-        captionsMap.push(
-          <track
-            key={i}
-            default={def}
-            kind={kind}
-            label={label}
-            src={src}
-            srcLang={srcLang}
-            {...attributes}
-          />,
-        );
-      }
-    }
-    return captionsMap;
-  }
-
-  function sourcesVideo(
-    sources: {
-      src: string;
-      type: string;
-      size?: number;
-    }[] = [],
-  ): {}[] {
-    const sourcesVideo: {}[] = [];
-
-    if (sources?.length) {
-      for (let i = 0; i < sources.length; i += 1) {
-        const { src = '', type = '', size = 0 } = sources[i];
-        // @ts-ignore
-        sourcesVideo.push(<source key={i} size={size} src={src} type={type}/>);
-      }
-    }
-    return sourcesVideo;
-  }
-
-  function audioSource(
-    sources: {
-      src: string;
-      type: string;
-    }[] = [],
-  ): {}[] {
-    const audioSource: {}[] = [];
-
-    if (sources?.length) {
-      for (let i = 0; i < sources.length; i += 1) {
-        const { src = '', type = '' } = sources[i];
-        audioSource.push(<source key={i} src={src} type={type} />);
-      }
-    }
-    return audioSource;
-  }
-
   function renderVideo(): React.ReactElement {
     const {
       sources = [],
@@ -659,8 +586,7 @@ ReactPlyr.defaultProps = {
   sources: [],
   tracks: [],
   type: '',
-  //@ts-ignore
-  url: null,
+  url: '',
 
   ...defaultProps,
 };
