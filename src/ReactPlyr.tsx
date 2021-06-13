@@ -214,7 +214,7 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
         hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
 
           // Transform available levels into an array of integers (height values).
-          const availableQualities = hls.levels?.map(l => l.height)?.map(d => d)?.filter(Boolean);
+          const availableQualities = hls.levels?.map(l => l.height)?.filter(Boolean);
 
           console.log('availableQualities', availableQualities)
 
@@ -268,6 +268,7 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
         player?.elements?.buttons?.play?.[0].innerHTML = iconPlay;
         player?.elements?.container?.insertAdjacentHTML(BEFOREEND, button);
 
+        //Trim plugin part
         // @ts-ignore
         player?.trim?.trimming = trimming ? trimming : false;
 
