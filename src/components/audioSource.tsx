@@ -14,7 +14,7 @@ function audioSource(
       audioSources.push(<source key={i} src={src} type={type} />);
     }
   }
-  // eslint-disable-next-line
+
   return audioSources;
 }
 

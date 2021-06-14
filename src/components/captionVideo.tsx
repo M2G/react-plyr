@@ -38,7 +38,7 @@ function captionVideo(
       );
     }
   }
-  // eslint-disable-next-line
+
   return captionsMap;
 }
 

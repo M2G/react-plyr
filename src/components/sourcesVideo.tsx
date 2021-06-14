@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import React from "react";
 
 function sourcesVideo(
@@ -12,12 +13,12 @@ function sourcesVideo(
   if (sources?.length) {
     for (let i = 0; i < sources.length; i += 1) {
       const { src = '', type = '', size = 0 } = sources[i];
-      // eslint-disable-next-line
-      //@ts-ignore
+
+      // @ts-ignore
       sourcesVideos.push(<source key={i} size={size} src={src} type={type} />);
     }
   }
-  // eslint-disable-next-line
+
   return sourcesVideos;
 }
 

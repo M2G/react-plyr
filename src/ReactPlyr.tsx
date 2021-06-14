@@ -186,6 +186,7 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
                                                                                     ...props
                                                                                   }: AllProps, ref) => {
   const restProps = difference([Object.keys(props), Object.keys(defaultProps)]);
+
   const elementRef: any = createRef<HTMLPlyrVideoElement>();
   let player: any = null;
   // like did mount
@@ -388,7 +389,10 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
       url = '',
       preload = '',
       poster = '',
+      ...rest
     } = props;
+
+    console.log('...pick(props, restProps)', {...pick(rest, restProps)})
 
     if (sources?.length) {
       return (
@@ -396,7 +400,7 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
           ref={(elementRef as unknown) as MutableRefObject<HTMLVideoElement>}
           poster={poster}
           preload={preload}
-          {...pick(props, restProps)}>
+          {...pick(rest, restProps)}>
           {sourcesVideo(sources)}
           {captionVideo(tracks)}
         </video>
@@ -409,7 +413,7 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
         poster={poster}
         preload={preload}
         src={url}
-        {...pick(props, restProps)}
+        {...pick(rest, restProps)}
       >
         {captionVideo(tracks)}
       </video>

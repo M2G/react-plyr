@@ -105,6 +105,7 @@ module.exports = {
     "@typescript-eslint/explicit-module-boundary-types": 1,
     "typescript-eslint/ban-ts-comment": 0,
     "@typescript-eslint/consistent-type-imports": 1,
+    "@typescript-eslint/no-unsafe-return": 1,
 
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
