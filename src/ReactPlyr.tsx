@@ -265,13 +265,13 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
         player = node ? new Plyr(node, defaultOptions) : null;
       }
 
-        // @ts-ignore
-        player?.elements?.buttons?.play?.[0].innerHTML = iconPlay;
-        player?.elements?.container?.insertAdjacentHTML(BEFOREEND, button);
+        //@see https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#non-null-assertion-operator
+        // the ! non-null assertion expression operator
+        player!.elements!.buttons!.play![0]!.innerHTML = iconPlay;
+        player!.elements!.container!.insertAdjacentHTML(BEFOREEND, button);
 
         //Trim plugin part
-        // @ts-ignore
-        player?.trim?.trimming = trimming ? trimming : false;
+        player!.trim!.trimming = trimming ? trimming : false;
 
         if (player?.trim?.trimming){
           player.on(TIMEUPDATE, () => {
@@ -284,16 +284,12 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
 
         player?.elements?.container?.children?.[4]?.addEventListener(CLICK, () => {
           if (player?.trim?.trimming) {
-            // @ts-ignore
-            player?.trim?.elements?.bar.style.display = NONE;
+            player!.trim!.elements!.bar!.style!.display = NONE;
             player.trim.trimming = false;
           } else {
-            // @ts-ignore
-            player?.trim?.elements?.bar.style.display = BLOCK;
+            player!.trim!.elements!.bar!.style!.display = BLOCK;
             player.trim.trimming = true;
           }
-
-          console.log('click', player.trim)
         });
 
       if (!player) return;
