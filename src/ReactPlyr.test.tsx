@@ -8,6 +8,7 @@ describe('React Plyr', () => {
   let wrapper2;
   let wrapper3;
   let wrapper4;
+  let wrapper5;
 
   beforeEach(() => {
     wrapper = shallow(
@@ -96,7 +97,26 @@ describe('React Plyr', () => {
     );
   });
 
-  it('renders a simple HTML5 Audio', () => {
+  beforeEach(() => {
+    wrapper5 = shallow(
+      <ReactPlyr
+        isHls
+        type='video'
+        title='Kishi Bashi &ndash; &ldquo;It All Began With A Burst&rdquo;'
+        url="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+      />
+    )
+  });
+
+  it('renders a simple HTML5 Video with HLS', () => {
+    expect(wrapper5.find('video').length).toEqual(1);
+    expect(wrapper5.prop('src')).toEqual("https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8");
+    wrapper5.setProps({ url: "https://stayinshape.s3.eu-west-3.amazonaws.com/exercice_51_planche_cote/x36xhzz.m3u8" });
+    expect(wrapper5.prop('src')).toEqual("https://stayinshape.s3.eu-west-3.amazonaws.com/exercice_51_planche_cote/x36xhzz.m3u8");
+  });
+
+
+  it('renders a simple HTML5 Audio with', () => {
     expect(wrapper.find('audio').length).toEqual(1);
     expect(wrapper.find('source').length).toEqual(2);
     expect(wrapper.prop('children')[0].props.src).toEqual("https://cdn.plyr.io/static/demo/Kishi_Bashi_-_It_All_Began_With_a_Burst.mp3");
@@ -118,6 +138,13 @@ describe('React Plyr', () => {
     expect(wrapper2.prop('src')).toEqual("https://cdn.plyr.io/static/demo/Kishi_Bashi_-_It_All_Began_With_a_Burst.mp3");
     wrapper2.setProps({ url: "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3" });
     expect(wrapper2.prop('src')).toEqual("https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3");
+  });
+
+  it('renders a simple HTML5 Video with Sources and Captions 2', () => {
+    expect(wrapper3.find('video').length).toEqual(1);
+    expect(wrapper3.prop('src')).toEqual("https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4");
+    wrapper3.setProps({ url: "https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4" });
+    expect(wrapper3.prop('src')).toEqual("https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4");
   });
 
   it('renders a simple HTML5 Video with Sources and Captions', () => {
@@ -150,10 +177,4 @@ describe('React Plyr', () => {
     expect(wrapper4.prop('children')[0][0].props.src).toEqual("https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4");
   });
 
-  it('renders a simple HTML5 Video with Sources and Captions 2', () => {
-    expect(wrapper3.find('video').length).toEqual(1);
-    expect(wrapper3.prop('src')).toEqual("https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4");
-    wrapper3.setProps({ url: "https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4" });
-    expect(wrapper3.prop('src')).toEqual("https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4");
-  });
 });
