@@ -392,8 +392,6 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
       ...rest
     } = props;
 
-    console.log('...pick(props, restProps)', {...pick(rest, restProps)})
-
     if (sources?.length) {
       return (
         <video
