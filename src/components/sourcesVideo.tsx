@@ -4,18 +4,16 @@ function sourcesVideo(
   sources: {
     src: string;
     type: string;
-    size?: number;
+    size?: string;
   }[] = [],
 ): any[] {
   const sourcesVideos: any[] = [];
 
   if (sources?.length) {
     for (let i = 0; i < sources.length; i += 1) {
-      const { src = '', type = '', size = 0 } = sources[i];
+      const { src = '', type = '', size = '' } = sources[i];
 
-      // eslint-disable-next-line
-      // @ts-expect-error
-      sourcesVideos.push(<source key={i} size={size} src={src} type={type} />);
+      sourcesVideos.push(<source key={i} sizes={size} src={src} type={type} />);
     }
   }
 
