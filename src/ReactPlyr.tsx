@@ -83,7 +83,7 @@ export namespace PlayerNS {
     sources?: {
       src: string;
       type: string;
-      size?: number;
+      size?: string;
     }[];
 
     tracks?: {
