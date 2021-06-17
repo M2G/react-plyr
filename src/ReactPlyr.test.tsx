@@ -55,22 +55,22 @@ describe('React Plyr', () => {
         settings={['quality', 'captions']}
         sources={
           [{
-            size: 576,
+            sizes: 576,
             src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4',
             type: 'video/mp4',
           },
             {
-              size: 720,
+              sizes: 720,
               src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4',
               type: 'video/mp4',
             },
             {
-              size: 1080,
+              sizes: 1080,
               src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4',
               type: 'video/mp4',
             },
             {
-              size: 1440,
+              sizes: 1440,
               src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1440p.mp4',
               type: 'video/mp4',
             }]

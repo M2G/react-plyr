@@ -164,7 +164,8 @@
       "!<rootDir>/src/App.tsx",
       "!<rootDir>/src/index.tsx",
       "!<rootDir>/src/**/index.ts",
-      "!<rootDir>/src/**/**/index.ts"
+      "!<rootDir>/src/**/**/index.ts",
+      "!<rootDir>/src/constants.ts"
     ],
     "setupFiles": [
       "react-app-polyfill/jsdom"

@@ -83,7 +83,7 @@ export namespace PlayerNS {
     sources?: {
       src: string;
       type: string;
-      size?: string;
+      sizes?: number;
     }[];
 
     tracks?: {
@@ -123,10 +123,6 @@ export namespace PlayerNS {
   }
 }
 
-const iconPlay = `<svg id="icon-play" aria-hidden="true" focusable="false" viewBox="0 0 18 18">
-                    <use xlink:href="#plyr-play"></use>
-                </svg>`;
-
 const button = `<button class="c-btn--loop">
                           <svg id="icon-loop" viewBox="0 0 32 32">
                               <path d="M4 10h20v6l8-8-8-8v6h-24v12h4zM28 22h-20v-6l-8 8 8 8v-6h24v-12h-4z"></path>
@@ -150,9 +146,6 @@ function areEqual(prevProps, nextProps): boolean {
 }
 
 function updateQuality(newQuality): void {
-  console.log('window.hls.levels', window.hls.levels);
-  console.log('newQuality', newQuality);
-
   if (newQuality === 0) {
     window.hls.currentLevel = -1; //Enable AUTO quality if option.value = 0
   } else {
@@ -213,11 +206,8 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
         // all available video qualities. This is important, in this approach,
         // we will have one source on the Plyr player.
         hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
-
           // Transform available levels into an array of integers (height values).
           const availableQualities = hls.levels?.map(l => l.height)?.filter(Boolean);
-
-          console.log('availableQualities', availableQualities)
 
           // Add new qualities to option
           defaultOptions.quality = {
@@ -234,10 +224,6 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
             const menuWrapper = offsetParentChildNodes.children[8].children[1].children[0];
             const span = offsetParentChildNodes.children[8].children[1].children[0].children[2].children[1].children[0].firstChild;
             const menuItem = menuWrapper.childNodes[0].children[0].children[1];
-
-
-            console.log("LEVEL_SWITCHED hls.levels", hls.levels);
-            console.log("LEVEL_SWITCHED hls.autoLevelEnabled", hls.autoLevelEnabled);
 
             if (hls.autoLevelEnabled) {
               menuItem.innerHTML = `AUTO (${hls.levels[data.level].height}p)`;
@@ -265,31 +251,36 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
         player = node ? new Plyr(node, defaultOptions) : null;
       }
 
-        //@see https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#non-null-assertion-operator
-        // the ! non-null assertion expression operator
-        player!.elements!.buttons!.play![0]!.innerHTML = iconPlay;
-        player!.elements!.container!.insertAdjacentHTML(BEFOREEND, button);
-
         //Trim plugin part
-        player!.trim!.trimming = trimming ? trimming : false;
+        // @ts-ignore
+        player?.trim?.trimming = trimming ? trimming : false;
 
-        if (player?.trim?.trimming){
+        player?.elements?.container?.insertAdjacentHTML(BEFOREEND, button);
+
+        if (!player?.trim?.trimming) {
+          // @ts-ignore
+          player?.elements?.container?.children?.[4]?.style?.display = NONE;
+        }
+
           player.on(TIMEUPDATE, () => {
             // ended and reboot
             if (+player.currentTime.toFixed(1) === +player.trim.startTime.toFixed(1)) {
               player.play();
             }
           });
-        }
 
         player?.elements?.container?.children?.[4]?.addEventListener(CLICK, () => {
-          if (player?.trim?.trimming) {
-            player!.trim!.elements!.bar!.style!.display = NONE;
-            player.trim.trimming = false;
-          } else {
-            player!.trim!.elements!.bar!.style!.display = BLOCK;
-            player.trim.trimming = true;
-          }
+            if (player?.trim?.trimming) {
+              // @ts-ignore
+              player?.trim?.elements?.bar?.style?.display = NONE;
+              // @ts-ignore
+              player?.trim?.trimming = false;
+            } else {
+              // @ts-ignore
+              player?.trim?.elements.bar?.style?.display = BLOCK;
+              // @ts-ignore
+              player?.trim?.trimming = true;
+            }
         });
 
       if (!player) return;
@@ -536,7 +527,7 @@ ReactPlyr.propTypes = {
   // @ts-ignore
   sources: PropTypes.arrayOf(
     PropTypes.shape({
-      size: PropTypes.number,
+      sizes: PropTypes.number,
       src: PropTypes.string,
       type: PropTypes.string,
     }),
