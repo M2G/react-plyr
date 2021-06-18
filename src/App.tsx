@@ -76,6 +76,7 @@ function App() {
 
     <div>
       <ReactPlyr
+        trimming
         onPause={pause}
         onPlay={play}
         isHls

@@ -220,6 +220,7 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
           }
 
           hls.on(Hls.Events.LEVEL_SWITCHED, function (event, data) {
+            // prefer browse DOM, instead of querySelector
             const offsetParentChildNodes = elementRef.current.offsetParent.offsetParent.childNodes[0];
             const menuWrapper = offsetParentChildNodes.children[8].children[1].children[0];
             const span = offsetParentChildNodes.children[8].children[1].children[0].children[2].children[1].children[0].firstChild;
@@ -257,9 +258,8 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
 
         player?.elements?.container?.insertAdjacentHTML(BEFOREEND, button);
 
-        if (!player?.trim?.trimming) {
-          // @ts-ignore
-          player?.elements?.container?.children?.[4]?.style?.display = NONE;
+        if (!player?.trim?.trimming && player?.elements?.container?.children?.[4]) {
+          player.elements.container.children[4].style.display = NONE;
         }
 
           player.on(TIMEUPDATE, () => {
@@ -270,17 +270,15 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
           });
 
         player?.elements?.container?.children?.[4]?.addEventListener(CLICK, () => {
+          if (player?.trim?.elements?.bar) {
             if (player?.trim?.trimming) {
-              // @ts-ignore
-              player?.trim?.elements?.bar?.style?.display = NONE;
-              // @ts-ignore
-              player?.trim?.trimming = false;
+              player.trim.elements.bar.style.display = NONE;
+              player.trim.trimming = false;
             } else {
-              // @ts-ignore
-              player?.trim?.elements.bar?.style?.display = BLOCK;
-              // @ts-ignore
-              player?.trim?.trimming = true;
+              player.trim.elements.bar.style.display = BLOCK;
+              player.trim.trimming = true;
             }
+          }
         });
 
       if (!player) return;
