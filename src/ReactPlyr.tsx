@@ -179,9 +179,9 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
                                                                                     ...props
                                                                                   }: AllProps, ref) => {
   const restProps = difference([Object.keys(props), Object.keys(defaultProps)]);
-
   const elementRef: any = createRef<HTMLPlyrVideoElement>();
   let player: any = null;
+
   // like did mount
   useEffect(() => {
       // For more options see: https://github.com/sampotts/plyr/#options
@@ -220,7 +220,6 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
           }
 
           hls.on(Hls.Events.LEVEL_SWITCHED, function (event, data) {
-            // prefer browse DOM, instead of querySelector
             const offsetParentChildNodes = elementRef.current.offsetParent.offsetParent.childNodes[0];
             const menuWrapper = offsetParentChildNodes.children[8].children[1].children[0];
             const span = offsetParentChildNodes.children[8].children[1].children[0].children[2].children[1].children[0].firstChild;
@@ -316,8 +315,7 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
   );
 
   // Getting a reference to a React Component using useRef hook
-  //@ts-ignore
-  useImperativeHandle(ref, () => {
+  useImperativeHandle(ref as any, () => {
     return {
       decreaseVolume: decreaseVolume,
       enterFullscreen: enterFullscreen,

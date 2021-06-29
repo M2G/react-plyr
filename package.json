@@ -1,6 +1,6 @@
 {
   "name": "@m2g/react-plyr",
-  "version": "1.2.4",
+  "version": "1.3.5",
   "description": "A wrapper plyr with React (only HTML5 video and audio) and HLS quality control",
   "main": "./build/react-plyr.js",
   "private": false,
