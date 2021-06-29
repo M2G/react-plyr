@@ -205,7 +205,7 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
         // From the m3u8 playlist, hls parses the manifest and returns
         // all available video qualities. This is important, in this approach,
         // we will have one source on the Plyr player.
-        hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+        hls.on(Hls.Events.MANIFEST_PARSED, function (): void {
           // Transform available levels into an array of integers (height values).
           const availableQualities = hls.levels?.map(l => l.height)?.filter(Boolean);
 
@@ -219,7 +219,7 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
             onChange: (e) => updateQuality(e),
           }
 
-          hls.on(Hls.Events.LEVEL_SWITCHED, function (event, data) {
+          hls.on(Hls.Events.LEVEL_SWITCHED, function (event, data): void {
             const offsetParentChildNodes = elementRef.current.offsetParent.offsetParent.childNodes[0];
             const menuWrapper = offsetParentChildNodes.children[8].children[1].children[0];
             const span = offsetParentChildNodes.children[8].children[1].children[0].children[2].children[1].children[0].firstChild;
