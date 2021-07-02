@@ -252,8 +252,9 @@ const ReactPlyr: React.FC<AllProps> = forwardRef<HTMLPlyrVideoElement, AllProps>
       }
 
         //Trim plugin part
-        // @ts-ignore
-        player?.trim?.trimming = trimming ? trimming : false;
+        if (player?.trim?.trimming) {
+          player.trim.trimming = trimming ? trimming : false;
+        }
 
         player?.elements?.container?.insertAdjacentHTML(BEFOREEND, button);
 
