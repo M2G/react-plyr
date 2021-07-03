@@ -13,7 +13,7 @@ import * as PropTypes from 'prop-types';
 import Plyr, { Options, SourceInfo } from 'plyr';
 import { pick, difference, isEqual } from './utils';
 import { CONSTROLS, EVENTS, SETTINGS, STYLE } from './constants';
-import { captionVideo, sourcesVideo, audioSource } from './components';
+import { captionVideo, sourcesVideo, audioSource, button } from './components';
 import defaultProps from './defaultProps';
 import AudioType from './types';
 import '../node_modules/plyr/dist/plyr.css';
@@ -122,12 +122,6 @@ export namespace PlayerNS {
     onCaptionsDisabled?: () => void;
   }
 }
-
-const button = `<button class="c-btn--loop">
-                          <svg id="icon-loop" viewBox="0 0 32 32">
-                              <path d="M4 10h20v6l8-8-8-8v6h-24v12h4zM28 22h-20v-6l-8 8 8 8v-6h24v-12h-4z"></path>
-                          </svg>
-                        </button>`;
 
 type PlyrInstance = Plyr;
 

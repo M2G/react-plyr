@@ -1,9 +1,8 @@
 import captionVideo from './captionVideo';
 import sourcesVideo from './sourcesVideo';
-import audioSource from "./audioSource";
+import audioSource from './audioSource';
+import button from './button';
 
 export {
-  captionVideo,
-  sourcesVideo,
-  audioSource,
+ button, captionVideo, sourcesVideo, audioSource,
 };
